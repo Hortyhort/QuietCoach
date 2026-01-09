@@ -155,6 +155,43 @@ enum L10n {
             return String(format: format, type, value)
         }
     }
+
+    // MARK: - Privacy
+
+    enum Privacy {
+        static let title = NSLocalizedString("privacy.title", value: "Privacy Settings", comment: "Privacy settings title")
+        static let analytics = NSLocalizedString("privacy.analytics", value: "Analytics", comment: "Analytics toggle label")
+        static let analyticsDescription = NSLocalizedString("privacy.analytics_description", value: "Help improve QuietCoach by sharing anonymous usage data", comment: "Analytics description")
+        static let crashReporting = NSLocalizedString("privacy.crash_reporting", value: "Crash Reporting", comment: "Crash reporting toggle label")
+        static let crashReportingDescription = NSLocalizedString("privacy.crash_reporting_description", value: "Automatically send crash reports to help fix bugs", comment: "Crash reporting description")
+        static let performance = NSLocalizedString("privacy.performance", value: "Performance Monitoring", comment: "Performance monitoring toggle label")
+        static let performanceDescription = NSLocalizedString("privacy.performance_description", value: "Share anonymous performance data to improve app speed", comment: "Performance monitoring description")
+        static let enableAll = NSLocalizedString("privacy.enable_all", value: "Enable All", comment: "Enable all button")
+        static let disableAll = NSLocalizedString("privacy.disable_all", value: "Disable All", comment: "Disable all button")
+        static let policyTitle = NSLocalizedString("privacy.policy_title", value: "Privacy Policy", comment: "Privacy policy title")
+        static let consentTitle = NSLocalizedString("privacy.consent_title", value: "Your Privacy Matters", comment: "Privacy consent title")
+        static let consentDescription = NSLocalizedString("privacy.consent_description", value: "QuietCoach respects your privacy. All audio recordings stay on your device. Choose what data to share:", comment: "Privacy consent description")
+        static let continueButton = NSLocalizedString("privacy.continue", value: "Continue", comment: "Continue button")
+    }
+
+    // MARK: - Network
+
+    enum Network {
+        static let offline = NSLocalizedString("network.offline", value: "You're Offline", comment: "Offline status")
+        static let offlineDescription = NSLocalizedString("network.offline_description", value: "Some features may be limited", comment: "Offline description")
+        static let reconnecting = NSLocalizedString("network.reconnecting", value: "Reconnecting...", comment: "Reconnecting status")
+        static let connected = NSLocalizedString("network.connected", value: "Connected", comment: "Connected status")
+    }
+
+    // MARK: - Subscription Status
+
+    enum SubscriptionStatus {
+        static let active = NSLocalizedString("subscription.status.active", value: "Pro Active", comment: "Active subscription status")
+        static let expired = NSLocalizedString("subscription.status.expired", value: "Subscription Expired", comment: "Expired subscription status")
+        static let unknown = NSLocalizedString("subscription.status.unknown", value: "Verifying...", comment: "Unknown subscription status")
+        static let offlineWarning = NSLocalizedString("subscription.offline_warning", value: "Subscription status may be outdated", comment: "Offline subscription warning")
+        static let verifyLater = NSLocalizedString("subscription.verify_later", value: "We'll verify your subscription when you're back online", comment: "Verify later message")
+    }
 }
 
 // MARK: - String Formatting Helpers

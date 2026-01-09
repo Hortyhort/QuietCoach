@@ -101,3 +101,31 @@
 
 // MARK: - Duration
 "duration.minutes_seconds" = "%d:%02d";
+
+// MARK: - Privacy
+"privacy.title" = "Privacy Settings";
+"privacy.analytics" = "Analytics";
+"privacy.analytics_description" = "Help improve QuietCoach by sharing anonymous usage data";
+"privacy.crash_reporting" = "Crash Reporting";
+"privacy.crash_reporting_description" = "Automatically send crash reports to help fix bugs";
+"privacy.performance" = "Performance Monitoring";
+"privacy.performance_description" = "Share anonymous performance data to improve app speed";
+"privacy.enable_all" = "Enable All";
+"privacy.disable_all" = "Disable All";
+"privacy.policy_title" = "Privacy Policy";
+"privacy.consent_title" = "Your Privacy Matters";
+"privacy.consent_description" = "QuietCoach respects your privacy. All audio recordings stay on your device. Choose what data to share:";
+"privacy.continue" = "Continue";
+
+// MARK: - Network
+"network.offline" = "You're Offline";
+"network.offline_description" = "Some features may be limited";
+"network.reconnecting" = "Reconnecting...";
+"network.connected" = "Connected";
+
+// MARK: - Subscription Status
+"subscription.status.active" = "Pro Active";
+"subscription.status.expired" = "Subscription Expired";
+"subscription.status.unknown" = "Verifying...";
+"subscription.offline_warning" = "Subscription status may be outdated";
+"subscription.verify_later" = "We'll verify your subscription when you're back online";

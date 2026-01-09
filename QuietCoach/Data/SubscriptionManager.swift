@@ -2,6 +2,7 @@
 // QuietCoach
 //
 // StoreKit 2 subscription management. Clean, async-first API.
+// Includes offline resilience with cached status and retry logic.
 
 import StoreKit
 import OSLog
@@ -38,6 +39,35 @@ final class SubscriptionManager {
                 return false
             }
         }
+
+        var localizedDescription: String {
+            switch self {
+            case .unknown: return L10n.SubscriptionStatus.unknown
+            case .notSubscribed: return "Free"
+            case .subscribed: return L10n.SubscriptionStatus.active
+            case .expired: return L10n.SubscriptionStatus.expired
+            case .inGracePeriod: return "Grace Period"
+            case .inBillingRetry: return "Billing Issue"
+            }
+        }
+    }
+
+    // MARK: - Cached Status (for offline support)
+
+    struct CachedSubscriptionStatus: Codable {
+        let isActive: Bool
+        let productId: String?
+        let expirationDate: Date?
+        let cachedAt: Date
+
+        var isStale: Bool {
+            Date().timeIntervalSince(cachedAt) > 24 * 60 * 60 // 24 hours
+        }
+
+        var isExpired: Bool {
+            guard let expiration = expirationDate else { return false }
+            return expiration < Date()
+        }
     }
 
     // MARK: - Observable State
@@ -46,21 +76,100 @@ final class SubscriptionManager {
     private(set) var subscriptionStatus: SubscriptionStatus = .unknown
     private(set) var isLoading: Bool = false
     private(set) var errorMessage: String?
+    private(set) var isUsingCachedStatus: Bool = false
+    private(set) var cachedStatusIsStale: Bool = false
 
     // MARK: - Private Properties
 
     private let logger = Logger(subsystem: "com.quietcoach", category: "Subscriptions")
+    private let cacheKey = "com.quietcoach.subscription.cached"
+
     @ObservationIgnored
     private nonisolated(unsafe) var transactionListenerTask: Task<Void, Never>?
 
     // MARK: - Initialization
 
     init() {
+        loadCachedStatus()
         startTransactionListener()
     }
 
     deinit {
         transactionListenerTask?.cancel()
+    }
+
+    // MARK: - Cache Management
+
+    /// Load cached subscription status for instant UI
+    private func loadCachedStatus() {
+        guard let data = UserDefaults.standard.data(forKey: cacheKey),
+              let cached = try? JSONDecoder().decode(CachedSubscriptionStatus.self, from: data)
+        else {
+            logger.debug("No cached subscription status found")
+            return
+        }
+
+        // Use cached status for immediate UI
+        if cached.isActive && !cached.isExpired {
+            if let productId = cached.productId {
+                subscriptionStatus = .subscribed(expirationDate: cached.expirationDate, productId: productId)
+            }
+            isUsingCachedStatus = true
+            cachedStatusIsStale = cached.isStale
+
+            if cached.isStale {
+                logger.info("Using stale cached subscription status")
+            } else {
+                logger.info("Using cached subscription status")
+            }
+
+            // Update feature gates with cached status
+            FeatureGates.shared.updateProStatus(true)
+        }
+    }
+
+    /// Save subscription status to cache
+    private func cacheStatus(_ status: SubscriptionStatus) {
+        let cached: CachedSubscriptionStatus
+
+        switch status {
+        case .subscribed(let expiration, let productId):
+            cached = CachedSubscriptionStatus(
+                isActive: true,
+                productId: productId,
+                expirationDate: expiration,
+                cachedAt: Date()
+            )
+        case .inGracePeriod(let expiration):
+            cached = CachedSubscriptionStatus(
+                isActive: true,
+                productId: nil,
+                expirationDate: expiration,
+                cachedAt: Date()
+            )
+        case .inBillingRetry:
+            cached = CachedSubscriptionStatus(
+                isActive: true,
+                productId: nil,
+                expirationDate: nil,
+                cachedAt: Date()
+            )
+        default:
+            cached = CachedSubscriptionStatus(
+                isActive: false,
+                productId: nil,
+                expirationDate: nil,
+                cachedAt: Date()
+            )
+        }
+
+        if let data = try? JSONEncoder().encode(cached) {
+            UserDefaults.standard.set(data, forKey: cacheKey)
+            logger.debug("Subscription status cached")
+        }
+
+        isUsingCachedStatus = false
+        cachedStatusIsStale = false
     }
 
     // MARK: - Product Loading
@@ -72,9 +181,20 @@ final class SubscriptionManager {
         isLoading = true
         errorMessage = nil
 
+        // Check network status
+        guard NetworkMonitor.shared.status.isConnected else {
+            logger.info("Offline - skipping product load")
+            errorMessage = L10n.Errors.networkError
+            isLoading = false
+            return
+        }
+
         do {
-            let productIds = ProductID.allCases.map { $0.rawValue }
-            let storeProducts = try await Product.products(for: productIds)
+            // Use retry logic for network resilience
+            let storeProducts = try await NetworkMonitor.shared.withRetry {
+                let productIds = ProductID.allCases.map { $0.rawValue }
+                return try await Product.products(for: productIds)
+            }
 
             products = storeProducts.sorted { first, second in
                 // Monthly first, then yearly
@@ -157,6 +277,7 @@ final class SubscriptionManager {
     // MARK: - Subscription Status
 
     /// Check and update current subscription status
+    /// Uses cached status when offline, with graceful degradation
     func updateSubscriptionStatus() async {
         var foundActiveSubscription = false
 
@@ -167,6 +288,9 @@ final class SubscriptionManager {
                 if transaction.productType == .autoRenewable {
                     let status = await determineSubscriptionStatus(for: transaction)
                     subscriptionStatus = status
+
+                    // Cache the verified status
+                    cacheStatus(status)
 
                     if status.isActive {
                         foundActiveSubscription = true
@@ -182,8 +306,26 @@ final class SubscriptionManager {
 
         if !foundActiveSubscription {
             subscriptionStatus = .notSubscribed
+            cacheStatus(.notSubscribed)
             await updateFeatureGates(isActive: false)
         }
+    }
+
+    /// Verify subscription with offline fallback
+    func verifySubscription() async -> SubscriptionStatus {
+        // Check network status
+        if !NetworkMonitor.shared.status.isConnected {
+            // Offline - use cached status with warning
+            if subscriptionStatus.isActive {
+                logger.info("Offline - using cached subscription status")
+                isUsingCachedStatus = true
+                return subscriptionStatus
+            }
+        }
+
+        // Online - verify with App Store
+        await updateSubscriptionStatus()
+        return subscriptionStatus
     }
 
     // MARK: - Transaction Listener
