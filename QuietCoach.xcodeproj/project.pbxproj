@@ -32,17 +32,20 @@
 		1A0000E00000000000000001 /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000E10000000000000001 /* Accessibility.swift */; };
 		1A0000A10000000000000001 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000A20000000000000001 /* LiveActivityManager.swift */; };
 		1A0000A30000000000000001 /* WidgetDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000A40000000000000001 /* WidgetDataManager.swift */; };
+		1A0000F10000000000000001 /* ElevatedDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000F00000000000000001 /* ElevatedDesign.swift */; };
 
 		/* Audio */
 		1A0000400000000000000001 /* RehearsalRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000410000000000000001 /* RehearsalRecorder.swift */; };
 		1A0000420000000000000001 /* AudioMetricsAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000430000000000000001 /* AudioMetricsAnalyzer.swift */; };
 		1A0000440000000000000001 /* AudioPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000450000000000000001 /* AudioPlayerViewModel.swift */; };
 		1A0000940000000000000001 /* TranscriptionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000950000000000000001 /* TranscriptionEngine.swift */; };
+		1A0000F30000000000000001 /* SoundDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000F20000000000000001 /* SoundDesign.swift */; };
 
 		/* Feedback */
 		1A0000500000000000000001 /* FeedbackEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000510000000000000001 /* FeedbackEngine.swift */; };
 		1A0000520000000000000001 /* CoachNotesEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000530000000000000001 /* CoachNotesEngine.swift */; };
 		1A0000980000000000000001 /* IntelligentCoach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000990000000000000001 /* IntelligentCoach.swift */; };
+		1A0000F50000000000000001 /* CoachPersonality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000F40000000000000001 /* CoachPersonality.swift */; };
 
 		/* UI - Navigation */
 		1A0000190000000000000001 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00001A0000000000000001 /* RootView.swift */; };
@@ -57,6 +60,7 @@
 		1A0000620000000000000001 /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000630000000000000001 /* ReviewView.swift */; };
 		1A0000800000000000000001 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000810000000000000001 /* SettingsView.swift */; };
 		1A0000820000000000000001 /* ProUpgradeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000830000000000000001 /* ProUpgradeView.swift */; };
+		1A0000F70000000000000001 /* ElevatedOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000F60000000000000001 /* ElevatedOnboarding.swift */; };
 
 		/* UI - Components */
 		1A0000700000000000000001 /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000710000000000000001 /* WaveformView.swift */; };
@@ -134,6 +138,7 @@
 		1A0000E10000000000000001 /* Accessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
 		1A0000A20000000000000001 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
 		1A0000A40000000000000001 /* WidgetDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataManager.swift; sourceTree = "<group>"; };
+		1A0000F00000000000000001 /* ElevatedDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevatedDesign.swift; sourceTree = "<group>"; };
 
 		/* UI - Navigation */
 		1A00001A0000000000000001 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -150,6 +155,7 @@
 		1A0000630000000000000001 /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
 		1A0000810000000000000001 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		1A0000830000000000000001 /* ProUpgradeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProUpgradeView.swift; sourceTree = "<group>"; };
+		1A0000F60000000000000001 /* ElevatedOnboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevatedOnboarding.swift; sourceTree = "<group>"; };
 
 		/* UI - Components */
 		1A0000710000000000000001 /* WaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformView.swift; sourceTree = "<group>"; };
@@ -164,11 +170,13 @@
 		1A0000430000000000000001 /* AudioMetricsAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMetricsAnalyzer.swift; sourceTree = "<group>"; };
 		1A0000450000000000000001 /* AudioPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerViewModel.swift; sourceTree = "<group>"; };
 		1A0000950000000000000001 /* TranscriptionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionEngine.swift; sourceTree = "<group>"; };
+		1A0000F20000000000000001 /* SoundDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundDesign.swift; sourceTree = "<group>"; };
 
 		/* Feedback */
 		1A0000510000000000000001 /* FeedbackEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackEngine.swift; sourceTree = "<group>"; };
 		1A0000530000000000000001 /* CoachNotesEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachNotesEngine.swift; sourceTree = "<group>"; };
 		1A0000990000000000000001 /* IntelligentCoach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntelligentCoach.swift; sourceTree = "<group>"; };
+		1A0000F40000000000000001 /* CoachPersonality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachPersonality.swift; sourceTree = "<group>"; };
 
 		/* Assets */
 		1A0000200000000000000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -278,6 +286,7 @@
 				1A0000430000000000000001 /* AudioMetricsAnalyzer.swift */,
 				1A0000450000000000000001 /* AudioPlayerViewModel.swift */,
 				1A0000950000000000000001 /* TranscriptionEngine.swift */,
+				1A0000F20000000000000001 /* SoundDesign.swift */,
 			);
 			path = Audio;
 			sourceTree = "<group>";
@@ -288,6 +297,7 @@
 				1A0000510000000000000001 /* FeedbackEngine.swift */,
 				1A0000530000000000000001 /* CoachNotesEngine.swift */,
 				1A0000990000000000000001 /* IntelligentCoach.swift */,
+				1A0000F40000000000000001 /* CoachPersonality.swift */,
 			);
 			path = Feedback;
 			sourceTree = "<group>";
@@ -322,6 +332,7 @@
 				1A0000630000000000000001 /* ReviewView.swift */,
 				1A0000810000000000000001 /* SettingsView.swift */,
 				1A0000830000000000000001 /* ProUpgradeView.swift */,
+				1A0000F60000000000000001 /* ElevatedOnboarding.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -357,6 +368,7 @@
 				1A0000E10000000000000001 /* Accessibility.swift */,
 				1A0000A20000000000000001 /* LiveActivityManager.swift */,
 				1A0000A40000000000000001 /* WidgetDataManager.swift */,
+				1A0000F00000000000000001 /* ElevatedDesign.swift */,
 				1A0000320000000000000001 /* Extensions */,
 			);
 			path = Support;
@@ -539,6 +551,10 @@
 				1A0000800000000000000001 /* SettingsView.swift in Sources */,
 				1A0000820000000000000001 /* ProUpgradeView.swift in Sources */,
 				1A0000840000000000000001 /* PrimaryButton.swift in Sources */,
+				1A0000F10000000000000001 /* ElevatedDesign.swift in Sources */,
+				1A0000F30000000000000001 /* SoundDesign.swift in Sources */,
+				1A0000F50000000000000001 /* CoachPersonality.swift in Sources */,
+				1A0000F70000000000000001 /* ElevatedOnboarding.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
