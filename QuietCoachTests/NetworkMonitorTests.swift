@@ -51,7 +51,7 @@ final class NetworkErrorTests: XCTestCase {
         let error = NetworkError.timeout
 
         XCTAssertNotNil(error.errorDescription)
-        XCTAssertTrue(error.errorDescription?.lowercased().contains("timeout") ?? false)
+        XCTAssertTrue(error.errorDescription?.lowercased().contains("timed out") ?? false)
     }
 }
 
