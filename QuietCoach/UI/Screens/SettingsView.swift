@@ -20,6 +20,8 @@ struct SettingsView: View {
     @State private var showingProUpgrade = false
     @State private var showingExportSheet = false
     @State private var exportData: Data?
+    @State private var notificationManager = NotificationManager.shared
+    @State private var showingAchievements = false
 
     // MARK: - Body
 
@@ -29,11 +31,17 @@ struct SettingsView: View {
                 // Pro section
                 proSection
 
+                // Reminders section
+                remindersSection
+
                 // Sharing section
                 sharingSection
 
                 // Data section
                 dataSection
+
+                // Achievements section
+                achievementsSection
 
                 // About section
                 aboutSection
@@ -70,6 +78,9 @@ struct SettingsView: View {
                 if let data = exportData {
                     ExportDataSheet(data: data)
                 }
+            }
+            .sheet(isPresented: $showingAchievements) {
+                AchievementGalleryView()
             }
         }
     }
@@ -192,6 +203,57 @@ private extension SettingsView {
         }
     }
 
+    // MARK: - Reminders Section
+
+    private var remindersSection: some View {
+        Section {
+            Toggle(isOn: Binding(
+                get: { notificationManager.remindersEnabled },
+                set: { newValue in
+                    if newValue && !notificationManager.canScheduleNotifications {
+                        Task {
+                            let granted = await notificationManager.requestAuthorization()
+                            if granted {
+                                notificationManager.remindersEnabled = true
+                            }
+                        }
+                    } else {
+                        notificationManager.remindersEnabled = newValue
+                    }
+                }
+            )) {
+                HStack {
+                    Image(systemName: "bell.fill")
+                        .foregroundColor(.qcAccent)
+                        .accessibilityHidden(true)
+
+                    Text("Daily reminder")
+                        .font(.qcBody)
+                        .foregroundColor(.qcTextPrimary)
+                }
+            }
+            .tint(.qcAccent)
+
+            if notificationManager.remindersEnabled {
+                DatePicker(
+                    "Reminder time",
+                    selection: Binding(
+                        get: { notificationManager.reminderTime },
+                        set: { notificationManager.reminderTime = $0 }
+                    ),
+                    displayedComponents: .hourAndMinute
+                )
+                .font(.qcBody)
+                .foregroundColor(.qcTextPrimary)
+                .tint(.qcAccent)
+            }
+        } header: {
+            Text("Reminders")
+        } footer: {
+            Text("Get a gentle reminder to practice and protect your streak.")
+        }
+    }
+
     // MARK: - Sharing Section
 
     private var sharingSection: some View {
@@ -286,6 +348,39 @@ private extension SettingsView {
                 Text("Delete All Data")
                     .font(.qcBody)
             }
+        }
+    }
+
+    // MARK: - Achievements Section
+
+    private var achievementsSection: some View {
+        Section("Progress") {
+            Button {
+                showingAchievements = true
+            } label: {
+                HStack {
+                    Image(systemName: "trophy.fill")
+                        .foregroundColor(.qcMoodCelebration)
+                        .accessibilityHidden(true)
+
+                    Text("Achievements")
+                        .font(.qcBody)
+                        .foregroundColor(.qcTextPrimary)
+
+                    Spacer()
+
+                    Text("\(AchievementManager.shared.unlockedAchievements.count)/\(Achievement.allAchievements.count)")
+                        .font(.qcSubheadline)
+                        .foregroundColor(.qcTextSecondary)
+
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundColor(.qcTextTertiary)
+                        .accessibilityHidden(true)
+                }
+            }
+            .accessibilityLabel("Achievements")
+            .accessibilityHint("Double tap to view your achievement badges")
         }
     }
 

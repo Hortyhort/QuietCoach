@@ -284,6 +284,156 @@ extension Scenario {
                 nextStep: "It would mean a lot to me."
             ),
             hapticStyle: .soft
+        ),
+
+        // MARK: - Pro Scenarios: Interview Prep
+
+        Scenario(
+            id: "nail-interview",
+            title: "Nail the Interview",
+            subtitle: "Tell your story",
+            icon: "person.crop.rectangle.stack.fill",
+            promptText: "Practice answering 'Tell me about yourself.'",
+            coachingHint: "Present → Past → Future. End with why you're here.",
+            category: .career,
+            isPro: true,
+            structureCard: StructureCard(
+                opener: "I'm currently [your role/situation].",
+                context: "I got here by [relevant background].",
+                ask: "What excites me about this role is [connection].",
+                nextStep: "I'd love to contribute by [value you bring]."
+            ),
+            hapticStyle: .steady
+        ),
+
+        Scenario(
+            id: "handle-tough-questions",
+            title: "Handle Tough Questions",
+            subtitle: "Stay composed under pressure",
+            icon: "questionmark.circle.fill",
+            promptText: "Practice responding to challenging interview questions.",
+            coachingHint: "Pause. Breathe. You don't have to answer instantly.",
+            category: .career,
+            isPro: true,
+            structureCard: StructureCard(
+                opener: "That's a great question.",
+                context: "Here's how I think about that...",
+                ask: "[Your thoughtful answer with example].",
+                nextStep: "Does that address what you were asking?"
+            ),
+            hapticStyle: .steady
+        ),
+
+        Scenario(
+            id: "discuss-weaknesses",
+            title: "Discuss Weaknesses",
+            subtitle: "Turn flaws into growth",
+            icon: "arrow.up.right.circle.fill",
+            promptText: "Practice talking about areas for improvement.",
+            coachingHint: "Show self-awareness and active improvement.",
+            category: .career,
+            isPro: true,
+            structureCard: StructureCard(
+                opener: "One area I've been working on is...",
+                context: "I noticed it was holding me back when...",
+                ask: "I've been improving by [specific action].",
+                nextStep: "It's something I'm committed to growing."
+            ),
+            hapticStyle: .steady
+        ),
+
+        // MARK: - Pro Scenarios: Public Speaking
+
+        Scenario(
+            id: "open-presentation",
+            title: "Open a Presentation",
+            subtitle: "Command the room",
+            icon: "person.wave.2.fill",
+            promptText: "Practice your opening 30 seconds.",
+            coachingHint: "Start with a hook, not 'Hi, my name is...'",
+            category: .career,
+            isPro: true,
+            structureCard: StructureCard(
+                opener: "[Question/Story/Surprising fact]",
+                context: "Today I'm going to show you...",
+                ask: "By the end, you'll understand [key takeaway].",
+                nextStep: "Let's start with..."
+            ),
+            hapticStyle: .steady
+        ),
+
+        Scenario(
+            id: "handle-qa",
+            title: "Handle Q&A",
+            subtitle: "Think on your feet",
+            icon: "bubble.left.and.bubble.right.fill",
+            promptText: "Practice responding to audience questions.",
+            coachingHint: "Repeat the question. It buys you time to think.",
+            category: .career,
+            isPro: true,
+            structureCard: StructureCard(
+                opener: "Great question. You're asking about...",
+                context: "The short answer is...",
+                ask: "To give more context: [your explanation].",
+                nextStep: "Does that help? Happy to go deeper."
+            ),
+            hapticStyle: .steady
+        ),
+
+        // MARK: - Pro Scenarios: Conflict Resolution
+
+        Scenario(
+            id: "de-escalate",
+            title: "De-escalate Conflict",
+            subtitle: "Lower the temperature",
+            icon: "hand.raised.slash.fill",
+            promptText: "Practice calming a heated situation.",
+            coachingHint: "Match their energy down, not up. Slow your voice.",
+            category: .difficult,
+            isPro: true,
+            structureCard: StructureCard(
+                opener: "I can see this is really important to you.",
+                context: "Help me understand what's at stake here.",
+                ask: "Let's take a breath and work through this.",
+                nextStep: "What would a good outcome look like for you?"
+            ),
+            hapticStyle: .soft
+        ),
+
+        Scenario(
+            id: "stand-ground",
+            title: "Stand Your Ground",
+            subtitle: "Hold firm with grace",
+            icon: "figure.stand",
+            promptText: "Practice maintaining your position under pressure.",
+            coachingHint: "Broken record technique: repeat your point calmly.",
+            category: .difficult,
+            isPro: true,
+            structureCard: StructureCard(
+                opener: "I hear what you're saying.",
+                context: "And I understand why you see it that way.",
+                ask: "My position remains [your stance].",
+                nextStep: "I'm open to discussing how we move forward."
+            ),
+            hapticStyle: .firm
+        ),
+
+        Scenario(
+            id: "receive-criticism",
+            title: "Receive Criticism",
+            subtitle: "Stay open, not defensive",
+            icon: "ear.fill",
+            promptText: "Practice receiving critical feedback gracefully.",
+            coachingHint: "Listen fully before responding. Don't explain.",
+            category: .difficult,
+            isPro: true,
+            structureCard: StructureCard(
+                opener: "Thank you for telling me this.",
+                context: "I want to make sure I understand...",
+                ask: "Can you give me an example so I can learn?",
+                nextStep: "I'll reflect on this. I appreciate your honesty."
+            ),
+            hapticStyle: .soft
         )
     ]
 

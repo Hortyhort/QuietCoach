@@ -28,6 +28,7 @@
 		1A0000070000000000000001 /* FeedbackScores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000080000000000000001 /* FeedbackScores.swift */; };
 		1A0000090000000000000001 /* CoachNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00000A0000000000000001 /* CoachNote.swift */; };
 		1A0003000000000000000001 /* StreakTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0003010000000000000001 /* StreakTracker.swift */; };
+		1A00030C0000000000000001 /* AchievementManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00030D0000000000000001 /* AchievementManager.swift */; };
 
 		/* Data */
 		1A00000B0000000000000001 /* RehearsalSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00000C0000000000000001 /* RehearsalSession.swift */; };
@@ -55,6 +56,7 @@
 		1A0001090000000000000001 /* PerformanceMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0001080000000000000001 /* PerformanceMonitor.swift */; };
 		1A00010B0000000000000001 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00010A0000000000000001 /* NetworkMonitor.swift */; };
 		1A00010D0000000000000001 /* DependencyInjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00010C0000000000000001 /* DependencyInjection.swift */; };
+		1A00030A0000000000000001 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00030B0000000000000001 /* NotificationManager.swift */; };
 
 		/* Audio */
 		1A0000400000000000000001 /* RehearsalRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000410000000000000001 /* RehearsalRecorder.swift */; };
@@ -96,6 +98,7 @@
 		1A0000840000000000000001 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000850000000000000001 /* PrimaryButton.swift */; };
 		1A0003020000000000000001 /* StreakBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0003030000000000000001 /* StreakBadgeView.swift */; };
 		1A0003060000000000000001 /* StructureGuideSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0003070000000000000001 /* StructureGuideSheet.swift */; };
+		1A00030E0000000000000001 /* AchievementGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00030F0000000000000001 /* AchievementGallery.swift */; };
 
 		/* Assets */
 		1A00001F0000000000000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A0000200000000000000001 /* Assets.xcassets */; };
@@ -157,6 +160,7 @@
 		1A0000080000000000000001 /* FeedbackScores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackScores.swift; sourceTree = "<group>"; };
 		1A00000A0000000000000001 /* CoachNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachNote.swift; sourceTree = "<group>"; };
 		1A0003010000000000000001 /* StreakTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakTracker.swift; sourceTree = "<group>"; };
+		1A00030D0000000000000001 /* AchievementManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementManager.swift; sourceTree = "<group>"; };
 
 		/* Data */
 		1A00000C0000000000000001 /* RehearsalSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RehearsalSession.swift; sourceTree = "<group>"; };
@@ -186,6 +190,7 @@
 		1A0001080000000000000001 /* PerformanceMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceMonitor.swift; sourceTree = "<group>"; };
 		1A00010A0000000000000001 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		1A00010C0000000000000001 /* DependencyInjection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyInjection.swift; sourceTree = "<group>"; };
+		1A00030B0000000000000001 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 
 		/* UI - Navigation */
 		1A00001A0000000000000001 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -215,6 +220,7 @@
 		1A0000850000000000000001 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		1A0003030000000000000001 /* StreakBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakBadgeView.swift; sourceTree = "<group>"; };
 		1A0003070000000000000001 /* StructureGuideSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StructureGuideSheet.swift; sourceTree = "<group>"; };
+		1A00030F0000000000000001 /* AchievementGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementGallery.swift; sourceTree = "<group>"; };
 
 		/* Audio */
 		1A0000410000000000000001 /* RehearsalRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RehearsalRecorder.swift; sourceTree = "<group>"; };
@@ -354,6 +360,7 @@
 				1A0000080000000000000001 /* FeedbackScores.swift */,
 				1A00000A0000000000000001 /* CoachNote.swift */,
 				1A0003010000000000000001 /* StreakTracker.swift */,
+				1A00030D0000000000000001 /* AchievementManager.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -441,6 +448,7 @@
 				1A0000850000000000000001 /* PrimaryButton.swift */,
 				1A0003030000000000000001 /* StreakBadgeView.swift */,
 				1A0003070000000000000001 /* StructureGuideSheet.swift */,
+				1A00030F0000000000000001 /* AchievementGallery.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -473,6 +481,7 @@
 				1A0001080000000000000001 /* PerformanceMonitor.swift */,
 				1A00010A0000000000000001 /* NetworkMonitor.swift */,
 				1A00010C0000000000000001 /* DependencyInjection.swift */,
+				1A00030B0000000000000001 /* NotificationManager.swift */,
 				1A0000320000000000000001 /* Extensions */,
 			);
 			path = Support;
@@ -668,6 +677,7 @@
 				1A0000070000000000000001 /* FeedbackScores.swift in Sources */,
 				1A0000090000000000000001 /* CoachNote.swift in Sources */,
 				1A0003000000000000000001 /* StreakTracker.swift in Sources */,
+				1A00030C0000000000000001 /* AchievementManager.swift in Sources */,
 				1A00000B0000000000000001 /* RehearsalSession.swift in Sources */,
 				1A00000D0000000000000001 /* FileStore.swift in Sources */,
 				1A00000F0000000000000001 /* SessionRepository.swift in Sources */,
@@ -700,6 +710,7 @@
 				1A0000740000000000000001 /* CoachBullet.swift in Sources */,
 				1A0000760000000000000001 /* RecordButton.swift in Sources */,
 				1A0000780000000000000001 /* ShareCardView.swift in Sources */,
+				1A00030E0000000000000001 /* AchievementGallery.swift in Sources */,
 				1A0000800000000000000001 /* SettingsView.swift in Sources */,
 				1A0000820000000000000001 /* ProUpgradeView.swift in Sources */,
 				1A0003040000000000000001 /* HistoryView.swift in Sources */,
@@ -717,6 +728,7 @@
 				1A0001090000000000000001 /* PerformanceMonitor.swift in Sources */,
 				1A00010B0000000000000001 /* NetworkMonitor.swift in Sources */,
 				1A00010D0000000000000001 /* DependencyInjection.swift in Sources */,
+				1A00030A0000000000000001 /* NotificationManager.swift in Sources */,
 				1A0000F30000000000000001 /* SoundDesign.swift in Sources */,
 				1A0000F90000000000000001 /* SpeechAnalysisEngine.swift in Sources */,
 				1A0000F50000000000000001 /* CoachPersonality.swift in Sources */,
