@@ -192,41 +192,42 @@ struct ScenarioCard: View {
 
     var body: some View {
         Button(action: action) {
-            VStack(alignment: .leading, spacing: 12) {
-                HStack {
-                    Image(systemName: scenario.icon)
-                        .font(.system(size: 24))
-                        .foregroundColor(isLocked ? .qcTextTertiary : .qcAccent)
+            LiquidGlassCard {
+                VStack(alignment: .leading, spacing: 12) {
+                    HStack {
+                        Image(systemName: scenario.icon)
+                            .font(.system(size: 24))
+                            .foregroundColor(isLocked ? .qcTextTertiary : .qcMoodReady)
+                            .qcBreatheEffect(isActive: !isLocked)
 
-                    Spacer()
+                        Spacer()
 
-                    if isLocked {
-                        Image(systemName: "lock.fill")
-                            .font(.system(size: 12))
-                            .foregroundColor(.qcTextTertiary)
+                        if isLocked {
+                            Image(systemName: "lock.fill")
+                                .font(.system(size: 12))
+                                .foregroundColor(.qcTextTertiary)
+                        }
+                    }
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(scenario.title)
+                            .font(.qcBodyMedium)
+                            .foregroundColor(isLocked ? .qcTextTertiary : .qcTextPrimary)
+                            .lineLimit(2)
+                            .multilineTextAlignment(.leading)
+
+                        Text(scenario.subtitle)
+                            .font(.qcCaption)
+                            .foregroundColor(.qcTextSecondary)
+                            .lineLimit(1)
                     }
                 }
-
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(scenario.title)
-                        .font(.qcBodyMedium)
-                        .foregroundColor(isLocked ? .qcTextTertiary : .qcTextPrimary)
-                        .lineLimit(2)
-                        .multilineTextAlignment(.leading)
-
-                    Text(scenario.subtitle)
-                        .font(.qcCaption)
-                        .foregroundColor(.qcTextSecondary)
-                        .lineLimit(1)
-                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(16)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(16)
-            .background(Color.qcSurface)
-            .qcCardRadius()
             .opacity(isLocked ? 0.6 : 1.0)
         }
-        .qcPressEffect()
+        .buttonStyle(.plain)
         .qcCardScrollTransition()
         .accessibilityLabel("\(scenario.title). \(isLocked ? "Locked. Upgrade to Pro to access." : scenario.subtitle)")
         .accessibilityAddTraits(.isButton)
@@ -264,7 +265,7 @@ struct SessionRow: View {
                 if let scores = session.scores {
                     Text("\(scores.overall)")
                         .font(.qcScoreSmall)
-                        .foregroundColor(.qcAccent)
+                        .foregroundColor(scoreColor(for: scores.overall))
                 }
 
                 Image(systemName: "chevron.right")
@@ -278,6 +279,15 @@ struct SessionRow: View {
         .qcPressEffect()
         .qcScrollTransition()
         .accessibilityLabel("\(session.scenario?.title ?? "Session"). \(session.formattedDate). Score: \(session.scores?.overall ?? 0)")
+    }
+
+    private func scoreColor(for score: Int) -> Color {
+        switch score {
+        case 85...100: return .qcMoodCelebration
+        case 70..<85: return .qcMoodSuccess
+        case 50..<70: return .qcMoodReady
+        default: return .qcMoodEngaged
+        }
     }
 }
 

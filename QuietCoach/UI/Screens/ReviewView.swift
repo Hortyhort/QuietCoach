@@ -20,6 +20,7 @@ struct ReviewView: View {
     @State private var showingShareSheet = false
     @State private var showingScoreInfo = false
     @State private var showScoreAnimation = false
+    @State private var showConfidencePulse = true
 
     // MARK: - Environment
 
@@ -102,10 +103,23 @@ struct ReviewView: View {
         .sheet(isPresented: $showingScoreInfo) {
             ScoreInfoSheet()
         }
+        .overlay {
+            // Confidence Pulse animation on first appearance
+            if showConfidencePulse, let scores = session.scores {
+                ConfidencePulseView(score: scores.overall) {
+                    withAnimation(.easeOut(duration: 0.3)) {
+                        showConfidencePulse = false
+                        showScoreAnimation = true
+                    }
+                }
+                .transition(.opacity)
+            }
+        }
         .onAppear {
             player.load(session: session)
-            // Trigger score celebration animation after brief delay
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            // If no scores, skip the pulse animation
+            if session.scores == nil {
+                showConfidencePulse = false
                 showScoreAnimation = true
             }
         }
@@ -240,10 +254,10 @@ struct ReviewView: View {
                 }
             }
 
-            // Score interpretation
+            // Score interpretation with coach personality
             HStack(spacing: 8) {
-                Text(FeedbackEngine.emoji(for: scores.overall))
-                Text(FeedbackEngine.interpretation(for: scores.overall))
+                Text(CoachPersonality.emoji(for: scores.overall))
+                Text(CoachPersonality.interpret(score: scores.overall))
                     .font(.qcSubheadline)
                     .foregroundColor(.qcTextSecondary)
             }

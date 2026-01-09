@@ -80,14 +80,14 @@ struct ScoreCard: View {
         .transition(.scale.combined(with: .opacity))
     }
 
-    // MARK: - Score Color
+    // MARK: - Score Color (Mood-Adaptive)
 
     private var scoreColor: Color {
         switch value {
-        case 85...100: return .qcSuccess
-        case 70..<85: return .qcAccent
-        case 55..<70: return .qcWarning
-        default: return .qcTextSecondary
+        case 85...100: return .qcMoodCelebration
+        case 70..<85: return .qcMoodSuccess
+        case 55..<70: return .qcMoodReady
+        default: return .qcMoodEngaged
         }
     }
 
@@ -234,10 +234,10 @@ struct OverallScoreBadge: View {
 
     private var scoreColor: Color {
         switch score {
-        case 85...100: return .qcSuccess
-        case 70..<85: return .qcAccent
-        case 55..<70: return .qcWarning
-        default: return .qcTextSecondary
+        case 85...100: return .qcMoodCelebration
+        case 70..<85: return .qcMoodSuccess
+        case 55..<70: return .qcMoodReady
+        default: return .qcMoodEngaged
         }
     }
 }

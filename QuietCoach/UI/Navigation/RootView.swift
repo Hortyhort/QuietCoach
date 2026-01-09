@@ -26,11 +26,11 @@ struct RootView: View {
             if hasCompletedOnboarding {
                 mainContent
             } else {
-                OnboardingView(onComplete: {
+                ElevatedOnboardingView {
                     withAnimation(.easeInOut(duration: 0.3)) {
                         hasCompletedOnboarding = true
                     }
-                })
+                }
             }
         }
         .onAppear {
