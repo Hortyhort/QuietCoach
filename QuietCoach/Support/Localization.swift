@@ -40,6 +40,30 @@ enum L10n {
         static let permissionTitle = NSLocalizedString("onboarding.permission_title", value: "Microphone Access", comment: "Permission screen title")
         static let permissionDescription = NSLocalizedString("onboarding.permission_description", value: "QuietCoach needs microphone access to record your practice sessions. All audio stays on your device.", comment: "Permission description")
         static let grantAccess = NSLocalizedString("onboarding.grant_access", value: "Grant Access", comment: "Grant access button")
+
+        // Elevated onboarding flow
+        static let everyoneHasConversations = NSLocalizedString("onboarding.everyone_has_conversations", value: "Everyone has conversations", comment: "Elevated onboarding title part 1")
+        static let theyDread = NSLocalizedString("onboarding.they_dread", value: "they dread.", comment: "Elevated onboarding title part 2")
+        static let continueButton = NSLocalizedString("onboarding.continue", value: "Continue", comment: "Continue button")
+        static let whatIfYouCould = NSLocalizedString("onboarding.what_if_you_could", value: "What if you could", comment: "Elevated onboarding question part 1")
+        static let practiceThemFirst = NSLocalizedString("onboarding.practice_them_first", value: "practice them first?", comment: "Elevated onboarding question part 2")
+        static let showMe = NSLocalizedString("onboarding.show_me", value: "Show me", comment: "Show me button")
+        static let pickOneThats = NSLocalizedString("onboarding.pick_one_thats", value: "Pick one that's been", comment: "Scenario selection part 1")
+        static let onYourMind = NSLocalizedString("onboarding.on_your_mind", value: "on your mind", comment: "Scenario selection part 2")
+        static let letsPractice = NSLocalizedString("onboarding.lets_practice", value: "Let's practice", comment: "Let's practice button")
+        static let takeThirtySeconds = NSLocalizedString("onboarding.take_thirty_seconds", value: "Take 30 seconds.", comment: "Recording instruction part 1")
+        static let sayWhatYouNeed = NSLocalizedString("onboarding.say_what_you_need", value: "Say what you need to say.", comment: "Recording instruction part 2")
+        static let tapToFinish = NSLocalizedString("onboarding.tap_to_finish", value: "Tap to finish", comment: "Tap to finish recording")
+        static let seeYouDidIt = NSLocalizedString("onboarding.see_you_did_it", value: "See? You did it.", comment: "Success message part 1")
+        static let thatsTheWholeApp = NSLocalizedString("onboarding.thats_the_whole_app", value: "That's the whole app.", comment: "Success message part 2")
+
+        // Simple onboarding
+        static let practiceWordsTitle = NSLocalizedString("onboarding.practice_words_title", value: "Practice the words\nbefore they count.", comment: "Simple onboarding title")
+        static let practiceWordsSubtitle = NSLocalizedString("onboarding.practice_words_subtitle", value: "Quiet Coach helps you rehearse hard conversations—privately, with instant feedback.", comment: "Simple onboarding subtitle")
+        static let voiceStaysYours = NSLocalizedString("onboarding.voice_stays_yours", value: "Your voice stays yours.", comment: "Privacy screen title")
+        static let voiceStaysYoursDescription = NSLocalizedString("onboarding.voice_stays_yours_description", value: "All audio is processed on your device. Nothing is uploaded. Nothing is stored unless you choose.", comment: "Privacy screen description")
+        static let onePermission = NSLocalizedString("onboarding.one_permission", value: "One permission.\nThat's it.", comment: "Permission screen title")
+        static let onePermissionDescription = NSLocalizedString("onboarding.one_permission_description", value: "Quiet Coach needs microphone access to hear your rehearsal. You're always in control.", comment: "Permission screen description")
     }
 
     // MARK: - Home
@@ -52,6 +76,20 @@ enum L10n {
 
         static let scenariosTitle = NSLocalizedString("home.scenarios_title", value: "Choose a Scenario", comment: "Scenarios section title")
         static let proLabel = NSLocalizedString("home.pro_label", value: "PRO", comment: "Pro feature label")
+        static let chooseScenario = NSLocalizedString("home.choose_scenario", value: "Choose a scenario", comment: "Choose scenario prompt")
+        static let recent = NSLocalizedString("home.recent", value: "Recent", comment: "Recent section header")
+        static let seeAll = NSLocalizedString("home.see_all", value: "See All", comment: "See all button")
+
+        // Mac/Spatial
+        static let welcomeToQuietCoach = NSLocalizedString("home.welcome", value: "Welcome to Quiet Coach", comment: "Welcome message")
+        static let selectScenarioFromSidebar = NSLocalizedString("home.select_scenario_sidebar", value: "Select a scenario from the sidebar to begin practicing difficult conversations.", comment: "Sidebar instruction")
+        static let chooseScenarioFromSidebar = NSLocalizedString("home.choose_scenario_sidebar", value: "Choose a scenario from the sidebar to start practicing", comment: "Sidebar empty state")
+        static let practiceDescription = NSLocalizedString("home.practice_description", value: "Practice expressing yourself in this scenario. Record your voice and get feedback on clarity, pacing, and confidence.", comment: "Practice description")
+        static let tipsForScenario = NSLocalizedString("home.tips_for_scenario", value: "Tips for this scenario:", comment: "Tips section header")
+        static let startRecording = NSLocalizedString("home.start_recording", value: "Start Recording", comment: "Start recording button")
+        static let practiceInPrivateSpace = NSLocalizedString("home.practice_private_space", value: "Practice difficult conversations in your own private space", comment: "Spatial description")
+        static let exitSpace = NSLocalizedString("home.exit_space", value: "Exit Space", comment: "Exit spatial space button")
+        static let tips = NSLocalizedString("home.tips", value: "Tips", comment: "Tips label")
     }
 
     // MARK: - Recording
@@ -66,6 +104,17 @@ enum L10n {
             let format = NSLocalizedString("recording.duration", value: "%d seconds", comment: "Recording duration in seconds")
             return String(format: format, seconds)
         }
+
+        // Rehearsal
+        static let cancelRehearsal = NSLocalizedString("recording.cancel_rehearsal", value: "Cancel Rehearsal", comment: "Cancel rehearsal button")
+        static let keepRecording = NSLocalizedString("recording.keep_recording", value: "Keep Recording", comment: "Keep recording button")
+        static let recordingWillBeDeleted = NSLocalizedString("recording.will_be_deleted", value: "Your recording will be deleted.", comment: "Recording deletion warning")
+        static let rehearse = NSLocalizedString("recording.rehearse", value: "Rehearse", comment: "Rehearse navigation title")
+
+        // States
+        static let idle = NSLocalizedString("recording.idle", value: "Idle", comment: "Idle state")
+        static let paused = NSLocalizedString("recording.paused", value: "Paused", comment: "Paused state")
+        static let finished = NSLocalizedString("recording.finished", value: "Finished", comment: "Finished state")
     }
 
     // MARK: - Feedback
@@ -88,6 +137,18 @@ enum L10n {
         static let tierGood = NSLocalizedString("feedback.tier.good", value: "Good", comment: "Good score tier")
         static let tierDeveloping = NSLocalizedString("feedback.tier.developing", value: "Developing", comment: "Developing score tier")
         static let tierNeedsWork = NSLocalizedString("feedback.tier.needs_work", value: "Needs Work", comment: "Needs work score tier")
+
+        // Review
+        static let review = NSLocalizedString("feedback.review", value: "Review", comment: "Review navigation title")
+        static let yourScores = NSLocalizedString("feedback.your_scores", value: "Your Scores", comment: "Your scores section title")
+        static let coachingNotes = NSLocalizedString("feedback.coaching_notes", value: "Coaching Notes", comment: "Coaching notes section title")
+        static let howScoresWork = NSLocalizedString("feedback.how_scores_work", value: "How Scores Work", comment: "How scores work navigation title")
+        static let shareYourProgress = NSLocalizedString("feedback.share_progress", value: "Share your progress", comment: "Share progress prompt")
+
+        // Coach
+        static let tryAgainFocus = NSLocalizedString("feedback.try_again_focus", value: "Try Again Focus", comment: "Try again focus card header")
+        static let structureGuide = NSLocalizedString("feedback.structure_guide", value: "Structure Guide", comment: "Structure guide section header")
+        static let practiced = NSLocalizedString("feedback.practiced", value: "Practiced", comment: "Practiced label on share card")
     }
 
     // MARK: - Scores Explanation
@@ -116,6 +177,23 @@ enum L10n {
         static let privacyPolicy = NSLocalizedString("settings.privacy_policy", value: "Privacy Policy", comment: "Privacy policy link")
         static let termsOfService = NSLocalizedString("settings.terms_of_service", value: "Terms of Service", comment: "Terms of service link")
         static let sendFeedback = NSLocalizedString("settings.send_feedback", value: "Send Feedback", comment: "Send feedback button")
+
+        // Sections
+        static let sharing = NSLocalizedString("settings.sharing", value: "Sharing", comment: "Sharing section")
+        static let showWatermark = NSLocalizedString("settings.show_watermark", value: "Show watermark on share cards", comment: "Show watermark toggle")
+        static let data = NSLocalizedString("settings.data", value: "Data", comment: "Data section")
+        static let sessions = NSLocalizedString("settings.sessions", value: "Sessions", comment: "Sessions label")
+        static let storageUsed = NSLocalizedString("settings.storage_used", value: "Storage used", comment: "Storage used label")
+        static let deleteAllData = NSLocalizedString("settings.delete_all_data", value: "Delete All Data", comment: "Delete all data button")
+        static let deleteAll = NSLocalizedString("settings.delete_all", value: "Delete All", comment: "Delete all confirmation button")
+        static let deleteConfirmation = NSLocalizedString("settings.delete_confirmation", value: "This will delete all your rehearsal sessions and audio files. This cannot be undone.", comment: "Delete confirmation message")
+        static let support = NSLocalizedString("settings.support", value: "Support", comment: "Support section")
+        static let privacyFooter = NSLocalizedString("settings.privacy_footer", value: "All audio is processed on your device. Nothing is uploaded. Your rehearsals are private.", comment: "Privacy footer message")
+
+        // Pro
+        static let quietCoachPro = NSLocalizedString("settings.quiet_coach_pro", value: "Quiet Coach Pro", comment: "Quiet Coach Pro label")
+        static let active = NSLocalizedString("settings.active", value: "Active", comment: "Active status label")
+        static let upgradeToPro = NSLocalizedString("settings.upgrade_to_pro", value: "Upgrade to Pro", comment: "Upgrade to Pro button")
     }
 
     // MARK: - Subscription
@@ -130,6 +208,13 @@ enum L10n {
             let format = NSLocalizedString("subscription.price_per_month", value: "%@ / month", comment: "Price per month")
             return String(format: format, price)
         }
+
+        // Pro upgrade
+        static let quietCoachPro = NSLocalizedString("subscription.quiet_coach_pro", value: "Quiet Coach Pro", comment: "Quiet Coach Pro title")
+        static let unlockPotential = NSLocalizedString("subscription.unlock_potential", value: "Unlock your full potential", comment: "Unlock potential subtitle")
+        static let unableToLoad = NSLocalizedString("subscription.unable_to_load", value: "Unable to load subscription options", comment: "Unable to load error")
+        static let loading = NSLocalizedString("subscription.loading", value: "Loading...", comment: "Loading status")
+        static let savePercent = NSLocalizedString("subscription.save_percent", value: "Save 58%", comment: "Save percentage badge")
     }
 
     // MARK: - Errors

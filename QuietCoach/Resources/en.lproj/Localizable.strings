@@ -28,6 +28,30 @@
 "onboarding.permission_description" = "QuietCoach needs microphone access to record your practice sessions. All audio stays on your device.";
 "onboarding.grant_access" = "Grant Access";
 
+// Elevated onboarding
+"onboarding.everyone_has_conversations" = "Everyone has conversations";
+"onboarding.they_dread" = "they dread.";
+"onboarding.continue" = "Continue";
+"onboarding.what_if_you_could" = "What if you could";
+"onboarding.practice_them_first" = "practice them first?";
+"onboarding.show_me" = "Show me";
+"onboarding.pick_one_thats" = "Pick one that's been";
+"onboarding.on_your_mind" = "on your mind";
+"onboarding.lets_practice" = "Let's practice";
+"onboarding.take_thirty_seconds" = "Take 30 seconds.";
+"onboarding.say_what_you_need" = "Say what you need to say.";
+"onboarding.tap_to_finish" = "Tap to finish";
+"onboarding.see_you_did_it" = "See? You did it.";
+"onboarding.thats_the_whole_app" = "That's the whole app.";
+
+// Simple onboarding
+"onboarding.practice_words_title" = "Practice the words\nbefore they count.";
+"onboarding.practice_words_subtitle" = "Quiet Coach helps you rehearse hard conversations—privately, with instant feedback.";
+"onboarding.voice_stays_yours" = "Your voice stays yours.";
+"onboarding.voice_stays_yours_description" = "All audio is processed on your device. Nothing is uploaded. Nothing is stored unless you choose.";
+"onboarding.one_permission" = "One permission.\nThat's it.";
+"onboarding.one_permission_description" = "Quiet Coach needs microphone access to hear your rehearsal. You're always in control.";
+
 // MARK: - Home
 "home.title" = "Practice";
 "home.recent_sessions" = "Recent Sessions";
@@ -35,6 +59,20 @@
 "home.start_practice" = "Start Practice";
 "home.scenarios_title" = "Choose a Scenario";
 "home.pro_label" = "PRO";
+"home.choose_scenario" = "Choose a scenario";
+"home.recent" = "Recent";
+"home.see_all" = "See All";
+
+// Mac/Spatial
+"home.welcome" = "Welcome to Quiet Coach";
+"home.select_scenario_sidebar" = "Select a scenario from the sidebar to begin practicing difficult conversations.";
+"home.choose_scenario_sidebar" = "Choose a scenario from the sidebar to start practicing";
+"home.practice_description" = "Practice expressing yourself in this scenario. Record your voice and get feedback on clarity, pacing, and confidence.";
+"home.tips_for_scenario" = "Tips for this scenario:";
+"home.start_recording" = "Start Recording";
+"home.practice_private_space" = "Practice difficult conversations in your own private space";
+"home.exit_space" = "Exit Space";
+"home.tips" = "Tips";
 
 // MARK: - Recording
 "recording.tap_to_start" = "Tap to Start";
@@ -42,6 +80,17 @@
 "recording.tap_to_stop" = "Tap to Stop";
 "recording.analyzing" = "Analyzing...";
 "recording.duration" = "%d seconds";
+
+// Rehearsal
+"recording.cancel_rehearsal" = "Cancel Rehearsal";
+"recording.keep_recording" = "Keep Recording";
+"recording.will_be_deleted" = "Your recording will be deleted.";
+"recording.rehearse" = "Rehearse";
+
+// States
+"recording.idle" = "Idle";
+"recording.paused" = "Paused";
+"recording.finished" = "Finished";
 
 // MARK: - Feedback
 "feedback.title" = "Your Feedback";
@@ -57,6 +106,18 @@
 "feedback.tier.good" = "Good";
 "feedback.tier.developing" = "Developing";
 "feedback.tier.needs_work" = "Needs Work";
+
+// Review
+"feedback.review" = "Review";
+"feedback.your_scores" = "Your Scores";
+"feedback.coaching_notes" = "Coaching Notes";
+"feedback.how_scores_work" = "How Scores Work";
+"feedback.share_progress" = "Share your progress";
+
+// Coach
+"feedback.try_again_focus" = "Try Again Focus";
+"feedback.structure_guide" = "Structure Guide";
+"feedback.practiced" = "Practiced";
 
 // MARK: - Score Explanations
 "score.clarity.description" = "Based on pause patterns and silence. Clear speakers pause intentionally.";
@@ -78,12 +139,36 @@
 "settings.terms_of_service" = "Terms of Service";
 "settings.send_feedback" = "Send Feedback";
 
+// Sections
+"settings.sharing" = "Sharing";
+"settings.show_watermark" = "Show watermark on share cards";
+"settings.data" = "Data";
+"settings.sessions" = "Sessions";
+"settings.storage_used" = "Storage used";
+"settings.delete_all_data" = "Delete All Data";
+"settings.delete_all" = "Delete All";
+"settings.delete_confirmation" = "This will delete all your rehearsal sessions and audio files. This cannot be undone.";
+"settings.support" = "Support";
+"settings.privacy_footer" = "All audio is processed on your device. Nothing is uploaded. Your rehearsals are private.";
+
+// Pro
+"settings.quiet_coach_pro" = "Quiet Coach Pro";
+"settings.active" = "Active";
+"settings.upgrade_to_pro" = "Upgrade to Pro";
+
 // MARK: - Subscription
 "subscription.upgrade_title" = "Upgrade to Pro";
 "subscription.features" = "Pro Features";
 "subscription.subscribe" = "Subscribe";
 "subscription.restoring" = "Restoring...";
 "subscription.price_per_month" = "%@ / month";
+
+// Pro upgrade
+"subscription.quiet_coach_pro" = "Quiet Coach Pro";
+"subscription.unlock_potential" = "Unlock your full potential";
+"subscription.unable_to_load" = "Unable to load subscription options";
+"subscription.loading" = "Loading...";
+"subscription.save_percent" = "Save 58%";
 
 // MARK: - Errors
 "error.microphone_denied" = "Microphone access is required to record your practice sessions.";
