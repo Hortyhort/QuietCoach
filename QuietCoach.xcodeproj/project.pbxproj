@@ -42,6 +42,7 @@
 		1A0001070000000000000001 /* LocalAnalyticsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0001060000000000000001 /* LocalAnalyticsStore.swift */; };
 		1A0001090000000000000001 /* PerformanceMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0001080000000000000001 /* PerformanceMonitor.swift */; };
 		1A00010B0000000000000001 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00010A0000000000000001 /* NetworkMonitor.swift */; };
+		1A00010D0000000000000001 /* DependencyInjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00010C0000000000000001 /* DependencyInjection.swift */; };
 
 		/* Audio */
 		1A0000400000000000000001 /* RehearsalRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000410000000000000001 /* RehearsalRecorder.swift */; };
@@ -158,6 +159,7 @@
 		1A0001060000000000000001 /* LocalAnalyticsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAnalyticsStore.swift; sourceTree = "<group>"; };
 		1A0001080000000000000001 /* PerformanceMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceMonitor.swift; sourceTree = "<group>"; };
 		1A00010A0000000000000001 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		1A00010C0000000000000001 /* DependencyInjection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyInjection.swift; sourceTree = "<group>"; };
 
 		/* UI - Navigation */
 		1A00001A0000000000000001 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -398,6 +400,7 @@
 				1A0001060000000000000001 /* LocalAnalyticsStore.swift */,
 				1A0001080000000000000001 /* PerformanceMonitor.swift */,
 				1A00010A0000000000000001 /* NetworkMonitor.swift */,
+				1A00010C0000000000000001 /* DependencyInjection.swift */,
 				1A0000320000000000000001 /* Extensions */,
 			);
 			path = Support;
@@ -591,6 +594,7 @@
 				1A0001070000000000000001 /* LocalAnalyticsStore.swift in Sources */,
 				1A0001090000000000000001 /* PerformanceMonitor.swift in Sources */,
 				1A00010B0000000000000001 /* NetworkMonitor.swift in Sources */,
+				1A00010D0000000000000001 /* DependencyInjection.swift in Sources */,
 				1A0000F30000000000000001 /* SoundDesign.swift in Sources */,
 				1A0000F90000000000000001 /* SpeechAnalysisEngine.swift in Sources */,
 				1A0000F50000000000000001 /* CoachPersonality.swift in Sources */,
