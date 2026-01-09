@@ -30,7 +30,17 @@ Carthage/Build/
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
-fastlane/test_output
+fastlane/test_output/
+fastlane/builds/
+fastlane/coverage/
+fastlane/logs/
+
+# Environment and secrets
+.env
+.env.*
+*.p8
+*.pem
+*.cer
 
 # macOS
 .DS_Store

@@ -1,0 +1,54 @@
+# QuietCoach Matchfile
+# Code signing certificate management with fastlane match
+# See: https://docs.fastlane.tools/actions/match/
+
+# ─────────────────────────────────────────────────────────────
+# CONFIGURATION REQUIRED
+# ─────────────────────────────────────────────────────────────
+# 1. Create a private git repository for certificates
+# 2. Uncomment and update the git_url below
+# 3. Run: bundle exec fastlane match appstore
+
+# Git repository for certificates (create a private repo)
+# git_url("git@github.com:your-org/quietcoach-certificates.git")
+
+# Storage mode
+storage_mode("git")
+
+# Certificate type (appstore, adhoc, development, enterprise)
+type("appstore")
+
+# App identifiers to manage
+app_identifier(["com.quietcoach.app", "com.quietcoach.app.widgets"])
+
+# Apple Developer Team ID
+# team_id("XXXXXXXXXX")
+
+# Generate Apple Cert with specific profile name
+# profile_name("QuietCoach AppStore")
+
+# Don't force create new certificates if they exist
+force_for_new_devices(false)
+
+# Clone depth (speeds up git operations)
+shallow_clone(true)
+
+# Don't prompt for confirmation in CI
+readonly(is_ci)
+
+# ─────────────────────────────────────────────────────────────
+# USAGE
+# ─────────────────────────────────────────────────────────────
+#
+# Setup:
+#   bundle exec fastlane match init
+#
+# Generate certificates:
+#   bundle exec fastlane match appstore
+#   bundle exec fastlane match development
+#
+# Nuke and regenerate (if needed):
+#   bundle exec fastlane match nuke appstore
+#   bundle exec fastlane match appstore
+#
+# On CI, set MATCH_PASSWORD environment variable

@@ -4,21 +4,40 @@
 # App identifier (bundle ID)
 app_identifier("com.quietcoach.app")
 
+# ─────────────────────────────────────────────────────────────
+# CONFIGURATION REQUIRED
+# ─────────────────────────────────────────────────────────────
+# Uncomment and fill in your Apple Developer credentials:
+
 # Apple ID email (for App Store Connect)
 # apple_id("your-apple-id@example.com")
 
-# Team ID (Apple Developer Portal)
+# Team ID (from https://developer.apple.com/account - Membership)
 # team_id("XXXXXXXXXX")
 
-# App Store Connect Team ID (if different from Developer Portal)
+# App Store Connect Team ID (usually same as team_id)
 # itc_team_id("XXXXXXXXXX")
 
-# For more information about the Appfile, see:
-# https://docs.fastlane.tools/advanced/Appfile/
-
-# You can use environment variables for sensitive values:
+# ─────────────────────────────────────────────────────────────
+# ENVIRONMENT VARIABLES (Recommended for CI/CD)
+# ─────────────────────────────────────────────────────────────
+# Instead of hardcoding, use environment variables:
+#
 # apple_id(ENV["APPLE_ID"])
 # team_id(ENV["TEAM_ID"])
+# itc_team_id(ENV["ITC_TEAM_ID"])
 
-# For App Store Connect API Key authentication (recommended for CI):
-# See: https://docs.fastlane.tools/app-store-connect-api/
+# ─────────────────────────────────────────────────────────────
+# APP STORE CONNECT API KEY (Best for CI/CD)
+# ─────────────────────────────────────────────────────────────
+# Create an API key at: https://appstoreconnect.apple.com/access/api
+# Then set these environment variables:
+#
+# APP_STORE_CONNECT_API_KEY_ID
+# APP_STORE_CONNECT_API_ISSUER_ID
+# APP_STORE_CONNECT_API_KEY_CONTENT (base64 encoded .p8 file)
+#
+# Fastlane will automatically use these if set.
+
+# For more information:
+# https://docs.fastlane.tools/app-store-connect-api/
