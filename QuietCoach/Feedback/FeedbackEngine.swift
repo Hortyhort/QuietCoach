@@ -1,25 +1,114 @@
 // FeedbackEngine.swift
 // QuietCoach
 //
-// Transforms audio metrics into meaningful scores.
+// Transforms audio metrics and speech analysis into meaningful scores.
 // Each score maps to one measurable behavior. Every score is actionable.
 
 import Foundation
+import OSLog
 
 struct FeedbackEngine {
 
-    // MARK: - Score Generation
+    private static let logger = Logger(subsystem: "com.quietcoach", category: "FeedbackEngine")
 
-    /// Generate feedback scores from audio metrics
-    static func generateScores(from metrics: AudioMetrics, scenario: Scenario) -> FeedbackScores {
+    // MARK: - Score Generation (Async - Full Analysis)
+
+    /// Generate feedback scores using full speech analysis (transcription + NLP)
+    /// This is the primary method for production use
+    static func generateScores(
+        from metrics: AudioMetrics,
+        audioURL: URL,
+        scenario: Scenario
+    ) async throws -> FeedbackResult {
         let analyzed = AudioMetricsAnalyzer.analyze(metrics)
 
+        // Attempt speech analysis for real NLP-based scoring
+        do {
+            let speechAnalysis = try await SpeechAnalysisEngine.shared.analyze(
+                audioURL: audioURL,
+                duration: metrics.duration
+            )
+
+            logger.info("Speech analysis complete: \(speechAnalysis.transcription.wordCount) words")
+
+            // Blend audio metrics with NLP analysis for comprehensive scoring
+            let scores = blendScores(audioMetrics: analyzed, speechAnalysis: speechAnalysis)
+
+            return FeedbackResult(
+                scores: scores,
+                transcription: speechAnalysis.transcription.text,
+                speechAnalysis: speechAnalysis,
+                usedSpeechAnalysis: true
+            )
+        } catch {
+            logger.warning("Speech analysis failed, using audio-only: \(error.localizedDescription)")
+
+            // Fallback to audio-only scoring
+            let scores = generateScoresFromAudioOnly(analyzed)
+            return FeedbackResult(
+                scores: scores,
+                transcription: nil,
+                speechAnalysis: nil,
+                usedSpeechAnalysis: false
+            )
+        }
+    }
+
+    /// Blend audio metrics with NLP analysis for comprehensive scoring
+    private static func blendScores(audioMetrics: AnalyzedMetrics, speechAnalysis: SpeechAnalysisResult) -> FeedbackScores {
+        // Use NLP scores as primary, audio metrics as modifiers
+        var clarityScore = speechAnalysis.clarity.score
+        var pacingScore = speechAnalysis.pacing.score
+        var toneScore = speechAnalysis.tone.score
+        var confidenceScore = speechAnalysis.confidence.score
+
+        // Adjust based on audio metrics
+        // If audio shows good pause patterns, boost clarity
+        if audioMetrics.hasGoodPausePattern {
+            clarityScore += 5
+        }
+
+        // If audio shows high volume stability, boost tone
+        if audioMetrics.volumeStability > 0.7 {
+            toneScore += 5
+        }
+
+        // If audio shows good projection, boost confidence
+        if audioMetrics.averageLevel > 0.3 {
+            confidenceScore += 5
+        }
+
+        // If audio pacing matches NLP pacing assessment, boost pacing score
+        let audioOptimalPacing = audioMetrics.segmentsPerMinute >= 15 && audioMetrics.segmentsPerMinute <= 30
+        if audioOptimalPacing && speechAnalysis.pacing.isOptimalPace {
+            pacingScore += 5
+        }
+
         return FeedbackScores(
-            clarity: clamp(calculateClarity(analyzed)),
-            pacing: clamp(calculatePacing(analyzed)),
-            tone: clamp(calculateTone(analyzed)),
-            confidence: clamp(calculateConfidence(analyzed))
+            clarity: clamp(clarityScore),
+            pacing: clamp(pacingScore),
+            tone: clamp(toneScore),
+            confidence: clamp(confidenceScore)
         )
+    }
+
+    /// Generate scores from audio metrics only (fallback)
+    private static func generateScoresFromAudioOnly(_ metrics: AnalyzedMetrics) -> FeedbackScores {
+        FeedbackScores(
+            clarity: clamp(calculateClarity(metrics)),
+            pacing: clamp(calculatePacing(metrics)),
+            tone: clamp(calculateTone(metrics)),
+            confidence: clamp(calculateConfidence(metrics))
+        )
+    }
+
+    // MARK: - Score Generation (Sync - Audio Only)
+
+    /// Generate feedback scores from audio metrics only
+    /// Use this when speech analysis is not available or not needed
+    static func generateScores(from metrics: AudioMetrics, scenario: Scenario) -> FeedbackScores {
+        let analyzed = AudioMetricsAnalyzer.analyze(metrics)
+        return generateScoresFromAudioOnly(analyzed)
     }
 
     // MARK: - Clarity Score
@@ -189,5 +278,62 @@ extension FeedbackEngine {
         case 55..<70: return "📈"
         default: return "💪"
         }
+    }
+}
+
+// MARK: - Feedback Result
+
+/// Complete feedback result including scores, transcription, and analysis details
+struct FeedbackResult: Sendable {
+    /// The calculated scores
+    let scores: FeedbackScores
+
+    /// The transcription of the recording (nil if speech analysis failed)
+    let transcription: String?
+
+    /// The detailed speech analysis (nil if speech analysis failed)
+    let speechAnalysis: SpeechAnalysisResult?
+
+    /// Whether speech analysis was successfully used
+    let usedSpeechAnalysis: Bool
+
+    /// Insights derived from the analysis
+    var insights: [String] {
+        guard let analysis = speechAnalysis else {
+            return ["Audio analysis only - enable speech recognition for detailed feedback"]
+        }
+
+        var insights: [String] = []
+
+        // Filler word insight
+        if analysis.clarity.fillerWordCount > 3 {
+            let topFillers = analysis.clarity.fillerWords.prefix(3).joined(separator: ", ")
+            insights.append("Reduce filler words like: \(topFillers)")
+        }
+
+        // Pacing insight
+        if !analysis.pacing.isOptimalPace {
+            if analysis.pacing.wordsPerMinute < 120 {
+                insights.append("Try speaking slightly faster for better engagement")
+            } else if analysis.pacing.wordsPerMinute > 160 {
+                insights.append("Slow down a bit to improve clarity")
+            }
+        }
+
+        // Confidence insight
+        if analysis.confidence.hedgingPhraseCount > 2 {
+            insights.append("Replace hedging phrases with more direct statements")
+        }
+
+        // Tone insight
+        if analysis.tone.isNegative {
+            insights.append("Try using more positive language")
+        }
+
+        if insights.isEmpty {
+            insights.append("Great job! Keep practicing to maintain consistency")
+        }
+
+        return insights
     }
 }

@@ -1,0 +1,103 @@
+/*
+  Localizable.strings
+  QuietCoach
+
+  English localization
+*/
+
+// MARK: - Common
+"common.app_name" = "QuietCoach";
+"common.ok" = "OK";
+"common.cancel" = "Cancel";
+"common.done" = "Done";
+"common.next" = "Next";
+"common.back" = "Back";
+"common.try_again" = "Try Again";
+"common.close" = "Close";
+"common.save" = "Save";
+"common.delete" = "Delete";
+"common.share" = "Share";
+"common.settings" = "Settings";
+
+// MARK: - Onboarding
+"onboarding.welcome_title" = "Practice Speaking";
+"onboarding.welcome_subtitle" = "Build confidence for conversations that matter";
+"onboarding.get_started" = "Get Started";
+"onboarding.skip_intro" = "Skip Intro";
+"onboarding.permission_title" = "Microphone Access";
+"onboarding.permission_description" = "QuietCoach needs microphone access to record your practice sessions. All audio stays on your device.";
+"onboarding.grant_access" = "Grant Access";
+
+// MARK: - Home
+"home.title" = "Practice";
+"home.recent_sessions" = "Recent Sessions";
+"home.no_sessions" = "No sessions yet";
+"home.start_practice" = "Start Practice";
+"home.scenarios_title" = "Choose a Scenario";
+"home.pro_label" = "PRO";
+
+// MARK: - Recording
+"recording.tap_to_start" = "Tap to Start";
+"recording.recording" = "Recording";
+"recording.tap_to_stop" = "Tap to Stop";
+"recording.analyzing" = "Analyzing...";
+"recording.duration" = "%d seconds";
+
+// MARK: - Feedback
+"feedback.title" = "Your Feedback";
+"feedback.overall_score" = "Overall Score";
+"feedback.clarity" = "Clarity";
+"feedback.pacing" = "Pacing";
+"feedback.tone" = "Tone";
+"feedback.confidence" = "Confidence";
+"feedback.insights" = "Insights";
+"feedback.try_again" = "Practice Again";
+"feedback.share_result" = "Share Result";
+"feedback.tier.excellent" = "Excellent";
+"feedback.tier.good" = "Good";
+"feedback.tier.developing" = "Developing";
+"feedback.tier.needs_work" = "Needs Work";
+
+// MARK: - Score Explanations
+"score.clarity.description" = "Based on pause patterns and silence. Clear speakers pause intentionally.";
+"score.pacing.description" = "Based on rhythm—phrases per minute. Too fast or slow affects your score.";
+"score.tone.description" = "Based on volume stability. Consistent volume sounds calm and controlled.";
+"score.confidence.description" = "Based on volume level and consistency. Steady delivery sounds assured.";
+
+// MARK: - Settings
+"settings.title" = "Settings";
+"settings.account" = "Account";
+"settings.subscription" = "Subscription";
+"settings.restore_purchases" = "Restore Purchases";
+"settings.preferences" = "Preferences";
+"settings.haptic_feedback" = "Haptic Feedback";
+"settings.sound_effects" = "Sound Effects";
+"settings.about" = "About";
+"settings.version" = "Version";
+"settings.privacy_policy" = "Privacy Policy";
+"settings.terms_of_service" = "Terms of Service";
+"settings.send_feedback" = "Send Feedback";
+
+// MARK: - Subscription
+"subscription.upgrade_title" = "Upgrade to Pro";
+"subscription.features" = "Pro Features";
+"subscription.subscribe" = "Subscribe";
+"subscription.restoring" = "Restoring...";
+"subscription.price_per_month" = "%@ / month";
+
+// MARK: - Errors
+"error.microphone_denied" = "Microphone access is required to record your practice sessions.";
+"error.recording_failed" = "Recording failed. Please try again.";
+"error.analysis_failed" = "Could not analyze your recording. Audio-only feedback will be provided.";
+"error.save_failed" = "Could not save your session. Please try again.";
+"error.network" = "Please check your internet connection and try again.";
+
+// MARK: - Accessibility
+"accessibility.record_button" = "Record";
+"accessibility.stop_button" = "Stop Recording";
+"accessibility.play_button" = "Play Recording";
+"accessibility.pause_button" = "Pause";
+"accessibility.score_value" = "%@ score: %d out of 100";
+
+// MARK: - Duration
+"duration.minutes_seconds" = "%d:%02d";

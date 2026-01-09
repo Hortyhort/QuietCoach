@@ -33,6 +33,11 @@
 		1A0000A10000000000000001 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000A20000000000000001 /* LiveActivityManager.swift */; };
 		1A0000A30000000000000001 /* WidgetDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000A40000000000000001 /* WidgetDataManager.swift */; };
 		1A0000F10000000000000001 /* ElevatedDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000F00000000000000001 /* ElevatedDesign.swift */; };
+		1A0000FB0000000000000001 /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000FA0000000000000001 /* ErrorHandling.swift */; };
+		1A0000FD0000000000000001 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000FC0000000000000001 /* Analytics.swift */; };
+		1A0000FF0000000000000001 /* CrashReporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000FE0000000000000001 /* CrashReporting.swift */; };
+		1A0001010000000000000001 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0001000000000000000001 /* Localization.swift */; };
+		1A0001030000000000000001 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A0001020000000000000001 /* Localizable.strings */; };
 
 		/* Audio */
 		1A0000400000000000000001 /* RehearsalRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000410000000000000001 /* RehearsalRecorder.swift */; };
@@ -40,6 +45,7 @@
 		1A0000440000000000000001 /* AudioPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000450000000000000001 /* AudioPlayerViewModel.swift */; };
 		1A0000940000000000000001 /* TranscriptionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000950000000000000001 /* TranscriptionEngine.swift */; };
 		1A0000F30000000000000001 /* SoundDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000F20000000000000001 /* SoundDesign.swift */; };
+		1A0000F90000000000000001 /* SpeechAnalysisEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000F80000000000000001 /* SpeechAnalysisEngine.swift */; };
 
 		/* Feedback */
 		1A0000500000000000000001 /* FeedbackEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000510000000000000001 /* FeedbackEngine.swift */; };
@@ -139,6 +145,11 @@
 		1A0000A20000000000000001 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
 		1A0000A40000000000000001 /* WidgetDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataManager.swift; sourceTree = "<group>"; };
 		1A0000F00000000000000001 /* ElevatedDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevatedDesign.swift; sourceTree = "<group>"; };
+		1A0000FA0000000000000001 /* ErrorHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandling.swift; sourceTree = "<group>"; };
+		1A0000FC0000000000000001 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
+		1A0000FE0000000000000001 /* CrashReporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReporting.swift; sourceTree = "<group>"; };
+		1A0001000000000000000001 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+		1A0001020000000000000001 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 
 		/* UI - Navigation */
 		1A00001A0000000000000001 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -171,6 +182,7 @@
 		1A0000450000000000000001 /* AudioPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerViewModel.swift; sourceTree = "<group>"; };
 		1A0000950000000000000001 /* TranscriptionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionEngine.swift; sourceTree = "<group>"; };
 		1A0000F20000000000000001 /* SoundDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundDesign.swift; sourceTree = "<group>"; };
+		1A0000F80000000000000001 /* SpeechAnalysisEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechAnalysisEngine.swift; sourceTree = "<group>"; };
 
 		/* Feedback */
 		1A0000510000000000000001 /* FeedbackEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackEngine.swift; sourceTree = "<group>"; };
@@ -287,6 +299,7 @@
 				1A0000450000000000000001 /* AudioPlayerViewModel.swift */,
 				1A0000950000000000000001 /* TranscriptionEngine.swift */,
 				1A0000F20000000000000001 /* SoundDesign.swift */,
+				1A0000F80000000000000001 /* SpeechAnalysisEngine.swift */,
 			);
 			path = Audio;
 			sourceTree = "<group>";
@@ -369,6 +382,10 @@
 				1A0000A20000000000000001 /* LiveActivityManager.swift */,
 				1A0000A40000000000000001 /* WidgetDataManager.swift */,
 				1A0000F00000000000000001 /* ElevatedDesign.swift */,
+				1A0000FA0000000000000001 /* ErrorHandling.swift */,
+				1A0000FC0000000000000001 /* Analytics.swift */,
+				1A0000FE0000000000000001 /* CrashReporting.swift */,
+				1A0001000000000000000001 /* Localization.swift */,
 				1A0000320000000000000001 /* Extensions */,
 			);
 			path = Support;
@@ -385,6 +402,7 @@
 			isa = PBXGroup;
 			children = (
 				1A0000200000000000000001 /* Assets.xcassets */,
+				1A0001020000000000000001 /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -493,6 +511,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A00001F0000000000000001 /* Assets.xcassets in Resources */,
+				1A0001030000000000000001 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -552,7 +571,12 @@
 				1A0000820000000000000001 /* ProUpgradeView.swift in Sources */,
 				1A0000840000000000000001 /* PrimaryButton.swift in Sources */,
 				1A0000F10000000000000001 /* ElevatedDesign.swift in Sources */,
+				1A0000FB0000000000000001 /* ErrorHandling.swift in Sources */,
+				1A0000FD0000000000000001 /* Analytics.swift in Sources */,
+				1A0000FF0000000000000001 /* CrashReporting.swift in Sources */,
+				1A0001010000000000000001 /* Localization.swift in Sources */,
 				1A0000F30000000000000001 /* SoundDesign.swift in Sources */,
+				1A0000F90000000000000001 /* SpeechAnalysisEngine.swift in Sources */,
 				1A0000F50000000000000001 /* CoachPersonality.swift in Sources */,
 				1A0000F70000000000000001 /* ElevatedOnboarding.swift in Sources */,
 			);
