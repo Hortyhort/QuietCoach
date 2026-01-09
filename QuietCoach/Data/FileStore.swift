@@ -6,6 +6,7 @@
 import Foundation
 import OSLog
 
+@MainActor
 final class FileStore {
 
     // MARK: - Singleton

@@ -16,13 +16,13 @@ struct ReviewView: View {
 
     // MARK: - State
 
-    @StateObject private var player = AudioPlayerViewModel()
+    @State private var player = AudioPlayerViewModel()
     @State private var showingShareSheet = false
     @State private var showingScoreInfo = false
 
     // MARK: - Environment
 
-    @EnvironmentObject private var repository: SessionRepository
+    @Environment(SessionRepository.self) private var repository
 
     // MARK: - Body
 
@@ -388,6 +388,6 @@ struct ShareCardSheet: View {
             onDone: {}
         )
     }
-    .environmentObject(SessionRepository.placeholder)
+    .environment(SessionRepository.placeholder)
     .preferredColorScheme(.dark)
 }

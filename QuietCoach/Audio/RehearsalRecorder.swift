@@ -7,15 +7,15 @@
 // State machine: idle → recording ⇄ paused → finished → idle
 
 import AVFoundation
-import Combine
 import OSLog
 
+@Observable
 @MainActor
-final class RehearsalRecorder: ObservableObject {
+final class RehearsalRecorder {
 
     // MARK: - State Machine
 
-    enum State: Equatable {
+    enum State: Equatable, Sendable {
         case idle
         case recording
         case paused
@@ -24,7 +24,7 @@ final class RehearsalRecorder: ObservableObject {
 
     // MARK: - Recording Warnings
 
-    enum RecordingWarning: Equatable {
+    enum RecordingWarning: Equatable, Sendable {
         case tooQuiet
         case tooLoud
         case noisyEnvironment
@@ -54,13 +54,13 @@ final class RehearsalRecorder: ObservableObject {
         }
     }
 
-    // MARK: - Published State
+    // MARK: - Observable State
 
-    @Published private(set) var state: State = .idle
-    @Published private(set) var currentTime: TimeInterval = 0
-    @Published private(set) var currentLevel: Float = 0
-    @Published private(set) var waveformSamples: [Float] = []
-    @Published private(set) var activeWarning: RecordingWarning?
+    private(set) var state: State = .idle
+    private(set) var currentTime: TimeInterval = 0
+    private(set) var currentLevel: Float = 0
+    private(set) var waveformSamples: [Float] = []
+    private(set) var activeWarning: RecordingWarning?
 
     // MARK: - Private Properties
 
@@ -78,9 +78,24 @@ final class RehearsalRecorder: ObservableObject {
     private var noiseFloor: Float = 0.01
     private var hasCalibrated = false
 
+    // Notification observers (nonisolated for deinit access)
+    @ObservationIgnored
+    private nonisolated(unsafe) var interruptionTask: Task<Void, Never>?
+    @ObservationIgnored
+    private nonisolated(unsafe) var routeChangeTask: Task<Void, Never>?
+
     // Current recording info
     private(set) var currentFileName: String?
     private(set) var currentFileURL: URL?
+
+    // MARK: - Initialization
+
+    init() {}
+
+    deinit {
+        interruptionTask?.cancel()
+        routeChangeTask?.cancel()
+    }
 
     // MARK: - Audio Session Setup
 
@@ -100,21 +115,30 @@ final class RehearsalRecorder: ObservableObject {
             logger.error("Failed to configure audio session: \(error.localizedDescription)")
         }
 
-        // Register for interruptions
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleInterruption),
-            name: AVAudioSession.interruptionNotification,
-            object: session
-        )
+        // Set up notification observers using async sequences
+        setupNotificationObservers()
+    }
 
-        // Register for route changes (AirPods connect/disconnect)
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleRouteChange),
-            name: AVAudioSession.routeChangeNotification,
-            object: session
-        )
+    private func setupNotificationObservers() {
+        // Interruption handling
+        interruptionTask = Task { [weak self] in
+            let notifications = NotificationCenter.default.notifications(
+                named: AVAudioSession.interruptionNotification
+            )
+            for await notification in notifications {
+                await self?.handleInterruption(notification)
+            }
+        }
+
+        // Route change handling
+        routeChangeTask = Task { [weak self] in
+            let notifications = NotificationCenter.default.notifications(
+                named: AVAudioSession.routeChangeNotification
+            )
+            for await notification in notifications {
+                await self?.handleRouteChange(notification)
+            }
+        }
     }
 
     // MARK: - Recording Controls
@@ -253,7 +277,8 @@ final class RehearsalRecorder: ObservableObject {
         }
 
         // Calibrate noise floor after initial samples
-        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.AudioQuality.noiseFloorCalibrationDuration) { [weak self] in
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .seconds(Constants.AudioQuality.noiseFloorCalibrationDuration))
             self?.calibrateNoiseFloor()
         }
     }
@@ -277,7 +302,7 @@ final class RehearsalRecorder: ObservableObject {
         let linearPower = pow(10, averagePower / 20)
         let linearPeak = pow(10, peakPower / 20)
 
-        // Update published properties
+        // Update observable properties
         currentLevel = linearPower
         rmsWindows.append(linearPower)
         peakWindows.append(linearPeak)
@@ -349,59 +374,55 @@ final class RehearsalRecorder: ObservableObject {
 
     // MARK: - Interruption Handling
 
-    @objc private func handleInterruption(_ notification: Notification) {
+    private func handleInterruption(_ notification: Notification) async {
         guard let userInfo = notification.userInfo,
               let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
               let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
             return
         }
 
-        Task { @MainActor in
-            switch type {
-            case .began:
-                // Phone call, Siri, etc.
-                if state == .recording {
-                    pauseRecording()
-                    logger.info("Recording paused due to interruption")
-                }
-
-            case .ended:
-                // Interruption ended - don't auto-resume, let user decide
-                if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
-                    let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
-                    if options.contains(.shouldResume) {
-                        logger.info("Interruption ended, user can resume")
-                    }
-                }
-
-            @unknown default:
-                break
+        switch type {
+        case .began:
+            // Phone call, Siri, etc.
+            if state == .recording {
+                pauseRecording()
+                logger.info("Recording paused due to interruption")
             }
+
+        case .ended:
+            // Interruption ended - don't auto-resume, let user decide
+            if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
+                let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
+                if options.contains(.shouldResume) {
+                    logger.info("Interruption ended, user can resume")
+                }
+            }
+
+        @unknown default:
+            break
         }
     }
 
-    @objc private func handleRouteChange(_ notification: Notification) {
+    private func handleRouteChange(_ notification: Notification) async {
         guard let userInfo = notification.userInfo,
               let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
               let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else {
             return
         }
 
-        Task { @MainActor in
-            switch reason {
-            case .oldDeviceUnavailable:
-                // AirPods disconnected, etc.
-                if state == .recording {
-                    pauseRecording()
-                    logger.info("Recording paused due to route change (device unavailable)")
-                }
-
-            case .newDeviceAvailable:
-                logger.info("New audio device available")
-
-            default:
-                break
+        switch reason {
+        case .oldDeviceUnavailable:
+            // AirPods disconnected, etc.
+            if state == .recording {
+                pauseRecording()
+                logger.info("Recording paused due to route change (device unavailable)")
             }
+
+        case .newDeviceAvailable:
+            logger.info("New audio device available")
+
+        default:
+            break
         }
     }
 

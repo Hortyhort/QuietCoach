@@ -9,8 +9,8 @@ struct SettingsView: View {
 
     // MARK: - Environment
 
-    @EnvironmentObject private var repository: SessionRepository
-    @EnvironmentObject private var featureGates: FeatureGates
+    @Environment(SessionRepository.self) private var repository
+    @Environment(FeatureGates.self) private var featureGates
     @Environment(\.dismiss) private var dismiss
 
     // MARK: - State
@@ -226,6 +226,6 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
-        .environmentObject(SessionRepository.placeholder)
-        .environmentObject(FeatureGates.shared)
+        .environment(SessionRepository.placeholder)
+        .environment(FeatureGates.shared)
 }

@@ -7,12 +7,13 @@
 import AVFoundation
 import OSLog
 
+@Observable
 @MainActor
-final class AudioPlayerViewModel: ObservableObject {
+final class AudioPlayerViewModel {
 
     // MARK: - State
 
-    enum State: Equatable {
+    enum State: Equatable, Sendable {
         case idle
         case loading
         case ready
@@ -28,12 +29,12 @@ final class AudioPlayerViewModel: ObservableObject {
         }
     }
 
-    // MARK: - Published State
+    // MARK: - Observable State
 
-    @Published private(set) var state: State = .idle
-    @Published private(set) var currentTime: TimeInterval = 0
-    @Published private(set) var duration: TimeInterval = 0
-    @Published private(set) var progress: Double = 0
+    private(set) var state: State = .idle
+    private(set) var currentTime: TimeInterval = 0
+    private(set) var duration: TimeInterval = 0
+    private(set) var progress: Double = 0
 
     // MARK: - Private Properties
 
@@ -41,6 +42,11 @@ final class AudioPlayerViewModel: ObservableObject {
     private var audioPlayer: AVAudioPlayer?
     private var progressTimer: Timer?
     private var loadedURL: URL?
+    private let delegateHandler = AudioPlayerDelegateHandler()
+
+    // MARK: - Initialization
+
+    init() {}
 
     // MARK: - Loading
 
@@ -58,7 +64,7 @@ final class AudioPlayerViewModel: ObservableObject {
             // Create player
             let player = try AVAudioPlayer(contentsOf: url)
             player.prepareToPlay()
-            player.delegate = AudioPlayerDelegateHandler.shared
+            player.delegate = delegateHandler
 
             audioPlayer = player
             duration = player.duration
@@ -67,7 +73,7 @@ final class AudioPlayerViewModel: ObservableObject {
             state = .ready
 
             // Set up delegate callback
-            AudioPlayerDelegateHandler.shared.onFinish = { [weak self] in
+            delegateHandler.onFinish = { [weak self] in
                 Task { @MainActor in
                     self?.handlePlaybackFinished()
                 }
@@ -220,10 +226,6 @@ final class AudioPlayerViewModel: ObservableObject {
         state = .idle
     }
 
-    deinit {
-        progressTimer?.invalidate()
-    }
-
     // MARK: - Formatted Properties
 
     /// Current time formatted as "M:SS"
@@ -244,11 +246,9 @@ final class AudioPlayerViewModel: ObservableObject {
 
 // MARK: - Delegate Handler
 
-/// Separate class to handle AVAudioPlayerDelegate (can't use @MainActor directly)
-private class AudioPlayerDelegateHandler: NSObject, AVAudioPlayerDelegate {
-    static let shared = AudioPlayerDelegateHandler()
-
-    var onFinish: (() -> Void)?
+/// Separate class to handle AVAudioPlayerDelegate
+private final class AudioPlayerDelegateHandler: NSObject, AVAudioPlayerDelegate, Sendable {
+    nonisolated(unsafe) var onFinish: (@Sendable () -> Void)?
 
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         onFinish?()

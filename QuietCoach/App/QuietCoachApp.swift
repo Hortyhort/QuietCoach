@@ -41,7 +41,7 @@ struct QuietCoachApp: App {
         WindowGroup {
             RootView()
                 .modelContainer(modelContainer)
-                .environmentObject(FeatureGates.shared)
+                .environment(FeatureGates.shared)
                 .preferredColorScheme(.dark) // Dark mode first
         }
     }

@@ -2,32 +2,41 @@
 // QuietCoach
 //
 // Clean separation of free vs pro features.
-// StoreKit 2 integration comes in Phase 2 — this is the gate logic.
+// Integrated with StoreKit 2 SubscriptionManager.
 
 import Foundation
 import SwiftUI
 
+@Observable
 @MainActor
-final class FeatureGates: ObservableObject {
+final class FeatureGates {
 
     // MARK: - Singleton
 
     static let shared = FeatureGates()
 
-    // MARK: - Published State
+    // MARK: - Observable State
 
     /// Whether the user has Pro access
-    @Published private(set) var isPro: Bool = false
+    private(set) var isPro: Bool = false
 
     /// Whether Pro status has been verified (for loading states)
-    @Published private(set) var isLoaded: Bool = false
+    private(set) var isLoaded: Bool = false
+
+    // MARK: - Dependencies
+
+    private let subscriptionManager = SubscriptionManager()
 
     // MARK: - Initialization
 
     private init() {
-        // In V1, we start with free tier
-        // StoreKit 2 integration will update this
-        loadProStatus()
+        // Load cached status first for instant UI
+        loadCachedStatus()
+
+        // Then verify with StoreKit 2
+        Task {
+            await verifySubscriptionStatus()
+        }
     }
 
     // MARK: - Feature Checks
@@ -53,26 +62,35 @@ final class FeatureGates: ObservableObject {
         isPro
     }
 
+    // MARK: - Subscription Manager Access
+
+    /// Get the subscription manager for purchases
+    var subscriptions: SubscriptionManager {
+        subscriptionManager
+    }
+
     // MARK: - Pro Status Management
 
-    /// Load Pro status from persistent storage
-    private func loadProStatus() {
-        // Check UserDefaults for cached entitlement
-        // This will be replaced with StoreKit 2 verification
+    /// Load cached Pro status for instant UI
+    private func loadCachedStatus() {
         isPro = UserDefaults.standard.bool(forKey: "quietcoach.isPro")
         isLoaded = true
     }
 
-    /// Update Pro status (called after StoreKit verification)
+    /// Verify subscription status with StoreKit 2
+    func verifySubscriptionStatus() async {
+        await subscriptionManager.updateSubscriptionStatus()
+    }
+
+    /// Update Pro status (called by SubscriptionManager)
     func updateProStatus(_ newStatus: Bool) {
         isPro = newStatus
         UserDefaults.standard.set(newStatus, forKey: "quietcoach.isPro")
     }
 
-    /// Restore purchases (placeholder for StoreKit 2)
+    /// Restore purchases
     func restorePurchases() async {
-        // TODO: Implement StoreKit 2 restore
-        // For now, this is a no-op
+        await subscriptionManager.restorePurchases()
     }
 
     // MARK: - Debug (Remove before App Store submission)

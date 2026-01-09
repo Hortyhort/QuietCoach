@@ -41,6 +41,7 @@ struct Scenario: Identifiable, Hashable {
         case steady     // Negotiations — measured, calm
         case standard   // Default
 
+        @MainActor
         func trigger() {
             switch self {
             case .firm: Haptics.firmFeedback()

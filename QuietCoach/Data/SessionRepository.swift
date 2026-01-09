@@ -7,8 +7,9 @@ import Foundation
 import SwiftData
 import OSLog
 
+@Observable
 @MainActor
-final class SessionRepository: ObservableObject {
+final class SessionRepository {
 
     // MARK: - Properties
 
@@ -16,8 +17,8 @@ final class SessionRepository: ObservableObject {
     private var modelContext: ModelContext?
     private let fileStore = FileStore.shared
 
-    @Published private(set) var sessions: [RehearsalSession] = []
-    @Published private(set) var isLoaded = false
+    private(set) var sessions: [RehearsalSession] = []
+    private(set) var isLoaded = false
 
     // MARK: - Initialization
 

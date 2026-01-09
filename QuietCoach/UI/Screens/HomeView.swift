@@ -10,8 +10,8 @@ struct HomeView: View {
 
     // MARK: - Environment
 
-    @EnvironmentObject private var repository: SessionRepository
-    @EnvironmentObject private var featureGates: FeatureGates
+    @Environment(SessionRepository.self) private var repository
+    @Environment(FeatureGates.self) private var featureGates
 
     // MARK: - State
 
@@ -53,8 +53,8 @@ struct HomeView: View {
             }
             .sheet(isPresented: $showingSettings) {
                 SettingsView()
-                    .environmentObject(repository)
-                    .environmentObject(featureGates)
+                    .environment(repository)
+                    .environment(featureGates)
             }
             .navigationDestination(for: Scenario.self) { scenario in
                 RehearseView(
@@ -67,7 +67,7 @@ struct HomeView: View {
                         navigationPath.removeLast()
                     }
                 )
-                .environmentObject(repository)
+                .environment(repository)
             }
             .navigationDestination(for: RehearsalSession.self) { session in
                 ReviewView(
@@ -87,7 +87,7 @@ struct HomeView: View {
                         navigationPath = NavigationPath()
                     }
                 )
-                .environmentObject(repository)
+                .environment(repository)
             }
         }
         .preferredColorScheme(.dark)
@@ -279,6 +279,6 @@ struct SessionRow: View {
 
 #Preview {
     HomeView()
-        .environmentObject(SessionRepository.placeholder)
-        .environmentObject(FeatureGates.shared)
+        .environment(SessionRepository.placeholder)
+        .environment(FeatureGates.shared)
 }

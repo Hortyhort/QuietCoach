@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		/* App */
 		1A0000010000000000000001 /* QuietCoachApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000020000000000000001 /* QuietCoachApp.swift */; };
+		1A0000910000000000000001 /* AppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000900000000000000001 /* AppIntents.swift */; };
 
 		/* Domain */
 		1A0000030000000000000001 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000040000000000000001 /* Scenario.swift */; };
@@ -20,6 +21,7 @@
 		1A00000B0000000000000001 /* RehearsalSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00000C0000000000000001 /* RehearsalSession.swift */; };
 		1A00000D0000000000000001 /* FileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00000E0000000000000001 /* FileStore.swift */; };
 		1A00000F0000000000000001 /* SessionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000100000000000000001 /* SessionRepository.swift */; };
+		1A0000920000000000000001 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000930000000000000001 /* SubscriptionManager.swift */; };
 
 		/* Support */
 		1A0000110000000000000001 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000120000000000000001 /* Constants.swift */; };
@@ -65,6 +67,7 @@
 
 		/* App */
 		1A0000020000000000000001 /* QuietCoachApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuietCoachApp.swift; sourceTree = "<group>"; };
+		1A0000900000000000000001 /* AppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntents.swift; sourceTree = "<group>"; };
 
 		/* Domain */
 		1A0000040000000000000001 /* Scenario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
@@ -76,6 +79,7 @@
 		1A00000C0000000000000001 /* RehearsalSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RehearsalSession.swift; sourceTree = "<group>"; };
 		1A00000E0000000000000001 /* FileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileStore.swift; sourceTree = "<group>"; };
 		1A0000100000000000000001 /* SessionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRepository.swift; sourceTree = "<group>"; };
+		1A0000930000000000000001 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 
 		/* Support */
 		1A0000120000000000000001 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -161,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				1A0000020000000000000001 /* QuietCoachApp.swift */,
+				1A0000900000000000000001 /* AppIntents.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -182,6 +187,7 @@
 				1A00000C0000000000000001 /* RehearsalSession.swift */,
 				1A00000E0000000000000001 /* FileStore.swift */,
 				1A0000100000000000000001 /* SessionRepository.swift */,
+				1A0000930000000000000001 /* SubscriptionManager.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -354,6 +360,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A0000010000000000000001 /* QuietCoachApp.swift in Sources */,
+				1A0000910000000000000001 /* AppIntents.swift in Sources */,
 				1A0000030000000000000001 /* Scenario.swift in Sources */,
 				1A0000050000000000000001 /* AudioMetrics.swift in Sources */,
 				1A0000070000000000000001 /* FeedbackScores.swift in Sources */,
@@ -361,6 +368,7 @@
 				1A00000B0000000000000001 /* RehearsalSession.swift in Sources */,
 				1A00000D0000000000000001 /* FileStore.swift in Sources */,
 				1A00000F0000000000000001 /* SessionRepository.swift in Sources */,
+				1A0000920000000000000001 /* SubscriptionManager.swift in Sources */,
 				1A0000110000000000000001 /* Constants.swift in Sources */,
 				1A0000130000000000000001 /* Haptics.swift in Sources */,
 				1A0000150000000000000001 /* FeatureGates.swift in Sources */,
@@ -533,7 +541,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.quietcoach.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -563,7 +572,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.quietcoach.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -15,15 +15,8 @@ struct RootView: View {
     // MARK: - State
 
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
-    @StateObject private var repository: SessionRepository
-    @StateObject private var featureGates = FeatureGates.shared
-
-    // MARK: - Initialization
-
-    init() {
-        // SessionRepository will be properly initialized after modelContext is available
-        _repository = StateObject(wrappedValue: SessionRepository.placeholder)
-    }
+    @State private var repository = SessionRepository.placeholder
+    private let featureGates = FeatureGates.shared
 
     // MARK: - Body
 
@@ -31,8 +24,8 @@ struct RootView: View {
         Group {
             if hasCompletedOnboarding {
                 HomeView()
-                    .environmentObject(repository)
-                    .environmentObject(featureGates)
+                    .environment(repository)
+                    .environment(featureGates)
             } else {
                 OnboardingView(onComplete: {
                     withAnimation(.easeInOut(duration: 0.3)) {

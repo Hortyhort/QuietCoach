@@ -16,8 +16,8 @@ struct RehearseView: View {
 
     // MARK: - State
 
-    @StateObject private var recorder = RehearsalRecorder()
-    @EnvironmentObject private var repository: SessionRepository
+    @State private var recorder = RehearsalRecorder()
+    @Environment(SessionRepository.self) private var repository
 
     @State private var showingCancelConfirmation = false
     @State private var isProcessing = false
@@ -289,6 +289,6 @@ struct RehearseView: View {
             onCancel: {}
         )
     }
-    .environmentObject(SessionRepository.placeholder)
+    .environment(SessionRepository.placeholder)
     .preferredColorScheme(.dark)
 }

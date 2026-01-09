@@ -2,18 +2,29 @@
 // QuietCoach
 //
 // The Pro pitch. Honest about value, no dark patterns.
+// Now with StoreKit 2 integration.
 
 import SwiftUI
+import StoreKit
 
 struct ProUpgradeView: View {
 
     // MARK: - Environment
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(FeatureGates.self) private var featureGates
 
     // MARK: - State
 
-    @State private var isLoading = false
+    @State private var selectedProduct: Product?
+    @State private var errorMessage: String?
+    @State private var showingError = false
+
+    // MARK: - Computed
+
+    private var subscriptionManager: SubscriptionManager {
+        featureGates.subscriptions
+    }
 
     // MARK: - Body
 
@@ -45,6 +56,21 @@ struct ProUpgradeView: View {
                             .font(.system(size: 24))
                             .foregroundColor(.qcTextTertiary)
                     }
+                }
+            }
+            .task {
+                await subscriptionManager.loadProducts()
+                // Select monthly by default
+                selectedProduct = subscriptionManager.products.first
+            }
+            .alert("Purchase Error", isPresented: $showingError) {
+                Button("OK") { }
+            } message: {
+                Text(errorMessage ?? "An unknown error occurred.")
+            }
+            .onChange(of: featureGates.isPro) { _, isPro in
+                if isPro {
+                    dismiss()
                 }
             }
         }
@@ -124,33 +150,125 @@ struct ProUpgradeView: View {
 
     private var pricingSection: some View {
         VStack(spacing: 16) {
-            VStack(spacing: 4) {
-                Text("$19.99 / month")
-                    .font(.qcTitle2)
-                    .foregroundColor(.qcTextPrimary)
-
-                Text("or $99.99 / year (save 58%)")
+            if subscriptionManager.isLoading && subscriptionManager.products.isEmpty {
+                ProgressView()
+                    .padding()
+            } else if subscriptionManager.products.isEmpty {
+                Text("Unable to load subscription options")
                     .font(.qcSubheadline)
                     .foregroundColor(.qcTextSecondary)
-            }
 
-            PrimaryButton("Subscribe", isLoading: isLoading) {
-                // TODO: StoreKit purchase flow
-                isLoading = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    isLoading = false
+                Button("Try Again") {
+                    Task {
+                        await subscriptionManager.loadProducts()
+                    }
                 }
-            }
+            } else {
+                // Product selection
+                VStack(spacing: 12) {
+                    ForEach(subscriptionManager.products, id: \.id) { product in
+                        productOption(product)
+                    }
+                }
 
-            Button {
-                // TODO: Restore purchases
-            } label: {
-                Text("Restore Purchases")
-                    .font(.qcSubheadline)
-                    .foregroundColor(.qcTextSecondary)
+                // Subscribe button
+                PrimaryButton(
+                    "Subscribe",
+                    isLoading: subscriptionManager.isLoading
+                ) {
+                    Task {
+                        await purchase()
+                    }
+                }
+                .disabled(selectedProduct == nil)
+
+                // Restore purchases
+                Button {
+                    Task {
+                        await featureGates.restorePurchases()
+                    }
+                } label: {
+                    Text("Restore Purchases")
+                        .font(.qcSubheadline)
+                        .foregroundColor(.qcTextSecondary)
+                }
             }
         }
         .padding(.bottom, 48)
+    }
+
+    // MARK: - Product Option
+
+    private func productOption(_ product: Product) -> some View {
+        let isSelected = selectedProduct?.id == product.id
+        let isMonthly = product.id.contains("monthly")
+
+        return Button {
+            selectedProduct = product
+            Haptics.selectScenario()
+        } label: {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack {
+                        Text(isMonthly ? "Monthly" : "Yearly")
+                            .font(.qcBodyMedium)
+                            .foregroundColor(.qcTextPrimary)
+
+                        if !isMonthly {
+                            Text("Save 58%")
+                                .font(.qcCaption)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 2)
+                                .background(Color.green)
+                                .clipShape(Capsule())
+                        }
+                    }
+
+                    if let trialDesc = subscriptionManager.freeTrialDescription(for: product) {
+                        Text(trialDesc)
+                            .font(.qcCaption)
+                            .foregroundColor(.qcAccent)
+                    }
+                }
+
+                Spacer()
+
+                VStack(alignment: .trailing, spacing: 2) {
+                    Text(product.displayPrice)
+                        .font(.qcBodyMedium)
+                        .foregroundColor(.qcTextPrimary)
+
+                    Text(subscriptionManager.periodDescription(for: product))
+                        .font(.qcCaption)
+                        .foregroundColor(.qcTextSecondary)
+                }
+            }
+            .padding(16)
+            .background(isSelected ? Color.qcAccent.opacity(0.1) : Color.qcSurfaceSecondary)
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(isSelected ? Color.qcAccent : Color.clear, lineWidth: 2)
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+        }
+        .buttonStyle(.plain)
+    }
+
+    // MARK: - Purchase
+
+    private func purchase() async {
+        guard let product = selectedProduct else { return }
+
+        do {
+            let success = try await subscriptionManager.purchase(product)
+            if !success {
+                // User cancelled or pending — no error needed
+            }
+        } catch {
+            errorMessage = error.localizedDescription
+            showingError = true
+        }
     }
 }
 
@@ -158,4 +276,5 @@ struct ProUpgradeView: View {
 
 #Preview {
     ProUpgradeView()
+        .environment(FeatureGates.shared)
 }
