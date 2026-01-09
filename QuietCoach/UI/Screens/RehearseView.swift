@@ -20,6 +20,7 @@ struct RehearseView: View {
     @Environment(SessionRepository.self) private var repository
 
     @State private var showingCancelConfirmation = false
+    @State private var showingStructureGuide = false
     @State private var isProcessing = false
 
     // MARK: - Body
@@ -93,6 +94,9 @@ struct RehearseView: View {
             recorder.setupAudioSession()
         }
         .interactiveDismissDisabled(recorder.state == .recording || recorder.state == .paused)
+        .sheet(isPresented: $showingStructureGuide) {
+            StructureGuideSheet(scenario: scenario)
+        }
     }
 
     // MARK: - Top Section
@@ -202,7 +206,7 @@ struct RehearseView: View {
                     icon: "text.quote",
                     label: "Guide",
                     action: {
-                        // TODO: Show structure card sheet
+                        showingStructureGuide = true
                     }
                 )
             } else if recorder.state == .recording || recorder.state == .paused {

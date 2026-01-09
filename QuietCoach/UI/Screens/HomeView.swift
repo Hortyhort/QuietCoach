@@ -17,6 +17,7 @@ struct HomeView: View {
 
     @State private var navigationPath = NavigationPath()
     @State private var showingSettings = false
+    @State private var showingHistory = false
     @State private var streakTracker = StreakTracker.shared
     @State private var showingStreakCelebration: StreakTracker.Milestone?
 
@@ -65,6 +66,10 @@ struct HomeView: View {
                 SettingsView()
                     .environment(repository)
                     .environment(featureGates)
+            }
+            .sheet(isPresented: $showingHistory) {
+                HistoryView()
+                    .environment(repository)
             }
             .navigationDestination(for: Scenario.self) { scenario in
                 RehearseView(
@@ -252,7 +257,7 @@ struct HomeView: View {
 
                 if repository.sessionCount > 3 {
                     Button("See All") {
-                        // TODO: Navigate to full history
+                        showingHistory = true
                     }
                     .font(.qcButtonSmall)
                     .foregroundColor(.qcAccent)

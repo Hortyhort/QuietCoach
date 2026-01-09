@@ -5,6 +5,7 @@
 // Immediate value. First win.
 
 import SwiftUI
+import AVFoundation
 
 // MARK: - Elevated Onboarding
 
@@ -16,6 +17,8 @@ struct ElevatedOnboardingView: View {
     @State private var selectedScenario: Scenario?
     @State private var hasCompletedFirstRecording = false
     @State private var firstScore: Int?
+    @State private var micPermissionGranted = false
+    @State private var showingPermissionAlert = false
 
     // MARK: - Environment
 
@@ -188,9 +191,7 @@ struct ElevatedOnboardingView: View {
 
             // Continue (enabled when selected)
             Button {
-                withAnimation(.easeInOut(duration: 0.3)) {
-                    currentStep = .record
-                }
+                requestMicrophoneAndProceed()
             } label: {
                 Text("Let's practice")
                     .font(.system(size: 17, weight: .semibold))
@@ -208,6 +209,39 @@ struct ElevatedOnboardingView: View {
             insertion: .move(edge: .trailing).combined(with: .opacity),
             removal: .move(edge: .leading).combined(with: .opacity)
         ))
+        .alert("Microphone Access Required", isPresented: $showingPermissionAlert) {
+            Button("Open Settings") {
+                if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(settingsURL)
+                }
+            }
+            Button("Skip for Now", role: .cancel) {
+                // Allow user to continue without mic - they can enable later
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    currentStep = .record
+                }
+            }
+        } message: {
+            Text("Quiet Coach needs microphone access to hear your practice. You can enable this in Settings.")
+        }
+    }
+
+    // MARK: - Microphone Permission
+
+    private func requestMicrophoneAndProceed() {
+        AVAudioApplication.requestRecordPermission { granted in
+            DispatchQueue.main.async {
+                micPermissionGranted = granted
+                if granted {
+                    HapticChoreography.selection()
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        currentStep = .record
+                    }
+                } else {
+                    showingPermissionAlert = true
+                }
+            }
+        }
     }
 
     // MARK: - Step 4: Record
