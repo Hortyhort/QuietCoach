@@ -67,10 +67,10 @@ struct RecordingToggleControl: ControlWidget {
 // MARK: - Recording State Provider
 
 @available(iOS 18.0, *)
-@MainActor
 final class RecordingToggleProvider: Sendable {
     static let shared = RecordingToggleProvider()
 
+    // UserDefaults access is thread-safe, so this can be nonisolated
     var isRecording: Bool {
         let defaults = UserDefaults(suiteName: "group.com.quietcoach") ?? .standard
         return defaults.bool(forKey: "isCurrentlyRecording")

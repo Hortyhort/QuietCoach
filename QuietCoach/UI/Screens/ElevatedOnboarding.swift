@@ -350,7 +350,7 @@ struct OnboardingRecordButton: View {
 
     @State private var isRecording = false
     @State private var elapsedTime: TimeInterval = 0
-    @State private var timer: Timer?
+    @State private var timerTask: Task<Void, Never>?
 
     private let maxDuration: TimeInterval = 30
 
@@ -423,17 +423,22 @@ struct OnboardingRecordButton: View {
         elapsedTime = 0
         HapticChoreography.recordingStart()
 
-        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
-            elapsedTime += 0.1
-            if elapsedTime >= maxDuration {
+        timerTask = Task { @MainActor in
+            while !Task.isCancelled && elapsedTime < maxDuration {
+                try? await Task.sleep(for: .milliseconds(100))
+                if !Task.isCancelled {
+                    elapsedTime += 0.1
+                }
+            }
+            if !Task.isCancelled && elapsedTime >= maxDuration {
                 stopRecording()
             }
         }
     }
 
     private func stopRecording() {
-        timer?.invalidate()
-        timer = nil
+        timerTask?.cancel()
+        timerTask = nil
         isRecording = false
         HapticChoreography.recordingStop()
 

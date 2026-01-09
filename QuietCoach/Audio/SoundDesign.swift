@@ -124,7 +124,8 @@ final class SoundManager {
             generator = UIImpactFeedbackGenerator(style: .heavy)
             generator.impactOccurred(intensity: 0.8)
             // Double tap for celebration
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            Task { @MainActor in
+                try? await Task.sleep(for: .milliseconds(100))
                 generator.impactOccurred(intensity: 0.6)
             }
         }
@@ -156,7 +157,8 @@ enum HapticChoreography {
         generator.impactOccurred(intensity: 0.9)
 
         // Second beat (softer, closer)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(120))
             generator.impactOccurred(intensity: 0.5)
         }
     }
@@ -166,15 +168,15 @@ enum HapticChoreography {
         let generator = UIImpactFeedbackGenerator(style: .medium)
         generator.prepare()
 
-        // Quick build-up
-        for i in 0..<5 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.08) {
+        Task { @MainActor in
+            // Quick build-up
+            for i in 0..<5 {
+                try? await Task.sleep(for: .milliseconds(80))
                 generator.impactOccurred(intensity: CGFloat(0.3 + Double(i) * 0.1))
             }
-        }
 
-        // Final reveal based on score
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            // Final reveal based on score
+            try? await Task.sleep(for: .milliseconds(100))
             if score >= 80 {
                 UINotificationFeedbackGenerator().notificationOccurred(.success)
             } else if score >= 60 {
@@ -205,10 +207,10 @@ enum HapticChoreography {
         generator.prepare()
 
         generator.impactOccurred(intensity: 0.6)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(100))
             generator.impactOccurred(intensity: 0.8)
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            try? await Task.sleep(for: .milliseconds(100))
             generator.impactOccurred(intensity: 0.4)
         }
     }
