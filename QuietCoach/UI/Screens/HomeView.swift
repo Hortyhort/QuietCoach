@@ -53,6 +53,8 @@ struct HomeView: View {
                         Image(systemName: "gearshape")
                             .foregroundColor(.qcTextSecondary)
                     }
+                    .accessibilityLabel("Settings")
+                    .accessibilityHint("Double tap to open settings")
                 }
             }
             .sheet(isPresented: $showingSettings) {
@@ -279,6 +281,7 @@ struct SessionRow: View {
         .qcPressEffect()
         .qcScrollTransition()
         .accessibilityLabel("\(session.scenario?.title ?? "Session"). \(session.formattedDate). Score: \(session.scores?.overall ?? 0)")
+        .accessibilityHint("Double tap to review this session")
     }
 
     private func scoreColor(for score: Int) -> Color {

@@ -239,6 +239,7 @@ struct SecondaryActionButton: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel(label)
+        .accessibilityHint("Double tap to \(label.lowercased())")
     }
 }
 

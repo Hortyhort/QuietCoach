@@ -192,8 +192,11 @@ struct SettingsView: View {
                     Image(systemName: "arrow.up.right")
                         .font(.system(size: 12, weight: .medium))
                         .foregroundColor(.qcTextTertiary)
+                        .accessibilityHidden(true)
                 }
             }
+            .accessibilityLabel("Privacy Policy")
+            .accessibilityHint("Opens in Safari")
 
             Link(destination: URL(string: "https://quietcoach.app/support")!) {
                 HStack {
@@ -206,8 +209,11 @@ struct SettingsView: View {
                     Image(systemName: "arrow.up.right")
                         .font(.system(size: 12, weight: .medium))
                         .foregroundColor(.qcTextTertiary)
+                        .accessibilityHidden(true)
                 }
             }
+            .accessibilityLabel("Support")
+            .accessibilityHint("Opens in Safari")
         }
     }
 

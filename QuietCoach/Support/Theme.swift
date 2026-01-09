@@ -111,17 +111,17 @@ extension Font {
     static let qcCaption = Font.caption
 
     // MARK: - Numeric
-    // Note: Timer and score fonts use fixed sizes for design consistency
-    // but use .monospacedDigit() for proper number alignment
+    // These fonts use relative scaling with .largeTitle/.title as base
+    // to ensure accessibility while maintaining visual hierarchy
 
-    /// Timer display — rounded for warmth
-    static let qcTimer = Font.system(size: 48, weight: .medium, design: .rounded)
+    /// Timer display — rounded for warmth, scales with Dynamic Type
+    static let qcTimer = Font.system(.largeTitle, design: .rounded, weight: .medium)
 
-    /// Score display — rounded
-    static let qcScore = Font.system(size: 32, weight: .bold, design: .rounded)
+    /// Score display — rounded, scales with Dynamic Type
+    static let qcScore = Font.system(.title, design: .rounded, weight: .bold)
 
-    /// Small numeric
-    static let qcScoreSmall = Font.system(size: 20, weight: .semibold, design: .rounded)
+    /// Small numeric — scales with Dynamic Type
+    static let qcScoreSmall = Font.system(.title3, design: .rounded, weight: .semibold)
 
     // MARK: - UI
 
