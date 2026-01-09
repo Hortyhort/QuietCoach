@@ -18,6 +18,8 @@ struct SettingsView: View {
     @AppStorage("shareCard.showWatermark") private var showWatermark = true
     @State private var showingDeleteAllConfirm = false
     @State private var showingProUpgrade = false
+    @State private var showingExportSheet = false
+    @State private var exportData: Data?
 
     // MARK: - Body
 
@@ -63,12 +65,86 @@ struct SettingsView: View {
             .sheet(isPresented: $showingProUpgrade) {
                 ProUpgradeView()
             }
+            .sheet(isPresented: $showingExportSheet) {
+                if let data = exportData {
+                    ExportDataSheet(data: data)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Export Data Sheet
+
+struct ExportDataSheet: View {
+    let data: Data
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 24) {
+                Image(systemName: "doc.text")
+                    .font(.system(size: 48))
+                    .foregroundColor(.qcAccent)
+
+                Text("Export Ready")
+                    .font(.qcTitle2)
+                    .foregroundColor(.qcTextPrimary)
+
+                Text("\(formattedSize) of session data")
+                    .font(.qcBody)
+                    .foregroundColor(.qcTextSecondary)
+
+                Spacer()
+
+                ShareLink(
+                    item: exportFile,
+                    preview: SharePreview("QuietCoach Sessions", image: Image(systemName: "waveform"))
+                ) {
+                    Text("Share Export")
+                        .font(.qcButton)
+                        .foregroundColor(.black)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 56)
+                        .background(Color.qcAccent)
+                        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                }
+                .padding(.horizontal)
+            }
+            .padding()
+            .background(Color.qcBackground)
+            .navigationTitle("Export Data")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") { dismiss() }
+                        .foregroundColor(.qcAccent)
+                }
+            }
         }
     }
 
+    private var formattedSize: String {
+        let formatter = ByteCountFormatter()
+        formatter.countStyle = .file
+        return formatter.string(fromByteCount: Int64(data.count))
+    }
+
+    private var exportFile: URL {
+        let tempURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent("quietcoach-sessions-\(Date().timeIntervalSince1970).json")
+        try? data.write(to: tempURL)
+        return tempURL
+    }
+}
+
+// MARK: - SettingsView Sections
+
+private extension SettingsView {
+
     // MARK: - Pro Section
 
-    private var proSection: some View {
+    var proSection: some View {
         Section {
             if featureGates.isPro {
                 HStack {
@@ -155,6 +231,25 @@ struct SettingsView: View {
                     .font(.qcBody)
                     .foregroundColor(.qcTextSecondary)
             }
+
+            Button {
+                exportData = repository.exportAllData()
+                showingExportSheet = exportData != nil
+            } label: {
+                HStack {
+                    Text("Export Data")
+                        .font(.qcBody)
+                        .foregroundColor(.qcTextPrimary)
+
+                    Spacer()
+
+                    Image(systemName: "square.and.arrow.up")
+                        .font(.system(size: 14))
+                        .foregroundColor(.qcAccent)
+                }
+            }
+            .accessibilityLabel("Export session data")
+            .accessibilityHint("Double tap to export all sessions as JSON")
 
             Button(role: .destructive) {
                 showingDeleteAllConfirm = true

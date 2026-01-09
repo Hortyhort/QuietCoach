@@ -261,26 +261,75 @@ struct RehearseView: View {
         // Stop recording and get metrics
         let metrics = recorder.stopRecording()
 
-        // Generate feedback
-        let scores = FeedbackEngine.generateScores(from: metrics, scenario: scenario)
-        let notes = CoachNotesEngine.generateNotes(metrics: metrics, scores: scores, scenario: scenario)
-        let focus = CoachNotesEngine.generateTryAgainFocus(scores: scores, scenario: scenario)
-
-        // Save session
         guard let fileName = recorder.currentFileName else {
             isProcessing = false
             return
         }
 
+        // Use async speech analysis for richer feedback
+        Task {
+            await processRecordingAsync(metrics: metrics, fileName: fileName)
+        }
+    }
+
+    private func processRecordingAsync(metrics: AudioMetrics, fileName: String) async {
+        let audioURL = FileStore.shared.audioFileURL(for: fileName)
+
+        // Try async analysis with full NLP, fallback to sync if it fails
+        let result: FeedbackResult
+        do {
+            result = try await FeedbackEngine.generateScores(
+                from: metrics,
+                audioURL: audioURL,
+                scenario: scenario
+            )
+        } catch {
+            // Fallback to audio-only analysis
+            let scores = FeedbackEngine.generateScores(from: metrics, scenario: scenario)
+            result = FeedbackResult(
+                scores: scores,
+                transcription: nil,
+                speechAnalysis: nil,
+                usedSpeechAnalysis: false
+            )
+        }
+
+        // Generate coach notes using the enhanced analysis
+        let notes: [CoachNote]
+        let focus: TryAgainFocus
+
+        if result.usedSpeechAnalysis, let analysis = result.speechAnalysis {
+            notes = CoachNotesEngine.generateNotes(
+                metrics: metrics,
+                scores: result.scores,
+                scenario: scenario,
+                speechAnalysis: analysis
+            )
+            focus = CoachNotesEngine.generateTryAgainFocus(
+                scores: result.scores,
+                scenario: scenario,
+                insights: result.insights
+            )
+        } else {
+            notes = CoachNotesEngine.generateNotes(metrics: metrics, scores: result.scores, scenario: scenario)
+            focus = CoachNotesEngine.generateTryAgainFocus(scores: result.scores, scenario: scenario)
+        }
+
+        // Save session with transcription if available
         let session = repository.createSession(
             scenarioId: scenario.id,
             duration: metrics.duration,
             audioFileName: fileName,
-            scores: scores,
+            scores: result.scores,
             coachNotes: notes,
             tryAgainFocus: focus,
             metrics: metrics
         )
+
+        // Store transcription if available
+        if let transcription = result.transcription {
+            session.transcription = transcription
+        }
 
         // Log memory state after processing
         PerformanceMonitor.shared.logMemoryState("Post-feedback")

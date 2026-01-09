@@ -47,7 +47,87 @@ struct CoachNotesEngine {
         return Array(notes.prefix(3))
     }
 
+    /// Generate coaching notes with speech analysis (enhanced version)
+    static func generateNotes(
+        metrics: AudioMetrics,
+        scores: FeedbackScores,
+        scenario: Scenario,
+        speechAnalysis: SpeechAnalysisResult
+    ) -> [CoachNote] {
+        var notes: [CoachNote] = []
+
+        // 1. Scenario-specific coaching hint
+        notes.append(CoachNote(
+            title: "For this conversation",
+            body: scenario.coachingHint,
+            type: .scenario,
+            priority: .high
+        ))
+
+        // 2. Filler word feedback (from NLP)
+        if speechAnalysis.clarity.fillerWordCount > 3 {
+            let topFillers = speechAnalysis.clarity.fillerWords.prefix(2).joined(separator: ", ")
+            notes.append(CoachNote(
+                title: "Reduce filler words",
+                body: "You used '\(topFillers)' multiple times. Try pausing instead.",
+                type: .general,
+                priority: .high
+            ))
+        }
+
+        // 3. Hedging phrase feedback (from NLP)
+        if speechAnalysis.confidence.hedgingPhraseCount > 2 {
+            notes.append(CoachNote(
+                title: "Be more direct",
+                body: "Replace phrases like 'I think' or 'maybe' with more assertive language.",
+                type: .general,
+                priority: .medium
+            ))
+        }
+
+        // 4. Pacing feedback (from NLP)
+        if !speechAnalysis.pacing.isOptimalPace {
+            if speechAnalysis.pacing.wordsPerMinute < 120 {
+                notes.append(CoachNote(
+                    title: "Pick up the pace slightly",
+                    body: "Speaking a bit faster will help maintain engagement.",
+                    type: .pacing,
+                    priority: .medium
+                ))
+            } else if speechAnalysis.pacing.wordsPerMinute > 160 {
+                notes.append(CoachNote(
+                    title: "Slow down a bit",
+                    body: "Let your words breathe. Pauses add weight to what you say.",
+                    type: .pacing,
+                    priority: .medium
+                ))
+            }
+        }
+
+        // Sort by priority and limit to 3
+        notes.sort { $0.priority > $1.priority }
+        return Array(notes.prefix(3))
+    }
+
     // MARK: - Try Again Focus
+
+    /// Generate focus with insights (enhanced version)
+    static func generateTryAgainFocus(
+        scores: FeedbackScores,
+        scenario: Scenario,
+        insights: [String]
+    ) -> TryAgainFocus {
+        // Use the first actionable insight if available
+        if let firstInsight = insights.first, !firstInsight.contains("Great job") {
+            return TryAgainFocus(
+                goal: firstInsight,
+                reason: "This was identified from your speech patterns."
+            )
+        }
+
+        // Fall back to score-based focus
+        return generateTryAgainFocus(scores: scores, scenario: scenario)
+    }
 
     /// Generate a single focus goal for the next attempt
     static func generateTryAgainFocus(

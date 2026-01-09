@@ -51,6 +51,9 @@ final class RehearsalSession: Hashable {
     /// User's personal anchor line (optional)
     var anchorLine: String?
 
+    /// Speech-to-text transcription (if available)
+    var transcription: String?
+
     // MARK: - Initialization
 
     init(
