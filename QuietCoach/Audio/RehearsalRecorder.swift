@@ -374,6 +374,9 @@ final class RehearsalRecorder {
 
     // MARK: - Interruption Handling
 
+    /// Delegate for interruption callbacks
+    weak var interruptionDelegate: RecordingInterruptionDelegate?
+
     private func handleInterruption(_ notification: Notification) async {
         guard let userInfo = notification.userInfo,
               let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
@@ -387,6 +390,16 @@ final class RehearsalRecorder {
             if state == .recording {
                 pauseRecording()
                 logger.info("Recording paused due to interruption")
+
+                // Track for crash reporting context
+                CrashReporting.shared.recordBreadcrumb(
+                    "Recording interrupted",
+                    category: .audio,
+                    data: ["duration": String(format: "%.1f", currentTime)]
+                )
+
+                // Notify delegate
+                interruptionDelegate?.recordingWasInterrupted()
             }
 
         case .ended:
@@ -394,7 +407,10 @@ final class RehearsalRecorder {
             if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
                 let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
                 if options.contains(.shouldResume) {
-                    logger.info("Interruption ended, user can resume")
+                    logger.info("Interruption ended, can resume")
+                    interruptionDelegate?.recordingInterruptionEnded(canResume: true)
+                } else {
+                    interruptionDelegate?.recordingInterruptionEnded(canResume: false)
                 }
             }
 
@@ -416,13 +432,37 @@ final class RehearsalRecorder {
             if state == .recording {
                 pauseRecording()
                 logger.info("Recording paused due to route change (device unavailable)")
+
+                CrashReporting.shared.recordBreadcrumb(
+                    "Audio route changed - device unavailable",
+                    category: .audio
+                )
+
+                interruptionDelegate?.audioRouteChanged(deviceLost: true)
             }
 
         case .newDeviceAvailable:
             logger.info("New audio device available")
+            interruptionDelegate?.audioRouteChanged(deviceLost: false)
 
         default:
             break
+        }
+    }
+
+    // MARK: - Memory Warning Handling
+
+    func handleMemoryWarning() {
+        if state == .recording {
+            // Save what we have and stop
+            logger.warning("Memory warning during recording - saving current progress")
+            _ = stopRecording()
+
+            CrashReporting.shared.recordBreadcrumb(
+                "Recording stopped due to memory warning",
+                category: .audio,
+                data: ["duration": String(format: "%.1f", currentTime)]
+            )
         }
     }
 
@@ -489,4 +529,19 @@ extension RehearsalRecorder {
     var isNearMaxDuration: Bool {
         remainingTime < 30 && state == .recording
     }
+}
+
+// MARK: - Recording Interruption Delegate
+
+/// Delegate protocol for handling recording interruptions
+@MainActor
+protocol RecordingInterruptionDelegate: AnyObject {
+    /// Called when recording is interrupted (phone call, Siri, etc.)
+    func recordingWasInterrupted()
+
+    /// Called when interruption ends
+    func recordingInterruptionEnded(canResume: Bool)
+
+    /// Called when audio route changes (device connected/disconnected)
+    func audioRouteChanged(deviceLost: Bool)
 }

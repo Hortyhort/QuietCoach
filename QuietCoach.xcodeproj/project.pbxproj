@@ -38,6 +38,9 @@
 		1A0000FF0000000000000001 /* CrashReporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000FE0000000000000001 /* CrashReporting.swift */; };
 		1A0001010000000000000001 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0001000000000000000001 /* Localization.swift */; };
 		1A0001030000000000000001 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A0001020000000000000001 /* Localizable.strings */; };
+		1A0001050000000000000001 /* PrivacySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0001040000000000000001 /* PrivacySettings.swift */; };
+		1A0001070000000000000001 /* LocalAnalyticsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0001060000000000000001 /* LocalAnalyticsStore.swift */; };
+		1A0001090000000000000001 /* PerformanceMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0001080000000000000001 /* PerformanceMonitor.swift */; };
 
 		/* Audio */
 		1A0000400000000000000001 /* RehearsalRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000410000000000000001 /* RehearsalRecorder.swift */; };
@@ -150,6 +153,9 @@
 		1A0000FE0000000000000001 /* CrashReporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReporting.swift; sourceTree = "<group>"; };
 		1A0001000000000000000001 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		1A0001020000000000000001 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1A0001040000000000000001 /* PrivacySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySettings.swift; sourceTree = "<group>"; };
+		1A0001060000000000000001 /* LocalAnalyticsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAnalyticsStore.swift; sourceTree = "<group>"; };
+		1A0001080000000000000001 /* PerformanceMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceMonitor.swift; sourceTree = "<group>"; };
 
 		/* UI - Navigation */
 		1A00001A0000000000000001 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -386,6 +392,9 @@
 				1A0000FC0000000000000001 /* Analytics.swift */,
 				1A0000FE0000000000000001 /* CrashReporting.swift */,
 				1A0001000000000000000001 /* Localization.swift */,
+				1A0001040000000000000001 /* PrivacySettings.swift */,
+				1A0001060000000000000001 /* LocalAnalyticsStore.swift */,
+				1A0001080000000000000001 /* PerformanceMonitor.swift */,
 				1A0000320000000000000001 /* Extensions */,
 			);
 			path = Support;
@@ -575,6 +584,9 @@
 				1A0000FD0000000000000001 /* Analytics.swift in Sources */,
 				1A0000FF0000000000000001 /* CrashReporting.swift in Sources */,
 				1A0001010000000000000001 /* Localization.swift in Sources */,
+				1A0001050000000000000001 /* PrivacySettings.swift in Sources */,
+				1A0001070000000000000001 /* LocalAnalyticsStore.swift in Sources */,
+				1A0001090000000000000001 /* PerformanceMonitor.swift in Sources */,
 				1A0000F30000000000000001 /* SoundDesign.swift in Sources */,
 				1A0000F90000000000000001 /* SpeechAnalysisEngine.swift in Sources */,
 				1A0000F50000000000000001 /* CoachPersonality.swift in Sources */,
