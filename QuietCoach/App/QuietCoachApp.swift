@@ -2,6 +2,7 @@
 // QuietCoach
 //
 // The entry point. Clean, minimal, purposeful.
+// Adapts to platform with native experiences.
 
 import SwiftUI
 import SwiftData
@@ -35,23 +36,64 @@ struct QuietCoachApp: App {
         // Configure TipKit
         AppTipsConfiguration.configure()
 
-        // Configure appearance
+        // Configure appearance (iOS/iPadOS only)
+        #if os(iOS)
         configureAppearance()
+        #endif
     }
 
     // MARK: - Scene
 
     var body: some Scene {
+        // Main window
         WindowGroup {
             RootView()
                 .modelContainer(modelContainer)
                 .environment(FeatureGates.shared)
-                .preferredColorScheme(.dark) // Dark mode first
+                .preferredColorScheme(.dark)
         }
+        #if os(macOS)
+        .defaultSize(width: 1000, height: 700)
+        .commands {
+            // Custom commands for macOS
+            CommandGroup(replacing: .newItem) {
+                Button("New Practice Session") {
+                    // Open new practice session
+                }
+                .keyboardShortcut("n", modifiers: .command)
+            }
+
+            CommandGroup(after: .sidebar) {
+                Button("Toggle Recording") {
+                    // Toggle recording
+                }
+                .keyboardShortcut("r", modifiers: .command)
+
+                Button("Pause/Resume") {
+                    // Pause or resume
+                }
+                .keyboardShortcut(.space, modifiers: [])
+            }
+        }
+        #endif
+
+        // macOS Menu Bar Extra
+        #if os(macOS)
+        MenuBarScene()
+        #endif
+
+        // visionOS Settings
+        #if os(visionOS)
+        Settings {
+            SettingsView()
+                .environment(FeatureGates.shared)
+        }
+        #endif
     }
 
-    // MARK: - Appearance Configuration
+    // MARK: - Appearance Configuration (iOS)
 
+    #if os(iOS)
     private func configureAppearance() {
         // Prepare haptics
         Haptics.prepareAll()
@@ -79,4 +121,5 @@ struct QuietCoachApp: App {
         UITabBar.appearance().standardAppearance = tabAppearance
         UITabBar.appearance().scrollEdgeAppearance = tabAppearance
     }
+    #endif
 }

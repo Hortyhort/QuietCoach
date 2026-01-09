@@ -19,10 +19,18 @@ struct ReviewView: View {
     @State private var player = AudioPlayerViewModel()
     @State private var showingShareSheet = false
     @State private var showingScoreInfo = false
+    @State private var showScoreAnimation = false
 
     // MARK: - Environment
 
     @Environment(SessionRepository.self) private var repository
+
+    // MARK: - Computed Properties
+
+    private var scoreIntensity: Double {
+        guard let scores = session.scores else { return 0 }
+        return Double(scores.overall) / 100.0
+    }
 
     // MARK: - Body
 
@@ -56,7 +64,13 @@ struct ReviewView: View {
             .padding(.horizontal, Constants.Layout.horizontalPadding)
             .padding(.top, 16)
         }
-        .background(Color.qcBackground)
+        .background {
+            // Celebration mesh gradient based on score
+            CelebrationMeshGradient(intensity: showScoreAnimation ? scoreIntensity : 0)
+                .ignoresSafeArea()
+                .animation(.easeInOut(duration: 1.0), value: showScoreAnimation)
+        }
+        .qcScoreRevealFeedback(trigger: showScoreAnimation)
         .navigationTitle("Review")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -90,6 +104,10 @@ struct ReviewView: View {
         }
         .onAppear {
             player.load(session: session)
+            // Trigger score celebration animation after brief delay
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                showScoreAnimation = true
+            }
         }
         .onDisappear {
             player.cleanup()
@@ -104,6 +122,7 @@ struct ReviewView: View {
                 Image(systemName: scenario.icon)
                     .font(.system(size: 28))
                     .foregroundColor(.qcAccent)
+                    .qcBounceEffect(trigger: showScoreAnimation)
                     .accessibilityHidden(true)
 
                 Text(scenario.title)
@@ -118,6 +137,7 @@ struct ReviewView: View {
             .font(.qcCaption)
             .foregroundColor(.qcTextTertiary)
         }
+        .qcScrollTransition()
         .accessibilityElement(children: .combine)
         .accessibilityLabel("Rehearsal: \(session.scenario?.title ?? "Unknown"). Duration: \(session.formattedDuration). Recorded: \(session.formattedDate)")
     }

@@ -2,6 +2,7 @@
 // QuietCoach
 //
 // The navigation root. Handles onboarding state and main app flow.
+// Adapts to platform with native experiences for iOS, macOS, watchOS, and visionOS.
 
 import SwiftUI
 import SwiftData
@@ -23,9 +24,7 @@ struct RootView: View {
     var body: some View {
         Group {
             if hasCompletedOnboarding {
-                HomeView()
-                    .environment(repository)
-                    .environment(featureGates)
+                mainContent
             } else {
                 OnboardingView(onComplete: {
                     withAnimation(.easeInOut(duration: 0.3)) {
@@ -38,6 +37,25 @@ struct RootView: View {
             // Initialize repository with actual model context
             repository.configure(with: modelContext)
         }
+    }
+
+    // MARK: - Platform-Specific Main Content
+
+    @ViewBuilder
+    private var mainContent: some View {
+        #if os(macOS)
+        MacHomeView()
+            .environment(repository)
+            .environment(featureGates)
+        #elseif os(visionOS)
+        SpatialHomeView()
+            .environment(repository)
+            .environment(featureGates)
+        #else
+        HomeView()
+            .environment(repository)
+            .environment(featureGates)
+        #endif
     }
 }
 

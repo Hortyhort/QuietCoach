@@ -29,6 +29,7 @@
 		1A0000150000000000000001 /* FeatureGates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000160000000000000001 /* FeatureGates.swift */; };
 		1A0000170000000000000001 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000180000000000000001 /* Theme.swift */; };
 		1A0000960000000000000001 /* AppTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000970000000000000001 /* AppTips.swift */; };
+		1A0000E00000000000000001 /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000E10000000000000001 /* Accessibility.swift */; };
 		1A0000A10000000000000001 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000A20000000000000001 /* LiveActivityManager.swift */; };
 		1A0000A30000000000000001 /* WidgetDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000A40000000000000001 /* WidgetDataManager.swift */; };
 
@@ -45,6 +46,9 @@
 
 		/* UI - Navigation */
 		1A0000190000000000000001 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00001A0000000000000001 /* RootView.swift */; };
+		1A0000D00000000000000001 /* MacHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000D10000000000000001 /* MacHomeView.swift */; };
+		1A0000D20000000000000001 /* SpatialHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000D30000000000000001 /* SpatialHomeView.swift */; };
+		1A0000D40000000000000001 /* MenuBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000D50000000000000001 /* MenuBarApp.swift */; };
 
 		/* UI - Screens */
 		1A00001B0000000000000001 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00001C0000000000000001 /* HomeView.swift */; };
@@ -127,11 +131,17 @@
 		1A0000160000000000000001 /* FeatureGates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureGates.swift; sourceTree = "<group>"; };
 		1A0000180000000000000001 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		1A0000970000000000000001 /* AppTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTips.swift; sourceTree = "<group>"; };
+		1A0000E10000000000000001 /* Accessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
 		1A0000A20000000000000001 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
 		1A0000A40000000000000001 /* WidgetDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataManager.swift; sourceTree = "<group>"; };
 
 		/* UI - Navigation */
 		1A00001A0000000000000001 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		1A0000D10000000000000001 /* MacHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacHomeView.swift; sourceTree = "<group>"; };
+		1A0000D30000000000000001 /* SpatialHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialHomeView.swift; sourceTree = "<group>"; };
+
+		/* App - Platform */
+		1A0000D50000000000000001 /* MenuBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarApp.swift; sourceTree = "<group>"; };
 
 		/* UI - Screens */
 		1A00001C0000000000000001 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -234,6 +244,7 @@
 			children = (
 				1A0000020000000000000001 /* QuietCoachApp.swift */,
 				1A0000900000000000000001 /* AppIntents.swift */,
+				1A0000D50000000000000001 /* MenuBarApp.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -296,6 +307,8 @@
 			isa = PBXGroup;
 			children = (
 				1A00001A0000000000000001 /* RootView.swift */,
+				1A0000D10000000000000001 /* MacHomeView.swift */,
+				1A0000D30000000000000001 /* SpatialHomeView.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -341,6 +354,7 @@
 				1A0000160000000000000001 /* FeatureGates.swift */,
 				1A0000180000000000000001 /* Theme.swift */,
 				1A0000970000000000000001 /* AppTips.swift */,
+				1A0000E10000000000000001 /* Accessibility.swift */,
 				1A0000A20000000000000001 /* LiveActivityManager.swift */,
 				1A0000A40000000000000001 /* WidgetDataManager.swift */,
 				1A0000320000000000000001 /* Extensions */,
@@ -499,9 +513,13 @@
 				1A0000150000000000000001 /* FeatureGates.swift in Sources */,
 				1A0000170000000000000001 /* Theme.swift in Sources */,
 				1A0000960000000000000001 /* AppTips.swift in Sources */,
+				1A0000E00000000000000001 /* Accessibility.swift in Sources */,
 				1A0000A10000000000000001 /* LiveActivityManager.swift in Sources */,
 				1A0000A30000000000000001 /* WidgetDataManager.swift in Sources */,
 				1A0000190000000000000001 /* RootView.swift in Sources */,
+				1A0000D00000000000000001 /* MacHomeView.swift in Sources */,
+				1A0000D20000000000000001 /* SpatialHomeView.swift in Sources */,
+				1A0000D40000000000000001 /* MenuBarApp.swift in Sources */,
 				1A00001B0000000000000001 /* HomeView.swift in Sources */,
 				1A00001D0000000000000001 /* OnboardingView.swift in Sources */,
 				1A0000400000000000000001 /* RehearsalRecorder.swift in Sources */,

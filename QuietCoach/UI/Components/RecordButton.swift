@@ -136,14 +136,17 @@ struct RecordButton: View {
     // MARK: - Actions
 
     private func handleTap() {
-        // Haptic feedback based on current state
+        // Haptic feedback and VoiceOver announcements based on current state
         switch state {
         case .idle:
             Haptics.startRecording()
+            AccessibilityAnnouncement.recordingStarted()
         case .recording:
             Haptics.stopRecording()
+            AccessibilityAnnouncement.recordingStopped()
         case .paused:
             Haptics.startRecording()
+            AccessibilityAnnouncement.recordingStarted()
         case .finished:
             Haptics.buttonPress()
         }

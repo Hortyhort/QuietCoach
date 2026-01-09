@@ -26,8 +26,12 @@ struct RehearseView: View {
 
     var body: some View {
         ZStack {
-            // Background
-            Color.qcBackground.ignoresSafeArea()
+            // Background - audio reactive mesh gradient
+            AudioReactiveMeshGradient(
+                audioLevel: recorder.currentLevel,
+                isRecording: recorder.state == .recording
+            )
+            .ignoresSafeArea()
 
             VStack(spacing: 0) {
                 // Top section: Scenario info
@@ -95,10 +99,12 @@ struct RehearseView: View {
 
     private var topSection: some View {
         VStack(spacing: 8) {
-            // Scenario icon
+            // Scenario icon with breathing animation when idle
             Image(systemName: scenario.icon)
                 .font(.system(size: 32))
                 .foregroundColor(.qcAccent)
+                .qcBreatheEffect(isActive: recorder.state == .idle)
+                .qcPulseEffect(isActive: recorder.state == .recording)
                 .accessibilityHidden(true)
 
             // Scenario title

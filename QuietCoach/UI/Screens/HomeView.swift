@@ -38,7 +38,11 @@ struct HomeView: View {
                 .padding(.horizontal, Constants.Layout.horizontalPadding)
                 .padding(.top, 16)
             }
-            .background(Color.qcBackground)
+            .background {
+                // Ambient mesh gradient background
+                AmbientMeshGradient()
+                    .ignoresSafeArea()
+            }
             .navigationTitle(Constants.App.name)
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
@@ -222,7 +226,8 @@ struct ScenarioCard: View {
             .qcCardRadius()
             .opacity(isLocked ? 0.6 : 1.0)
         }
-        .buttonStyle(.plain)
+        .qcPressEffect()
+        .qcCardScrollTransition()
         .accessibilityLabel("\(scenario.title). \(isLocked ? "Locked. Upgrade to Pro to access." : scenario.subtitle)")
         .accessibilityAddTraits(.isButton)
     }
@@ -270,7 +275,8 @@ struct SessionRow: View {
             .background(Color.qcSurface)
             .qcSmallRadius()
         }
-        .buttonStyle(.plain)
+        .qcPressEffect()
+        .qcScrollTransition()
         .accessibilityLabel("\(session.scenario?.title ?? "Session"). \(session.formattedDate). Score: \(session.scores?.overall ?? 0)")
     }
 }
