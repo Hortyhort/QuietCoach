@@ -82,6 +82,18 @@ enum Haptics {
         impactMedium.impactOccurred(intensity: 0.7)
     }
 
+    /// Streak milestone achieved — celebratory double tap
+    static func streakMilestone() {
+        guard Constants.Haptics.enabled else { return }
+        notification.prepare()
+        notification.notificationOccurred(.success)
+
+        // Double tap for celebration
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            impactRigid.impactOccurred(intensity: 0.9)
+        }
+    }
+
     // MARK: - Warnings & Errors
 
     /// Audio too quiet/loud warning

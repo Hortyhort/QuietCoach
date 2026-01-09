@@ -56,11 +56,12 @@ struct SettingsView: View {
             .alert("Delete all data?", isPresented: $showingDeleteAllConfirm) {
                 Button("Delete All", role: .destructive) {
                     repository.deleteAllSessions()
+                    StreakTracker.shared.reset()
                     Haptics.destructive()
                 }
                 Button("Cancel", role: .cancel) {}
             } message: {
-                Text("This will delete all your rehearsal sessions and audio files. This cannot be undone.")
+                Text("This will delete all your rehearsal sessions, audio files, and streak data. This cannot be undone.")
             }
             .sheet(isPresented: $showingProUpgrade) {
                 ProUpgradeView()
@@ -216,6 +217,34 @@ private extension SettingsView {
                 Spacer()
 
                 Text("\(repository.sessionCount)")
+                    .font(.qcBody)
+                    .foregroundColor(.qcTextSecondary)
+            }
+
+            HStack {
+                Text("Current streak")
+                    .font(.qcBody)
+                    .foregroundColor(.qcTextPrimary)
+
+                Spacer()
+
+                HStack(spacing: 4) {
+                    Image(systemName: "flame.fill")
+                        .foregroundColor(.orange)
+                    Text("\(StreakTracker.shared.currentStreak) days")
+                        .font(.qcBody)
+                        .foregroundColor(.qcTextSecondary)
+                }
+            }
+
+            HStack {
+                Text("Longest streak")
+                    .font(.qcBody)
+                    .foregroundColor(.qcTextPrimary)
+
+                Spacer()
+
+                Text("\(StreakTracker.shared.longestStreak) days")
                     .font(.qcBody)
                     .foregroundColor(.qcTextSecondary)
             }

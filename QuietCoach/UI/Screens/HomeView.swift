@@ -17,6 +17,8 @@ struct HomeView: View {
 
     @State private var navigationPath = NavigationPath()
     @State private var showingSettings = false
+    @State private var streakTracker = StreakTracker.shared
+    @State private var showingStreakCelebration: StreakTracker.Milestone?
 
     // MARK: - Body
 
@@ -66,6 +68,17 @@ struct HomeView: View {
                 RehearseView(
                     scenario: scenario,
                     onComplete: { session in
+                        // Record practice for streak tracking
+                        let previousStreak = streakTracker.currentStreak
+                        streakTracker.recordPractice()
+
+                        // Check for new milestone
+                        if let milestone = streakTracker.currentMilestone,
+                           milestone.rawValue == streakTracker.currentStreak,
+                           streakTracker.currentStreak > previousStreak {
+                            showingStreakCelebration = milestone
+                        }
+
                         // Navigate to review
                         navigationPath.append(session)
                     },
@@ -97,17 +110,34 @@ struct HomeView: View {
             }
         }
         .preferredColorScheme(.dark)
+        .onAppear {
+            // Sync streak from existing sessions
+            streakTracker.syncFromSessions(repository.sessions)
+        }
+        .overlay {
+            // Streak milestone celebration
+            if let milestone = showingStreakCelebration {
+                StreakCelebrationOverlay(milestone: milestone) {
+                    withAnimation {
+                        showingStreakCelebration = nil
+                    }
+                }
+            }
+        }
     }
 
     // MARK: - Header Section
 
     private var headerSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 16) {
             Text(Constants.App.tagline)
                 .font(.qcSubheadline)
                 .foregroundColor(.qcTextSecondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            // Streak tracking
+            StreakHeaderView(tracker: streakTracker)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     // MARK: - Scenarios Section
