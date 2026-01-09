@@ -1,0 +1,230 @@
+# QuietCoach Fastfile
+# Automated build and deployment configuration
+
+default_platform(:ios)
+
+platform :ios do
+  # ─────────────────────────────────────────────────────────────
+  # TESTING
+  # ─────────────────────────────────────────────────────────────
+
+  desc "Run all unit tests"
+  lane :test do
+    scan(
+      scheme: "QuietCoach",
+      device: "iPhone 15 Pro",
+      clean: true,
+      code_coverage: true,
+      output_types: "html,junit",
+      output_directory: "./fastlane/test_output"
+    )
+  end
+
+  desc "Run tests and generate coverage report"
+  lane :coverage do
+    test
+
+    # Generate coverage report using xcov
+    xcov(
+      scheme: "QuietCoach",
+      output_directory: "./fastlane/coverage",
+      minimum_coverage_percentage: 50.0
+    )
+  end
+
+  # ─────────────────────────────────────────────────────────────
+  # BUILDING
+  # ─────────────────────────────────────────────────────────────
+
+  desc "Build the app for testing (no signing)"
+  lane :build do
+    gym(
+      scheme: "QuietCoach",
+      configuration: "Release",
+      export_method: "development",
+      skip_codesigning: true,
+      skip_archive: true,
+      destination: "generic/platform=iOS"
+    )
+  end
+
+  desc "Build and archive the app"
+  lane :archive do
+    gym(
+      scheme: "QuietCoach",
+      configuration: "Release",
+      export_method: "app-store",
+      output_directory: "./fastlane/builds",
+      output_name: "QuietCoach.ipa"
+    )
+  end
+
+  # ─────────────────────────────────────────────────────────────
+  # DEPLOYMENT
+  # ─────────────────────────────────────────────────────────────
+
+  desc "Deploy to TestFlight"
+  lane :beta do
+    # Ensure we're on a clean state
+    ensure_git_status_clean unless ENV["CI"]
+
+    # Increment build number
+    increment_build_number(
+      build_number: latest_testflight_build_number + 1
+    )
+
+    # Setup code signing with match
+    setup_signing
+
+    # Build the app
+    gym(
+      scheme: "QuietCoach",
+      configuration: "Release",
+      export_method: "app-store",
+      output_directory: "./fastlane/builds"
+    )
+
+    # Upload to TestFlight
+    pilot(
+      skip_waiting_for_build_processing: true,
+      skip_submission: true,
+      distribute_external: false,
+      changelog: changelog_from_git_commits(
+        commits_count: 10,
+        pretty: "- %s"
+      )
+    )
+
+    # Commit version bump
+    commit_version_bump(
+      message: "Bump build number to #{get_build_number}",
+      xcodeproj: "QuietCoach.xcodeproj"
+    ) unless ENV["CI"]
+
+    # Tag the release
+    add_git_tag(
+      tag: "build/#{get_build_number}"
+    ) unless ENV["CI"]
+  end
+
+  desc "Deploy to App Store"
+  lane :release do
+    # Ensure we're on main branch
+    ensure_git_branch(branch: "main") unless ENV["CI"]
+    ensure_git_status_clean unless ENV["CI"]
+
+    # Increment version number (prompt for type)
+    increment_version_number(
+      bump_type: UI.select("Version bump type:", ["patch", "minor", "major"])
+    ) unless ENV["CI"]
+
+    # Reset build number for new version
+    increment_build_number(build_number: 1)
+
+    # Setup signing and build
+    setup_signing
+
+    gym(
+      scheme: "QuietCoach",
+      configuration: "Release",
+      export_method: "app-store"
+    )
+
+    # Upload to App Store
+    deliver(
+      submit_for_review: false,
+      automatic_release: false,
+      force: true,
+      skip_metadata: false,
+      skip_screenshots: true
+    )
+
+    # Commit and tag
+    version = get_version_number
+    commit_version_bump(
+      message: "Release v#{version}",
+      xcodeproj: "QuietCoach.xcodeproj"
+    ) unless ENV["CI"]
+
+    add_git_tag(tag: "v#{version}") unless ENV["CI"]
+    push_to_git_remote unless ENV["CI"]
+  end
+
+  # ─────────────────────────────────────────────────────────────
+  # CODE SIGNING
+  # ─────────────────────────────────────────────────────────────
+
+  desc "Setup code signing with match"
+  private_lane :setup_signing do
+    if ENV["MATCH_GIT_URL"]
+      match(
+        type: "appstore",
+        readonly: is_ci,
+        app_identifier: "com.quietcoach.app"
+      )
+    else
+      UI.important("Match not configured, using manual signing")
+    end
+  end
+
+  desc "Sync certificates and profiles"
+  lane :certificates do
+    match(
+      type: "development",
+      app_identifier: "com.quietcoach.app"
+    )
+    match(
+      type: "appstore",
+      app_identifier: "com.quietcoach.app"
+    )
+  end
+
+  # ─────────────────────────────────────────────────────────────
+  # UTILITIES
+  # ─────────────────────────────────────────────────────────────
+
+  desc "Bump build number"
+  lane :bump do
+    increment_build_number
+    commit_version_bump(
+      message: "Bump build number",
+      xcodeproj: "QuietCoach.xcodeproj"
+    )
+  end
+
+  desc "Bump version number"
+  lane :version do |options|
+    bump_type = options[:type] || "patch"
+    increment_version_number(bump_type: bump_type)
+    increment_build_number(build_number: 1)
+
+    version = get_version_number
+    commit_version_bump(
+      message: "Bump version to #{version}",
+      xcodeproj: "QuietCoach.xcodeproj"
+    )
+  end
+
+  desc "Register new devices"
+  lane :devices do
+    register_devices(devices_file: "./fastlane/devices.txt")
+    match(type: "development", force_for_new_devices: true)
+  end
+
+  # ─────────────────────────────────────────────────────────────
+  # ERROR HANDLING
+  # ─────────────────────────────────────────────────────────────
+
+  error do |lane, exception|
+    UI.error("Lane #{lane} failed with error: #{exception.message}")
+
+    # Notify on CI failure
+    if ENV["CI"] && ENV["SLACK_URL"]
+      slack(
+        message: "CI Failed: #{exception.message}",
+        success: false,
+        slack_url: ENV["SLACK_URL"]
+      )
+    end
+  end
+end
