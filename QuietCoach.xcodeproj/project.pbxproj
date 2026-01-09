@@ -28,15 +28,18 @@
 		1A0000130000000000000001 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000140000000000000001 /* Haptics.swift */; };
 		1A0000150000000000000001 /* FeatureGates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000160000000000000001 /* FeatureGates.swift */; };
 		1A0000170000000000000001 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000180000000000000001 /* Theme.swift */; };
+		1A0000960000000000000001 /* AppTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000970000000000000001 /* AppTips.swift */; };
 
 		/* Audio */
 		1A0000400000000000000001 /* RehearsalRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000410000000000000001 /* RehearsalRecorder.swift */; };
 		1A0000420000000000000001 /* AudioMetricsAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000430000000000000001 /* AudioMetricsAnalyzer.swift */; };
 		1A0000440000000000000001 /* AudioPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000450000000000000001 /* AudioPlayerViewModel.swift */; };
+		1A0000940000000000000001 /* TranscriptionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000950000000000000001 /* TranscriptionEngine.swift */; };
 
 		/* Feedback */
 		1A0000500000000000000001 /* FeedbackEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000510000000000000001 /* FeedbackEngine.swift */; };
 		1A0000520000000000000001 /* CoachNotesEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000530000000000000001 /* CoachNotesEngine.swift */; };
+		1A0000980000000000000001 /* IntelligentCoach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000990000000000000001 /* IntelligentCoach.swift */; };
 
 		/* UI - Navigation */
 		1A0000190000000000000001 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00001A0000000000000001 /* RootView.swift */; };
@@ -86,6 +89,7 @@
 		1A0000140000000000000001 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 		1A0000160000000000000001 /* FeatureGates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureGates.swift; sourceTree = "<group>"; };
 		1A0000180000000000000001 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		1A0000970000000000000001 /* AppTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTips.swift; sourceTree = "<group>"; };
 
 		/* UI - Navigation */
 		1A00001A0000000000000001 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -110,10 +114,12 @@
 		1A0000410000000000000001 /* RehearsalRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RehearsalRecorder.swift; sourceTree = "<group>"; };
 		1A0000430000000000000001 /* AudioMetricsAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMetricsAnalyzer.swift; sourceTree = "<group>"; };
 		1A0000450000000000000001 /* AudioPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerViewModel.swift; sourceTree = "<group>"; };
+		1A0000950000000000000001 /* TranscriptionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionEngine.swift; sourceTree = "<group>"; };
 
 		/* Feedback */
 		1A0000510000000000000001 /* FeedbackEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackEngine.swift; sourceTree = "<group>"; };
 		1A0000530000000000000001 /* CoachNotesEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachNotesEngine.swift; sourceTree = "<group>"; };
+		1A0000990000000000000001 /* IntelligentCoach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntelligentCoach.swift; sourceTree = "<group>"; };
 
 		/* Assets */
 		1A0000200000000000000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -198,6 +204,7 @@
 				1A0000410000000000000001 /* RehearsalRecorder.swift */,
 				1A0000430000000000000001 /* AudioMetricsAnalyzer.swift */,
 				1A0000450000000000000001 /* AudioPlayerViewModel.swift */,
+				1A0000950000000000000001 /* TranscriptionEngine.swift */,
 			);
 			path = Audio;
 			sourceTree = "<group>";
@@ -207,6 +214,7 @@
 			children = (
 				1A0000510000000000000001 /* FeedbackEngine.swift */,
 				1A0000530000000000000001 /* CoachNotesEngine.swift */,
+				1A0000990000000000000001 /* IntelligentCoach.swift */,
 			);
 			path = Feedback;
 			sourceTree = "<group>";
@@ -270,6 +278,7 @@
 				1A0000140000000000000001 /* Haptics.swift */,
 				1A0000160000000000000001 /* FeatureGates.swift */,
 				1A0000180000000000000001 /* Theme.swift */,
+				1A0000970000000000000001 /* AppTips.swift */,
 				1A0000320000000000000001 /* Extensions */,
 			);
 			path = Support;
@@ -373,14 +382,17 @@
 				1A0000130000000000000001 /* Haptics.swift in Sources */,
 				1A0000150000000000000001 /* FeatureGates.swift in Sources */,
 				1A0000170000000000000001 /* Theme.swift in Sources */,
+				1A0000960000000000000001 /* AppTips.swift in Sources */,
 				1A0000190000000000000001 /* RootView.swift in Sources */,
 				1A00001B0000000000000001 /* HomeView.swift in Sources */,
 				1A00001D0000000000000001 /* OnboardingView.swift in Sources */,
 				1A0000400000000000000001 /* RehearsalRecorder.swift in Sources */,
 				1A0000420000000000000001 /* AudioMetricsAnalyzer.swift in Sources */,
 				1A0000440000000000000001 /* AudioPlayerViewModel.swift in Sources */,
+				1A0000940000000000000001 /* TranscriptionEngine.swift in Sources */,
 				1A0000500000000000000001 /* FeedbackEngine.swift in Sources */,
 				1A0000520000000000000001 /* CoachNotesEngine.swift in Sources */,
+				1A0000980000000000000001 /* IntelligentCoach.swift in Sources */,
 				1A0000600000000000000001 /* RehearseView.swift in Sources */,
 				1A0000620000000000000001 /* ReviewView.swift in Sources */,
 				1A0000700000000000000001 /* WaveformView.swift in Sources */,

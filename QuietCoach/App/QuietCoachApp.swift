@@ -5,6 +5,7 @@
 
 import SwiftUI
 import SwiftData
+import TipKit
 
 @main
 struct QuietCoachApp: App {
@@ -30,6 +31,9 @@ struct QuietCoachApp: App {
         } catch {
             fatalError("Failed to create ModelContainer: \(error.localizedDescription)")
         }
+
+        // Configure TipKit
+        AppTipsConfiguration.configure()
 
         // Configure appearance
         configureAppearance()
