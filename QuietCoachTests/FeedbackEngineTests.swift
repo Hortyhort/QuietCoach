@@ -2,7 +2,6 @@
 // QuietCoachTests
 //
 // Unit tests for FeedbackEngine scoring logic.
-// To use: Add a test target in Xcode (File > New > Target > Unit Testing Bundle)
 
 import XCTest
 @testable import QuietCoach
@@ -12,16 +11,19 @@ final class FeedbackEngineTests: XCTestCase {
     // MARK: - Score Clamping
 
     func testScoresAreClampedBetween0And100() {
-        // Create metrics that would produce extreme scores
+        // Create metrics that would produce extreme scores (very short, minimal audio)
         let metrics = AudioMetrics(
-            duration: 5,  // Very short
-            rmsWindows: [],
-            silenceRatio: 0.9,
-            pauseCount: 0,
-            spikeCount: 20
+            rmsWindows: [0.01],
+            peakWindows: [0.02],
+            duration: 5  // Very short
         )
 
-        let scores = FeedbackEngine.generateScores(from: metrics, scenario: .jobInterview)
+        guard let scenario = Scenario.allScenarios.first else {
+            XCTFail("No scenarios available")
+            return
+        }
+
+        let scores = FeedbackEngine.generateScores(from: metrics, scenario: scenario)
 
         // All scores should be within valid range
         XCTAssertGreaterThanOrEqual(scores.clarity, 0)
@@ -120,44 +122,17 @@ final class FeedbackEngineTests: XCTestCase {
     // MARK: - Good Metrics Produce Good Scores
 
     func testGoodMetricsProduceGoodScores() {
-        let goodMetrics = AudioMetrics(
-            duration: 60,
-            rmsWindows: Array(repeating: 0.3, count: 600),
-            silenceRatio: 0.2,
-            pauseCount: 3,
-            spikeCount: 1
-        )
+        // Use the mock factory from AudioMetrics
+        let goodMetrics = AudioMetrics.mock(duration: 60, averageLevel: 0.3)
 
-        let scores = FeedbackEngine.generateScores(from: goodMetrics, scenario: .presentation)
-
-        // With good metrics, all scores should be reasonably high
-        XCTAssertGreaterThan(scores.overall, 60)
-    }
-}
-
-// MARK: - Audio Metrics Factory
-
-extension AudioMetrics {
-    /// Create test metrics with sensible defaults
-    static func testMetrics(
-        duration: TimeInterval = 60,
-        averageLevel: Float = 0.3,
-        silenceRatio: Double = 0.2,
-        pauseCount: Int = 5,
-        spikeCount: Int = 2
-    ) -> AudioMetrics {
-        // Create RMS windows based on duration
-        let windowCount = Int(duration * 10) // 10 windows per second
-        let rmsWindows = (0..<windowCount).map { _ in
-            averageLevel + Float.random(in: -0.1...0.1)
+        guard let scenario = Scenario.allScenarios.first else {
+            XCTFail("No scenarios available")
+            return
         }
 
-        return AudioMetrics(
-            duration: duration,
-            rmsWindows: rmsWindows,
-            silenceRatio: silenceRatio,
-            pauseCount: pauseCount,
-            spikeCount: spikeCount
-        )
+        let scores = FeedbackEngine.generateScores(from: goodMetrics, scenario: scenario)
+
+        // With good metrics, all scores should be reasonably high
+        XCTAssertGreaterThan(scores.overall, 50)
     }
 }

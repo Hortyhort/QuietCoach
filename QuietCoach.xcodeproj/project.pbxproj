@@ -11,6 +11,14 @@
 		1A0000010000000000000001 /* QuietCoachApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000020000000000000001 /* QuietCoachApp.swift */; };
 		1A0000910000000000000001 /* AppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000900000000000000001 /* AppIntents.swift */; };
 
+		/* Tests */
+		1A0002100000000000000001 /* SpeechAnalysisTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0002000000000000000001 /* SpeechAnalysisTests.swift */; };
+		1A0002110000000000000001 /* FeedbackEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0002010000000000000001 /* FeedbackEngineTests.swift */; };
+		1A0002120000000000000001 /* FeatureGatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0002020000000000000001 /* FeatureGatesTests.swift */; };
+		1A0002130000000000000001 /* DependencyInjectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0002030000000000000001 /* DependencyInjectionTests.swift */; };
+		1A0002140000000000000001 /* NetworkMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0002040000000000000001 /* NetworkMonitorTests.swift */; };
+		1A0002150000000000000001 /* CoachNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0002050000000000000001 /* CoachNotesTests.swift */; };
+
 		/* Domain */
 		1A0000030000000000000001 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000040000000000000001 /* Scenario.swift */; };
 		1A0000050000000000000001 /* AudioMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000060000000000000001 /* AudioMetrics.swift */; };
@@ -103,6 +111,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 1A0000C30000000000000001;
 			remoteInfo = QuietCoachWidgetsExtension;
+		};
+		1A0002700000000000000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A0000370000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A0000330000000000000001;
+			remoteInfo = QuietCoach;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -213,6 +228,15 @@
 		1A0000BC0000000000000001 /* RehearsalLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RehearsalLiveActivity.swift; sourceTree = "<group>"; };
 		1A0000BE0000000000000001 /* QuickRecordControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickRecordControl.swift; sourceTree = "<group>"; };
 		1A0000C00000000000000001 /* QuietCoachWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = QuietCoachWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+
+		/* Tests */
+		1A0002000000000000000001 /* SpeechAnalysisTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechAnalysisTests.swift; sourceTree = "<group>"; };
+		1A0002010000000000000001 /* FeedbackEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackEngineTests.swift; sourceTree = "<group>"; };
+		1A0002020000000000000001 /* FeatureGatesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureGatesTests.swift; sourceTree = "<group>"; };
+		1A0002030000000000000001 /* DependencyInjectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyInjectionTests.swift; sourceTree = "<group>"; };
+		1A0002040000000000000001 /* NetworkMonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitorTests.swift; sourceTree = "<group>"; };
+		1A0002050000000000000001 /* CoachNotesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachNotesTests.swift; sourceTree = "<group>"; };
+		1A0002500000000000000001 /* QuietCoachTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuietCoachTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,6 +256,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1A0002410000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -239,6 +270,7 @@
 			isa = PBXGroup;
 			children = (
 				1A0000240000000000000001 /* QuietCoach */,
+				1A0002200000000000000001 /* QuietCoachTests */,
 				1A0000C60000000000000001 /* QuietCoachWidgets */,
 				1A0000C70000000000000001 /* Frameworks */,
 				1A0000250000000000000001 /* Products */,
@@ -250,8 +282,22 @@
 			children = (
 				1A0000210000000000000001 /* QuietCoach.app */,
 				1A0000C00000000000000001 /* QuietCoachWidgetsExtension.appex */,
+				1A0002500000000000000001 /* QuietCoachTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		1A0002200000000000000001 /* QuietCoachTests */ = {
+			isa = PBXGroup;
+			children = (
+				1A0002000000000000000001 /* SpeechAnalysisTests.swift */,
+				1A0002010000000000000001 /* FeedbackEngineTests.swift */,
+				1A0002020000000000000001 /* FeatureGatesTests.swift */,
+				1A0002030000000000000001 /* DependencyInjectionTests.swift */,
+				1A0002040000000000000001 /* NetworkMonitorTests.swift */,
+				1A0002050000000000000001 /* CoachNotesTests.swift */,
+			);
+			path = QuietCoachTests;
 			sourceTree = "<group>";
 		};
 		1A0000240000000000000001 /* QuietCoach */ = {
@@ -483,6 +529,24 @@
 			productReference = 1A0000C00000000000000001 /* QuietCoachWidgetsExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		1A0002300000000000000001 /* QuietCoachTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1A0002600000000000000001 /* Build configuration list for PBXNativeTarget "QuietCoachTests" */;
+			buildPhases = (
+				1A0002400000000000000001 /* Sources */,
+				1A0002410000000000000001 /* Frameworks */,
+				1A0002420000000000000001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1A0002710000000000000001 /* PBXTargetDependency */,
+			);
+			name = QuietCoachTests;
+			productName = QuietCoachTests;
+			productReference = 1A0002500000000000000001 /* QuietCoachTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -498,6 +562,10 @@
 					};
 					1A0000C30000000000000001 = {
 						CreatedOnToolsVersion = 15.0;
+					};
+					1A0002300000000000000001 = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = 1A0000330000000000000001;
 					};
 				};
 			};
@@ -516,6 +584,7 @@
 			targets = (
 				1A0000330000000000000001 /* QuietCoach */,
 				1A0000C30000000000000001 /* QuietCoachWidgetsExtension */,
+				1A0002300000000000000001 /* QuietCoachTests */,
 			);
 		};
 /* End PBXProject section */
@@ -531,6 +600,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		1A0000CB0000000000000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A0002420000000000000001 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -615,6 +691,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1A0002400000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A0002100000000000000001 /* SpeechAnalysisTests.swift in Sources */,
+				1A0002110000000000000001 /* FeedbackEngineTests.swift in Sources */,
+				1A0002120000000000000001 /* FeatureGatesTests.swift in Sources */,
+				1A0002130000000000000001 /* DependencyInjectionTests.swift in Sources */,
+				1A0002140000000000000001 /* NetworkMonitorTests.swift in Sources */,
+				1A0002150000000000000001 /* CoachNotesTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -622,6 +711,11 @@
 			isa = PBXTargetDependency;
 			target = 1A0000C30000000000000001 /* QuietCoachWidgetsExtension */;
 			targetProxy = 1A0000C20000000000000001 /* PBXContainerItemProxy */;
+		};
+		1A0002710000000000000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1A0000330000000000000001 /* QuietCoach */;
+			targetProxy = 1A0002700000000000000001 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -863,6 +957,44 @@
 			};
 			name = Release;
 		};
+		1A0002610000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.quietcoach.app.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QuietCoach.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/QuietCoach";
+			};
+			name = Debug;
+		};
+		1A0002620000000000000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.quietcoach.app.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QuietCoach.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/QuietCoach";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -889,6 +1021,15 @@
 			buildConfigurations = (
 				1A0000CC0000000000000001 /* Debug */,
 				1A0000CD0000000000000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1A0002600000000000000001 /* Build configuration list for PBXNativeTarget "QuietCoachTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A0002610000000000000001 /* Debug */,
+				1A0002620000000000000001 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

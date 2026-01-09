@@ -282,11 +282,11 @@ final class TranscriptionResultTests: XCTestCase {
 
     func testWordCountIsCalculatedCorrectly() {
         let result = TranscriptionResult(
-            text: "This is a test sentence with seven words",
+            text: "This is a test sentence with eight words",
             segments: []
         )
 
-        XCTAssertEqual(result.wordCount, 7)
+        XCTAssertEqual(result.wordCount, 8)
     }
 
     func testEmptyTextIsDetected() {
