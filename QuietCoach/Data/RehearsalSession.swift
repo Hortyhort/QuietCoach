@@ -108,6 +108,17 @@ final class RehearsalSession: Hashable {
         }
     }
 
+    /// Decoded audio metrics (for waveform display)
+    var metrics: AudioMetrics? {
+        get {
+            guard let data = metricsData else { return nil }
+            return try? JSONDecoder().decode(AudioMetrics.self, from: data)
+        }
+        set {
+            metricsData = try? JSONEncoder().encode(newValue)
+        }
+    }
+
     // MARK: - Formatting
 
     /// Duration formatted as "M:SS"

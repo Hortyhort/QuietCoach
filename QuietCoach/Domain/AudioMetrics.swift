@@ -6,7 +6,7 @@
 
 import Foundation
 
-struct AudioMetrics {
+struct AudioMetrics: Codable {
 
     // MARK: - Raw Data
 

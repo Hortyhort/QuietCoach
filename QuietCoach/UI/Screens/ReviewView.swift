@@ -33,6 +33,22 @@ struct ReviewView: View {
         return Double(scores.overall) / 100.0
     }
 
+    /// Waveform samples from recorded audio metrics
+    private var waveformSamples: [Float] {
+        // Use real waveform data if available, otherwise generate placeholder
+        if let metrics = session.metrics {
+            // Downsample to ~60 bars for display
+            let normalized = metrics.normalizedWaveform
+            if normalized.count > 60 {
+                let step = normalized.count / 60
+                return stride(from: 0, to: normalized.count, by: step).map { normalized[$0] }
+            }
+            return normalized
+        }
+        // Fallback for legacy sessions without metrics
+        return (0..<60).map { _ in Float.random(in: 0.2...0.8) }
+    }
+
     // MARK: - Body
 
     var body: some View {
@@ -160,9 +176,9 @@ struct ReviewView: View {
 
     private var playbackSection: some View {
         VStack(spacing: 16) {
-            // Waveform scrubber (placeholder - would need actual waveform data)
+            // Waveform scrubber with real audio data
             CompactWaveformView(
-                samples: generatePlaceholderWaveform(),
+                samples: waveformSamples,
                 progress: player.progress
             )
             .onTapGesture { location in
@@ -284,13 +300,6 @@ struct ReviewView: View {
         }
     }
 
-    // MARK: - Helpers
-
-    private func generatePlaceholderWaveform() -> [Float] {
-        // Generate a simple waveform for display
-        // In production, this would come from actual audio analysis
-        (0..<60).map { _ in Float.random(in: 0.2...0.8) }
-    }
 }
 
 // MARK: - Score Info Sheet
@@ -390,9 +399,22 @@ struct ShareCardSheet: View {
         }
     }
 
+    @MainActor
     private func generateShareImage() -> Image {
-        // In production, this would render the ShareCardView to an image
-        Image(systemName: "waveform")
+        // Render ShareCardView to image using ImageRenderer
+        let shareCard = ShareCardView(session: session)
+            .frame(width: 350, height: 450)
+            .background(Color.qcBackground)
+
+        let renderer = ImageRenderer(content: shareCard)
+        renderer.scale = UIScreen.main.scale
+
+        if let uiImage = renderer.uiImage {
+            return Image(uiImage: uiImage)
+        }
+
+        // Fallback if rendering fails
+        return Image(systemName: "waveform")
     }
 }
 

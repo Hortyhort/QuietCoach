@@ -32,8 +32,10 @@ struct HomeView: View {
                     // Scenarios
                     scenariosSection
 
-                    // Recent Sessions
-                    if !repository.recentSessions.isEmpty {
+                    // First-time user guidance or recent sessions
+                    if repository.recentSessions.isEmpty {
+                        firstTimeGuidanceSection
+                    } else {
                         recentSessionsSection
                     }
                 }
@@ -181,6 +183,59 @@ struct HomeView: View {
             return Scenario.allScenarios
         } else {
             return Scenario.freeScenarios
+        }
+    }
+
+    // MARK: - First Time Guidance Section
+
+    private var firstTimeGuidanceSection: some View {
+        VStack(spacing: 20) {
+            // Illustration
+            Image(systemName: "waveform.circle.fill")
+                .font(.system(size: 56))
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [.qcAccent, .qcMoodReady],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .qcBreatheEffect(isActive: true)
+
+            VStack(spacing: 8) {
+                Text("Ready to practice?")
+                    .font(.qcTitle3)
+                    .foregroundColor(.qcTextPrimary)
+
+                Text("Choose a scenario above and rehearse what you want to say. We'll give you instant feedback on your delivery.")
+                    .font(.qcSubheadline)
+                    .foregroundColor(.qcTextSecondary)
+                    .multilineTextAlignment(.center)
+            }
+
+            // Tips
+            VStack(alignment: .leading, spacing: 12) {
+                tipRow(icon: "mic.fill", text: "Speak naturally, like you're in the real conversation")
+                tipRow(icon: "clock.fill", text: "30-60 seconds is the sweet spot")
+                tipRow(icon: "arrow.clockwise", text: "Try again to beat your score")
+            }
+            .padding(16)
+            .background(Color.qcSurface)
+            .qcCardRadius()
+        }
+        .padding(.vertical, 24)
+    }
+
+    private func tipRow(icon: String, text: String) -> some View {
+        HStack(spacing: 12) {
+            Image(systemName: icon)
+                .font(.system(size: 14))
+                .foregroundColor(.qcAccent)
+                .frame(width: 24)
+
+            Text(text)
+                .font(.qcSubheadline)
+                .foregroundColor(.qcTextSecondary)
         }
     }
 

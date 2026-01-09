@@ -84,6 +84,7 @@ final class SessionRepository {
         session.scores = scores
         session.coachNotes = coachNotes
         session.tryAgainFocus = tryAgainFocus
+        session.metrics = metrics
 
         modelContext?.insert(session)
         saveContext()
