@@ -51,14 +51,22 @@ actor SpeechAnalysisEngine {
     func analyze(audioURL: URL, duration: TimeInterval) async throws -> SpeechAnalysisResult {
         logger.info("Starting speech analysis for: \(audioURL.lastPathComponent)")
 
+        // Track analysis performance
+        await MainActor.run { PerformanceMonitor.shared.trackAnalysisStart() }
+
         // 1. Transcribe audio
+        await MainActor.run { PerformanceMonitor.shared.trackTranscriptionStart() }
         let transcription = try await transcribe(audioURL: audioURL)
+        await MainActor.run { PerformanceMonitor.shared.trackTranscriptionEnd() }
 
         // 2. Analyze transcription
         let clarityMetrics = analyzeClarity(transcription: transcription)
         let pacingMetrics = analyzePacing(transcription: transcription, duration: duration)
         let confidenceMetrics = analyzeConfidence(transcription: transcription)
         let toneMetrics = analyzeTone(transcription: transcription)
+
+        // Track analysis end
+        await MainActor.run { PerformanceMonitor.shared.trackAnalysisEnd(wordCount: transcription.wordCount) }
 
         logger.info("Analysis complete. Words: \(transcription.wordCount), Fillers: \(clarityMetrics.fillerWordCount)")
 

@@ -7,6 +7,7 @@
 import Foundation
 import OSLog
 import QuartzCore
+import SwiftUI
 
 // MARK: - Performance Span
 
@@ -279,10 +280,43 @@ extension PerformanceMonitor {
     }
 }
 
+// MARK: - UI Performance Tracking
+
+extension View {
+    /// Track view appearance performance
+    func trackPerformance(_ name: String) -> some View {
+        modifier(PerformanceTrackingModifier(viewName: name))
+    }
+}
+
+private struct PerformanceTrackingModifier: ViewModifier {
+    let viewName: String
+    @State private var appearTime: CFAbsoluteTime?
+
+    func body(content: Content) -> some View {
+        content
+            .onAppear {
+                appearTime = CFAbsoluteTimeGetCurrent()
+                Task { @MainActor in
+                    _ = PerformanceMonitor.shared.startSpan("\(viewName)_render", category: .ui)
+                }
+            }
+            .task {
+                // End span after first frame is rendered
+                try? await Task.sleep(for: .milliseconds(16))
+                await MainActor.run {
+                    if let start = appearTime {
+                        let duration = (CFAbsoluteTimeGetCurrent() - start) * 1000
+                        PerformanceMonitor.shared.endSpan("\(viewName)_render", metadata: ["duration_ms": String(format: "%.1f", duration)])
+                    }
+                }
+            }
+    }
+}
+
 // MARK: - Debug View
 
 #if DEBUG
-import SwiftUI
 
 struct PerformanceDebugView: View {
     @State private var summary: PerformanceSummary?

@@ -255,6 +255,9 @@ struct RehearseView: View {
 
         isProcessing = true
 
+        // Log memory state before processing
+        PerformanceMonitor.shared.logMemoryState("Pre-feedback")
+
         // Stop recording and get metrics
         let metrics = recorder.stopRecording()
 
@@ -278,6 +281,9 @@ struct RehearseView: View {
             tryAgainFocus: focus,
             metrics: metrics
         )
+
+        // Log memory state after processing
+        PerformanceMonitor.shared.logMemoryState("Post-feedback")
 
         Haptics.scoresRevealed()
         isProcessing = false

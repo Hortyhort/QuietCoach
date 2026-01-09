@@ -20,6 +20,17 @@ struct FeedbackEngine {
         audioURL: URL,
         scenario: Scenario
     ) async throws -> FeedbackResult {
+        // Track feedback generation performance
+        let feedbackSpan = await MainActor.run {
+            PerformanceMonitor.shared.startSpan("feedback_generation", category: .analysis)
+        }
+        defer {
+            Task { @MainActor in
+                feedbackSpan.finish()
+                PerformanceMonitor.shared.endSpan("feedback_generation")
+            }
+        }
+
         let analyzed = AudioMetricsAnalyzer.analyze(metrics)
 
         // Attempt speech analysis for real NLP-based scoring

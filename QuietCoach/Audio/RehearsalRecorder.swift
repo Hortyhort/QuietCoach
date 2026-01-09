@@ -150,6 +150,9 @@ final class RehearsalRecorder {
             return
         }
 
+        // Track performance
+        PerformanceMonitor.shared.trackRecordingStart()
+
         resetMetrics()
 
         // Generate unique filename
@@ -239,6 +242,9 @@ final class RehearsalRecorder {
             peakWindows: peakWindows,
             duration: accumulatedTime
         )
+
+        // Track performance
+        PerformanceMonitor.shared.trackRecordingEnd(durationSeconds: Int(accumulatedTime))
 
         logger.info("Recording stopped. Duration: \(self.accumulatedTime)s, Samples: \(self.rmsWindows.count)")
         return metrics
