@@ -1,8 +1,8 @@
 // QuietCoachWatchApp.swift
 // QuietCoachWatch
 //
-// watchOS companion app for Quiet Coach.
-// Quick practice sessions from your wrist.
+// watchOS companion app entry point.
+// Quick practice from your wrist.
 
 import SwiftUI
 

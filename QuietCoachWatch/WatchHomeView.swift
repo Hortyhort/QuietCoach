@@ -1,212 +1,179 @@
 // WatchHomeView.swift
 // QuietCoachWatch
 //
-// Main view for the watchOS companion app.
-// Quick 30-second practice sessions with haptic feedback.
+// Main watch interface. Quick scenarios, recent scores, streak.
 
-#if os(watchOS)
 import SwiftUI
-import WatchKit
 
 struct WatchHomeView: View {
-
+    
     // MARK: - State
-
+    
     @State private var selectedScenario: WatchScenario?
-    @State private var showingRecorder = false
-
+    @State private var currentStreak: Int = 0
+    @State private var lastScore: Int?
+    
     // MARK: - Body
-
+    
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 16) {
-                    // Header
-                    headerView
-
-                    // Quick scenarios
-                    scenariosList
+                    // Streak badge
+                    streakSection
+                    
+                    // Quick practice scenarios
+                    scenarioSection
+                    
+                    // Last session
+                    if let score = lastScore {
+                        lastSessionSection(score: score)
+                    }
                 }
-                .padding()
+                .padding(.horizontal)
             }
             .navigationTitle("Quiet Coach")
-            .navigationBarTitleDisplayMode(.inline)
             .sheet(item: $selectedScenario) { scenario in
-                WatchRecordingView(scenario: scenario)
+                WatchRehearseView(scenario: scenario)
             }
         }
     }
-
-    // MARK: - Header
-
-    private var headerView: some View {
-        VStack(spacing: 8) {
-            Image(systemName: "waveform")
-                .font(.title2)
+    
+    // MARK: - Streak Section
+    
+    private var streakSection: some View {
+        HStack {
+            Image(systemName: "flame.fill")
                 .foregroundStyle(.orange)
-
+            
+            Text("\(currentStreak)")
+                .font(.title2)
+                .fontWeight(.bold)
+            
+            Text("day streak")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            
+            Spacer()
+        }
+        .padding()
+        .background(Color.orange.opacity(0.2))
+        .cornerRadius(12)
+    }
+    
+    // MARK: - Scenario Section
+    
+    private var scenarioSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
             Text("Quick Practice")
                 .font(.headline)
-        }
-    }
-
-    // MARK: - Scenarios List
-
-    private var scenariosList: some View {
-        VStack(spacing: 12) {
-            ForEach(WatchScenario.quickScenarios) { scenario in
+            
+            ForEach(WatchScenario.allCases) { scenario in
                 Button {
                     selectedScenario = scenario
                 } label: {
                     HStack {
                         Image(systemName: scenario.icon)
                             .foregroundStyle(.orange)
-
+                            .frame(width: 24)
+                        
                         Text(scenario.title)
-                            .font(.footnote)
-
+                            .font(.subheadline)
+                        
                         Spacer()
-
+                        
                         Image(systemName: "chevron.right")
-                            .font(.caption2)
+                            .font(.caption)
                             .foregroundStyle(.secondary)
                     }
                     .padding(.vertical, 8)
                 }
                 .buttonStyle(.plain)
+                
+                if scenario != WatchScenario.allCases.last {
+                    Divider()
+                }
             }
-        }
-    }
-}
-
-// MARK: - Watch Scenario Model
-
-struct WatchScenario: Identifiable {
-    let id: String
-    let title: String
-    let icon: String
-    let duration: TimeInterval
-
-    static let quickScenarios: [WatchScenario] = [
-        WatchScenario(id: "boundary", title: "Set a Boundary", icon: "hand.raised.fill", duration: 30),
-        WatchScenario(id: "no", title: "Say No", icon: "xmark.circle.fill", duration: 30),
-        WatchScenario(id: "feedback", title: "Give Feedback", icon: "text.bubble.fill", duration: 30),
-        WatchScenario(id: "raise", title: "Ask for a Raise", icon: "chart.line.uptrend.xyaxis", duration: 30)
-    ]
-}
-
-// MARK: - Watch Recording View
-
-struct WatchRecordingView: View {
-    let scenario: WatchScenario
-
-    @Environment(\.dismiss) private var dismiss
-    @State private var isRecording = false
-    @State private var elapsedTime: TimeInterval = 0
-    @State private var timer: Timer?
-
-    var body: some View {
-        VStack(spacing: 16) {
-            // Scenario header
-            VStack(spacing: 4) {
-                Image(systemName: scenario.icon)
-                    .font(.title3)
-                    .foregroundStyle(.orange)
-
-                Text(scenario.title)
-                    .font(.footnote)
-                    .lineLimit(1)
-            }
-
-            // Progress ring
-            progressRing
-
-            // Timer
-            Text(formattedTime)
-                .font(.system(size: 24, weight: .medium, design: .monospaced))
-                .foregroundStyle(isRecording ? .primary : .secondary)
-
-            // Record button
-            recordButton
         }
         .padding()
-        .navigationBarBackButtonHidden(isRecording)
-        .onDisappear {
-            stopRecording()
-        }
+        .background(Color.gray.opacity(0.2))
+        .cornerRadius(12)
     }
-
-    // MARK: - Progress Ring
-
-    private var progressRing: some View {
-        ZStack {
-            Circle()
-                .stroke(Color.orange.opacity(0.3), lineWidth: 8)
-
-            Circle()
-                .trim(from: 0, to: progress)
-                .stroke(Color.orange, style: StrokeStyle(lineWidth: 8, lineCap: .round))
-                .rotationEffect(.degrees(-90))
-                .animation(.linear(duration: 0.5), value: progress)
-        }
-        .frame(width: 80, height: 80)
-    }
-
-    // MARK: - Record Button
-
-    private var recordButton: some View {
-        Button {
-            if isRecording {
-                stopRecording()
-            } else {
-                startRecording()
-            }
-        } label: {
-            Image(systemName: isRecording ? "stop.fill" : "mic.fill")
-                .font(.title2)
-                .foregroundStyle(isRecording ? .red : .white)
-                .frame(width: 50, height: 50)
-                .background(isRecording ? .white : .orange)
-                .clipShape(Circle())
-        }
-        .buttonStyle(.plain)
-        .sensoryFeedback(.impact, trigger: isRecording)
-    }
-
-    // MARK: - Helpers
-
-    private var progress: Double {
-        min(elapsedTime / scenario.duration, 1.0)
-    }
-
-    private var formattedTime: String {
-        let remaining = max(scenario.duration - elapsedTime, 0)
-        let seconds = Int(remaining)
-        return String(format: "0:%02d", seconds)
-    }
-
-    private func startRecording() {
-        isRecording = true
-        elapsedTime = 0
-        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
-            elapsedTime += 0.1
-            if elapsedTime >= scenario.duration {
-                completeRecording()
+    
+    // MARK: - Last Session
+    
+    private func lastSessionSection(score: Int) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Last Session")
+                .font(.headline)
+            
+            HStack {
+                Text("\(score)")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundStyle(scoreColor(score))
+                
+                Spacer()
+                
+                VStack(alignment: .trailing) {
+                    Text("Overall Score")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Text("Today")
+                        .font(.caption2)
+                        .foregroundStyle(.tertiary)
+                }
             }
         }
+        .padding()
+        .background(Color.gray.opacity(0.2))
+        .cornerRadius(12)
     }
-
-    private func stopRecording() {
-        timer?.invalidate()
-        timer = nil
-        isRecording = false
+    
+    private func scoreColor(_ score: Int) -> Color {
+        switch score {
+        case 80...: return .green
+        case 60..<80: return .yellow
+        default: return .orange
+        }
     }
+}
 
-    private func completeRecording() {
-        stopRecording()
-        // Show completion feedback
-        WKInterfaceDevice.current().play(.success)
-        dismiss()
+// MARK: - Watch Scenario
+
+enum WatchScenario: String, CaseIterable, Identifiable {
+    case boundary = "boundary"
+    case sayNo = "sayno"
+    case feedback = "feedback"
+    case raise = "raise"
+    
+    var id: String { rawValue }
+    
+    var title: String {
+        switch self {
+        case .boundary: return "Set Boundary"
+        case .sayNo: return "Say No"
+        case .feedback: return "Give Feedback"
+        case .raise: return "Ask for Raise"
+        }
+    }
+    
+    var icon: String {
+        switch self {
+        case .boundary: return "hand.raised.fill"
+        case .sayNo: return "xmark.circle.fill"
+        case .feedback: return "text.bubble.fill"
+        case .raise: return "chart.line.uptrend.xyaxis"
+        }
+    }
+    
+    var prompt: String {
+        switch self {
+        case .boundary: return "Practice setting a clear boundary."
+        case .sayNo: return "Practice declining a request."
+        case .feedback: return "Practice giving constructive feedback."
+        case .raise: return "Practice asking for what you deserve."
+        }
     }
 }
 
@@ -215,4 +182,3 @@ struct WatchRecordingView: View {
 #Preview {
     WatchHomeView()
 }
-#endif

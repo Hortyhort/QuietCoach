@@ -58,6 +58,16 @@ struct Scenario: Identifiable, Hashable {
         let ask: String
         let nextStep: String
     }
+
+    /// Tips derived from coaching hint and structure for macOS/visionOS views
+    var tips: [String] {
+        var result: [String] = []
+        result.append(coachingHint)
+        result.append("Start with: \(structureCard.opener)")
+        result.append("Add context: \(structureCard.context)")
+        result.append("Make your ask: \(structureCard.ask)")
+        return result
+    }
 }
 
 // MARK: - Scenario Library
