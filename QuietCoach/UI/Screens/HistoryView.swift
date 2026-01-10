@@ -329,20 +329,10 @@ struct HistoryView: View {
     // MARK: - Empty State
 
     private var emptyState: some View {
-        VStack(spacing: 20) {
-            Image(systemName: "clock.arrow.circlepath")
-                .font(.system(size: 48))
-                .foregroundColor(.qcTextTertiary)
-
-            Text("No sessions yet")
-                .font(.qcTitle3)
-                .foregroundColor(.qcTextPrimary)
-
-            Text("Your rehearsal history will appear here")
-                .font(.qcSubheadline)
-                .foregroundColor(.qcTextSecondary)
+        EmptyStateView(config: .noSessions) {
+            // Navigate to home to start practicing
+            dismiss()
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     // MARK: - Actions

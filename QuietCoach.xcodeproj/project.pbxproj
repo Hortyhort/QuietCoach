@@ -116,6 +116,7 @@
 		1A0000700000000000000001 /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000710000000000000001 /* WaveformView.swift */; };
 		1A0008000000000000000001 /* LoadingComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0008010000000000000001 /* LoadingComponents.swift */; };
 		1A0000720000000000000001 /* ScoreCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000730000000000000001 /* ScoreCard.swift */; };
+		1AE0000E0000000000000001 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE0000F0000000000000001 /* EmptyStateView.swift */; };
 		1A0000740000000000000001 /* CoachBullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000750000000000000001 /* CoachBullet.swift */; };
 		1A0000760000000000000001 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000770000000000000001 /* RecordButton.swift */; };
 		1A0000780000000000000001 /* ShareCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000790000000000000001 /* ShareCardView.swift */; };
@@ -253,6 +254,7 @@
 		1A0000710000000000000001 /* WaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformView.swift; sourceTree = "<group>"; };
 		1A0008010000000000000001 /* LoadingComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingComponents.swift; sourceTree = "<group>"; };
 		1A0000730000000000000001 /* ScoreCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreCard.swift; sourceTree = "<group>"; };
+		1AE0000F0000000000000001 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		1A0000750000000000000001 /* CoachBullet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachBullet.swift; sourceTree = "<group>"; };
 		1A0000770000000000000001 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		1A0000790000000000000001 /* ShareCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareCardView.swift; sourceTree = "<group>"; };
@@ -516,6 +518,7 @@
 				1A0000710000000000000001 /* WaveformView.swift */,
 				1A0008010000000000000001 /* LoadingComponents.swift */,
 				1A0000730000000000000001 /* ScoreCard.swift */,
+				1AE0000F0000000000000001 /* EmptyStateView.swift */,
 				1A0000750000000000000001 /* CoachBullet.swift */,
 				1A0000770000000000000001 /* RecordButton.swift */,
 				1A0000790000000000000001 /* ShareCardView.swift */,
@@ -827,6 +830,7 @@
 				1A0000700000000000000001 /* WaveformView.swift in Sources */,
 				1A0008000000000000000001 /* LoadingComponents.swift in Sources */,
 				1A0000720000000000000001 /* ScoreCard.swift in Sources */,
+				1AE0000E0000000000000001 /* EmptyStateView.swift in Sources */,
 				1A0000740000000000000001 /* CoachBullet.swift in Sources */,
 				1A0000760000000000000001 /* RecordButton.swift in Sources */,
 				1A0000780000000000000001 /* ShareCardView.swift in Sources */,
