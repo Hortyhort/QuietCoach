@@ -131,6 +131,60 @@ struct HomeView: View {
                 }
             }
         }
+        // MARK: - Keyboard Shortcuts (iPad/Mac)
+        .background {
+            // Hidden buttons to capture keyboard shortcuts
+            keyboardShortcutButtons
+        }
+    }
+
+    // MARK: - Keyboard Shortcut Buttons
+
+    @ViewBuilder
+    private var keyboardShortcutButtons: some View {
+        Group {
+            // Cmd+N: New practice session
+            Button("") {
+                startQuickPractice()
+            }
+            .keyboardShortcut("n", modifiers: .command)
+
+            // Cmd+,: Settings
+            Button("") {
+                showingSettings = true
+            }
+            .keyboardShortcut(",", modifiers: .command)
+
+            // Cmd+H: History
+            Button("") {
+                showingHistory = true
+            }
+            .keyboardShortcut("h", modifiers: .command)
+
+            // Cmd+1-4: Quick scenario access
+            ForEach(Array(availableScenarios.prefix(4).enumerated()), id: \.element.id) { index, scenario in
+                Button("") {
+                    if featureGates.canAccessScenario(scenario) {
+                        Haptics.selectScenario()
+                        navigationPath.append(scenario)
+                    }
+                }
+                .keyboardShortcut(KeyEquivalent(Character("\(index + 1)")), modifiers: .command)
+            }
+        }
+        .opacity(0)
+        .frame(width: 0, height: 0)
+    }
+
+    // MARK: - Quick Practice
+
+    private func startQuickPractice() {
+        // Start with the first available scenario
+        if let firstScenario = availableScenarios.first {
+            Haptics.selectScenario()
+            SoundManager.shared.play(.ready)
+            navigationPath.append(firstScenario)
+        }
     }
 
     // MARK: - Header Section

@@ -43,6 +43,13 @@ struct SettingsView: View {
                 // Achievements section
                 achievementsSection
 
+                // Keyboard shortcuts (iPad/Mac only)
+                #if !os(watchOS)
+                if UIDevice.current.userInterfaceIdiom == .pad || UIDevice.current.userInterfaceIdiom == .mac {
+                    keyboardShortcutsSection
+                }
+                #endif
+
                 // About section
                 aboutSection
 
@@ -384,6 +391,20 @@ private extension SettingsView {
         }
     }
 
+    // MARK: - Keyboard Shortcuts Section
+
+    private var keyboardShortcutsSection: some View {
+        Section("Keyboard Shortcuts") {
+            VStack(alignment: .leading, spacing: 12) {
+                KeyboardShortcutRow(shortcut: "N", description: "New practice session")
+                KeyboardShortcutRow(shortcut: "1-4", description: "Quick scenario access")
+                KeyboardShortcutRow(shortcut: ",", description: "Open settings")
+                KeyboardShortcutRow(shortcut: "H", description: "View history")
+            }
+            .padding(.vertical, 4)
+        }
+    }
+
     // MARK: - About Section
 
     private var aboutSection: some View {
@@ -447,6 +468,37 @@ private extension SettingsView {
             Text("All audio is processed on your device. Nothing is uploaded. Your rehearsals are private.")
                 .font(.qcFootnote)
                 .foregroundColor(.qcTextTertiary)
+        }
+    }
+}
+
+// MARK: - Keyboard Shortcut Row
+
+struct KeyboardShortcutRow: View {
+    let shortcut: String
+    let description: String
+
+    var body: some View {
+        HStack {
+            // Command key badge
+            HStack(spacing: 2) {
+                Image(systemName: "command")
+                    .font(.system(size: 11, weight: .medium))
+                Text(shortcut)
+                    .font(.system(size: 12, weight: .semibold, design: .rounded))
+            }
+            .foregroundColor(.qcTextPrimary)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(Color.qcSurface)
+            .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+
+            Text(description)
+                .font(.qcBody)
+                .foregroundColor(.qcTextSecondary)
+                .padding(.leading, 8)
+
+            Spacer()
         }
     }
 }
