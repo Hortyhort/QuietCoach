@@ -55,7 +55,7 @@ final class FileStore {
                 try fileManager.createDirectory(
                     at: recordingsDirectory,
                     withIntermediateDirectories: true,
-                    attributes: nil
+                    attributes: [.protectionKey: FileProtectionType.complete]
                 )
                 logger.info("Created recordings directory at \(path)")
             } catch {
@@ -111,6 +111,32 @@ final class FileStore {
     /// Check if an audio file exists
     func audioFileExists(named fileName: String) -> Bool {
         fileManager.fileExists(atPath: audioFileURL(for: fileName).path)
+    }
+
+    // MARK: - Security
+
+    /// Apply file protection to all existing recordings
+    /// Called on app launch to ensure older files are protected
+    func applyFileProtectionToExistingRecordings() {
+        do {
+            let files = try fileManager.contentsOfDirectory(
+                at: recordingsDirectory,
+                includingPropertiesForKeys: nil
+            )
+
+            for file in files {
+                try fileManager.setAttributes(
+                    [.protectionKey: FileProtectionType.complete],
+                    ofItemAtPath: file.path
+                )
+            }
+
+            if !files.isEmpty {
+                logger.info("Applied file protection to \(files.count) existing recordings")
+            }
+        } catch {
+            logger.error("Failed to apply file protection: \(error.localizedDescription)")
+        }
     }
 
     // MARK: - Storage Info

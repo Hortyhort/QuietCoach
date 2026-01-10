@@ -58,6 +58,11 @@ struct QuietCoachApp: App {
         #if os(iOS)
         configureAppearance()
         #endif
+
+        // Apply file protection to existing recordings (security hardening)
+        Task { @MainActor in
+            FileStore.shared.applyFileProtectionToExistingRecordings()
+        }
     }
 
     // MARK: - Scene
