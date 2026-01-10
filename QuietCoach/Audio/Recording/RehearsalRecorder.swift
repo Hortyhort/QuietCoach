@@ -37,6 +37,9 @@ final class RehearsalRecorder {
     private var noiseFloor: Float = 0.01
     private var hasCalibrated = false
 
+    // Memory optimization: limit buffer sizes for long recordings
+    private let maxMetricsSamples = 6000 // ~10 minutes at 10 samples/sec
+
     // Notification observers (nonisolated for deinit access)
     @ObservationIgnored
     private nonisolated(unsafe) var interruptionTask: Task<Void, Never>?
@@ -274,6 +277,14 @@ final class RehearsalRecorder {
         currentLevel = linearPower
         rmsWindows.append(linearPower)
         peakWindows.append(linearPeak)
+
+        // Trim metrics buffers if they exceed max size (memory optimization)
+        if rmsWindows.count > maxMetricsSamples {
+            // Keep last portion, downsample older data
+            let keepCount = maxMetricsSamples / 2
+            rmsWindows = Array(rmsWindows.suffix(keepCount))
+            peakWindows = Array(peakWindows.suffix(keepCount))
+        }
 
         // Update waveform (rolling window)
         waveformSamples.append(linearPower)

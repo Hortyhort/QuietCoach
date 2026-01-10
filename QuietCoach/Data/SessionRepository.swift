@@ -20,6 +20,11 @@ final class SessionRepository {
     private(set) var sessions: [RehearsalSession] = []
     private(set) var isLoaded = false
 
+    // Pagination support
+    private let pageSize = 20
+    private(set) var hasMoreSessions = true
+    private(set) var isLoadingMore = false
+
     // MARK: - Initialization
 
     init(modelContext: ModelContext? = nil) {
@@ -41,12 +46,56 @@ final class SessionRepository {
 
     // MARK: - Fetch Operations
 
-    /// Fetch all sessions, sorted by date (newest first)
+    /// Fetch initial sessions with pagination, sorted by date (newest first)
     func fetchSessions() {
         guard let modelContext else {
             logger.warning("ModelContext not available for fetch")
             return
         }
+
+        var descriptor = FetchDescriptor<RehearsalSession>(
+            sortBy: [SortDescriptor(\.createdAt, order: .reverse)]
+        )
+        descriptor.fetchLimit = pageSize
+
+        do {
+            sessions = try modelContext.fetch(descriptor)
+            hasMoreSessions = sessions.count >= pageSize
+            isLoaded = true
+            logger.info("Fetched \(self.sessions.count) sessions (initial page)")
+        } catch {
+            logger.error("Failed to fetch sessions: \(error.localizedDescription)")
+            sessions = []
+        }
+    }
+
+    /// Load more sessions for infinite scroll
+    func loadMoreSessions() {
+        guard let modelContext, hasMoreSessions, !isLoadingMore else { return }
+
+        isLoadingMore = true
+
+        var descriptor = FetchDescriptor<RehearsalSession>(
+            sortBy: [SortDescriptor(\.createdAt, order: .reverse)]
+        )
+        descriptor.fetchOffset = sessions.count
+        descriptor.fetchLimit = pageSize
+
+        do {
+            let moreSessions = try modelContext.fetch(descriptor)
+            sessions.append(contentsOf: moreSessions)
+            hasMoreSessions = moreSessions.count >= pageSize
+            logger.info("Loaded \(moreSessions.count) more sessions (total: \(self.sessions.count))")
+        } catch {
+            logger.error("Failed to load more sessions: \(error.localizedDescription)")
+        }
+
+        isLoadingMore = false
+    }
+
+    /// Fetch all sessions (for operations that need complete data)
+    func fetchAllSessions() {
+        guard let modelContext else { return }
 
         let descriptor = FetchDescriptor<RehearsalSession>(
             sortBy: [SortDescriptor(\.createdAt, order: .reverse)]
@@ -54,11 +103,10 @@ final class SessionRepository {
 
         do {
             sessions = try modelContext.fetch(descriptor)
-            isLoaded = true
-            logger.info("Fetched \(self.sessions.count) sessions")
+            hasMoreSessions = false
+            logger.info("Fetched all \(self.sessions.count) sessions")
         } catch {
-            logger.error("Failed to fetch sessions: \(error.localizedDescription)")
-            sessions = []
+            logger.error("Failed to fetch all sessions: \(error.localizedDescription)")
         }
     }
 

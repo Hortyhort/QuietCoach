@@ -16,6 +16,7 @@ struct QuietCoachApp: App {
 
     let modelContainer: ModelContainer
     private let logger = Logger(subsystem: "com.quietcoach", category: "App")
+    private let launchStartTime = CFAbsoluteTimeGetCurrent()
 
     // MARK: - Initialization
 
@@ -68,6 +69,12 @@ struct QuietCoachApp: App {
                 .modelContainer(modelContainer)
                 .environment(FeatureGates.shared)
                 .preferredColorScheme(.dark)
+                .onAppear {
+                    // Track app launch time
+                    let launchDuration = (CFAbsoluteTimeGetCurrent() - launchStartTime) * 1000
+                    Logger(subsystem: "com.quietcoach", category: "Performance")
+                        .info("App launch completed in \(String(format: "%.0f", launchDuration))ms")
+                }
         }
         #if os(macOS)
         .defaultSize(width: 1000, height: 700)

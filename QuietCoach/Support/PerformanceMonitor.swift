@@ -8,6 +8,7 @@ import Foundation
 import OSLog
 import QuartzCore
 import SwiftUI
+import Combine
 
 // MARK: - Performance Span
 
@@ -68,7 +69,45 @@ final class PerformanceMonitor {
 
     private(set) var isEnabled = true
 
-    private init() {}
+    // Memory pressure handling
+    private var memoryWarningCancellable: AnyCancellable?
+    private var memoryPressureHandlers: [() -> Void] = []
+
+    private init() {
+        setupMemoryWarningObserver()
+    }
+
+    // MARK: - Memory Pressure Handling
+
+    private func setupMemoryWarningObserver() {
+        #if os(iOS)
+        memoryWarningCancellable = NotificationCenter.default
+            .publisher(for: UIApplication.didReceiveMemoryWarningNotification)
+            .sink { [weak self] _ in
+                self?.handleMemoryWarning()
+            }
+        #endif
+    }
+
+    private func handleMemoryWarning() {
+        logger.warning("Memory warning received - triggering cleanup")
+        logMemoryState("Before cleanup")
+
+        // Clear completed spans
+        completedSpans.removeAll()
+
+        // Notify registered handlers
+        for handler in memoryPressureHandlers {
+            handler()
+        }
+
+        logMemoryState("After cleanup")
+    }
+
+    /// Register a handler to be called on memory pressure
+    func registerMemoryPressureHandler(_ handler: @escaping () -> Void) {
+        memoryPressureHandlers.append(handler)
+    }
 
     // MARK: - Configuration
 
