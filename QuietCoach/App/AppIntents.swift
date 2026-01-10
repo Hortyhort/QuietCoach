@@ -136,5 +136,15 @@ struct QuietCoachShortcuts: AppShortcutsProvider {
             shortTitle: "Progress",
             systemImageName: "chart.line.uptrend.xyaxis"
         )
+
+        AppShortcut(
+            intent: QuietCoachFocusFilter(),
+            phrases: [
+                "Configure \(.applicationName) focus settings",
+                "Set up \(.applicationName) for this focus"
+            ],
+            shortTitle: "Focus Settings",
+            systemImageName: "moon.fill"
+        )
     }
 }

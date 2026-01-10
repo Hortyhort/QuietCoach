@@ -78,6 +78,7 @@
 		1A00030A0000000000000001 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00030B0000000000000001 /* NotificationManager.swift */; };
 		1ASPOTLIGHT00000000000001 /* SpotlightManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ASPOTLIGHT00000000000002 /* SpotlightManager.swift */; };
 		1AHANDOFF000000000000001 /* HandoffManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AHANDOFF000000000000002 /* HandoffManager.swift */; };
+		1AFOCUSFLT00000000000001 /* FocusFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFOCUSFLT00000000000002 /* FocusFilter.swift */; };
 
 		/* Audio */
 		1A0000400000000000000001 /* RehearsalRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000410000000000000001 /* RehearsalRecorder.swift */; };
@@ -234,6 +235,7 @@
 		1A00030B0000000000000001 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		1ASPOTLIGHT00000000000002 /* SpotlightManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotlightManager.swift; sourceTree = "<group>"; };
 		1AHANDOFF000000000000002 /* HandoffManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandoffManager.swift; sourceTree = "<group>"; };
+		1AFOCUSFLT00000000000002 /* FocusFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusFilter.swift; sourceTree = "<group>"; };
 
 		/* UI - Navigation */
 		1A00001A0000000000000001 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -567,6 +569,7 @@
 				1A00030B0000000000000001 /* NotificationManager.swift */,
 				1ASPOTLIGHT00000000000002 /* SpotlightManager.swift */,
 				1AHANDOFF000000000000002 /* HandoffManager.swift */,
+				1AFOCUSFLT00000000000002 /* FocusFilter.swift */,
 				1A0000320000000000000001 /* Extensions */,
 			);
 			path = Support;
@@ -870,6 +873,7 @@
 				1A00030A0000000000000001 /* NotificationManager.swift in Sources */,
 				1ASPOTLIGHT00000000000001 /* SpotlightManager.swift in Sources */,
 				1AHANDOFF000000000000001 /* HandoffManager.swift in Sources */,
+				1AFOCUSFLT00000000000001 /* FocusFilter.swift in Sources */,
 				1A0000F30000000000000001 /* SoundDesign.swift in Sources */,
 				1A0000F90000000000000001 /* SpeechAnalysisEngine.swift in Sources */,
 				1A0005090000000000000001 /* SpeechAnalysisTypes.swift in Sources */,
