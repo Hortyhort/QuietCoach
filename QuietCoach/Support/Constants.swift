@@ -84,11 +84,42 @@ enum Constants {
         static let recordings = "Recordings"
     }
 
-    // MARK: - Haptics
+    // MARK: - Haptics & Sounds
+
+    /// User-configurable settings stored via UserDefaults
+    /// Access these through UserDefaults.standard or @AppStorage
+    enum SettingsKeys {
+        static let hapticsEnabled = "settings.hapticsEnabled"
+        static let soundsEnabled = "settings.soundsEnabled"
+        static let focusSoundsEnabled = "settings.focusSoundsEnabled"
+    }
 
     enum Haptics {
-        /// Master switch for haptic feedback
-        static let enabled = true
+        /// Master switch for haptic feedback (reads from UserDefaults)
+        static var enabled: Bool {
+            // Default to true if not set
+            if UserDefaults.standard.object(forKey: SettingsKeys.hapticsEnabled) == nil {
+                return true
+            }
+            return UserDefaults.standard.bool(forKey: SettingsKeys.hapticsEnabled)
+        }
+    }
+
+    enum Sounds {
+        /// Master switch for UI sounds (reads from UserDefaults)
+        static var enabled: Bool {
+            // Default to true if not set
+            if UserDefaults.standard.object(forKey: SettingsKeys.soundsEnabled) == nil {
+                return true
+            }
+            return UserDefaults.standard.bool(forKey: SettingsKeys.soundsEnabled)
+        }
+
+        /// Focus/ambient sounds during recording
+        static var focusEnabled: Bool {
+            // Default to false - opt-in feature
+            return UserDefaults.standard.bool(forKey: SettingsKeys.focusSoundsEnabled)
+        }
     }
 
     // MARK: - Animation

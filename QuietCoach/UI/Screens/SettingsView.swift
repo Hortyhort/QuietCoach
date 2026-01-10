@@ -16,6 +16,9 @@ struct SettingsView: View {
     // MARK: - State
 
     @AppStorage("shareCard.showWatermark") private var showWatermark = true
+    @AppStorage(Constants.SettingsKeys.hapticsEnabled) private var hapticsEnabled = true
+    @AppStorage(Constants.SettingsKeys.soundsEnabled) private var soundsEnabled = true
+    @AppStorage(Constants.SettingsKeys.focusSoundsEnabled) private var focusSoundsEnabled = false
     @State private var showingDeleteAllConfirm = false
     @State private var showingProUpgrade = false
     @State private var showingExportSheet = false
@@ -33,6 +36,9 @@ struct SettingsView: View {
 
                 // Reminders section
                 remindersSection
+
+                // Sound & Haptics section
+                soundHapticsSection
 
                 // Sharing section
                 sharingSection
@@ -261,6 +267,72 @@ private extension SettingsView {
             Text("Reminders")
         } footer: {
             Text("Get a gentle reminder to practice and protect your streak.")
+        }
+    }
+
+    // MARK: - Sound & Haptics Section
+
+    private var soundHapticsSection: some View {
+        Section {
+            Toggle(isOn: $soundsEnabled) {
+                HStack {
+                    Image(systemName: "speaker.wave.2.fill")
+                        .foregroundColor(.qcAccent)
+                        .accessibilityHidden(true)
+
+                    Text("Interface sounds")
+                        .font(.qcBody)
+                        .foregroundColor(.qcTextPrimary)
+                }
+            }
+            .tint(.qcAccent)
+            .onChange(of: soundsEnabled) { _, newValue in
+                if newValue {
+                    // Play a preview sound when enabled
+                    SoundManager.shared.play(.ready)
+                }
+            }
+
+            Toggle(isOn: $hapticsEnabled) {
+                HStack {
+                    Image(systemName: "hand.tap.fill")
+                        .foregroundColor(.qcAccent)
+                        .accessibilityHidden(true)
+
+                    Text("Haptic feedback")
+                        .font(.qcBody)
+                        .foregroundColor(.qcTextPrimary)
+                }
+            }
+            .tint(.qcAccent)
+            .onChange(of: hapticsEnabled) { _, newValue in
+                if newValue {
+                    Haptics.buttonPress()
+                }
+            }
+
+            Toggle(isOn: $focusSoundsEnabled) {
+                HStack {
+                    Image(systemName: "waveform.path")
+                        .foregroundColor(.qcAccent)
+                        .accessibilityHidden(true)
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Focus sounds")
+                            .font(.qcBody)
+                            .foregroundColor(.qcTextPrimary)
+
+                        Text("Subtle ambient tones during recording")
+                            .font(.qcCaption)
+                            .foregroundColor(.qcTextTertiary)
+                    }
+                }
+            }
+            .tint(.qcAccent)
+        } header: {
+            Text("Sound & Haptics")
+        } footer: {
+            Text("Sounds help you stay present. Haptics provide confirmation.")
         }
     }
 

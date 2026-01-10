@@ -21,7 +21,11 @@ final class SoundManager {
 
     private let logger = Logger(subsystem: "com.quietcoach", category: "SoundManager")
     private var audioPlayers: [SoundType: AVAudioPlayer] = [:]
-    private var isEnabled: Bool = true
+
+    /// Checks both the master setting and user preference
+    private var isEnabled: Bool {
+        Constants.Sounds.enabled
+    }
 
     // MARK: - Sound Types
 
@@ -155,10 +159,6 @@ final class SoundManager {
     }
 
     // MARK: - Settings
-
-    func setEnabled(_ enabled: Bool) {
-        isEnabled = enabled
-    }
 
     var soundsEnabled: Bool {
         isEnabled
@@ -496,30 +496,185 @@ final class FocusSoundscape {
 
     static let shared = FocusSoundscape()
 
-    private var audioEngine: AVAudioEngine?
-    private var playerNode: AVAudioPlayerNode?
+    private let audioEngine = AVAudioEngine()
+    private var sourceNode: AVAudioSourceNode?
     private var isPlaying = false
+    private let logger = Logger(subsystem: "com.quietcoach", category: "FocusSoundscape")
 
-    private init() {}
+    // Binaural beat parameters (10Hz alpha waves for relaxation)
+    private let baseFrequency: Double = 200    // Base tone frequency
+    private let beatFrequency: Double = 10     // Binaural beat frequency (10Hz = alpha waves)
+    private let droneVolume: Float = 0.08      // Very subtle volume
+
+    private init() {
+        setupAudioSession()
+    }
+
+    private func setupAudioSession() {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(
+                .ambient,
+                mode: .default,
+                options: [.mixWithOthers]
+            )
+        } catch {
+            logger.error("Failed to set audio session: \(error.localizedDescription)")
+        }
+    }
 
     /// Start subtle background soundscape during recording
     func startFocusMode() {
-        guard !isPlaying else { return }
-        isPlaying = true
+        guard !isPlaying, Constants.Sounds.focusEnabled else { return }
 
-        // In production, this would play a subtle ambient loop
-        // with optional binaural beat undertones (10Hz alpha waves)
-        // For now, this is a placeholder for the feature
+        do {
+            let format = audioEngine.outputNode.outputFormat(forBus: 0)
+            let sampleRate = format.sampleRate
+
+            var leftPhase: Double = 0
+            var rightPhase: Double = 0
+            let leftFrequency = baseFrequency
+            let rightFrequency = baseFrequency + beatFrequency  // Creates binaural beat
+
+            let sourceNode = AVAudioSourceNode(format: format) { [weak self] _, _, frameCount, audioBufferList -> OSStatus in
+                guard let self = self else { return noErr }
+
+                let bufferList = UnsafeMutableAudioBufferListPointer(audioBufferList)
+
+                // Generate stereo binaural beat
+                for frame in 0..<Int(frameCount) {
+                    // Warm sine waves with subtle harmonics
+                    let leftSample = sin(leftPhase) * 0.8 + sin(leftPhase * 2) * 0.15 + sin(leftPhase * 3) * 0.05
+                    let rightSample = sin(rightPhase) * 0.8 + sin(rightPhase * 2) * 0.15 + sin(rightPhase * 3) * 0.05
+
+                    // Apply volume
+                    let scaledLeft = Float(leftSample) * self.droneVolume
+                    let scaledRight = Float(rightSample) * self.droneVolume
+
+                    // Write to stereo buffers
+                    if bufferList.count >= 2 {
+                        bufferList[0].mData?.assumingMemoryBound(to: Float.self)[frame] = scaledLeft
+                        bufferList[1].mData?.assumingMemoryBound(to: Float.self)[frame] = scaledRight
+                    } else if bufferList.count == 1 {
+                        // Mono fallback - just use average
+                        bufferList[0].mData?.assumingMemoryBound(to: Float.self)[frame] = (scaledLeft + scaledRight) / 2
+                    }
+
+                    // Advance phase
+                    leftPhase += 2 * Double.pi * leftFrequency / sampleRate
+                    rightPhase += 2 * Double.pi * rightFrequency / sampleRate
+
+                    if leftPhase > 2 * Double.pi { leftPhase -= 2 * Double.pi }
+                    if rightPhase > 2 * Double.pi { rightPhase -= 2 * Double.pi }
+                }
+
+                return noErr
+            }
+
+            self.sourceNode = sourceNode
+            audioEngine.attach(sourceNode)
+            audioEngine.connect(sourceNode, to: audioEngine.mainMixerNode, format: format)
+
+            try audioEngine.start()
+            isPlaying = true
+
+            logger.info("Focus soundscape started")
+        } catch {
+            logger.error("Failed to start focus soundscape: \(error.localizedDescription)")
+        }
     }
 
-    /// Stop the focus soundscape
+    /// Stop the focus soundscape with fade out
     func stopFocusMode() {
+        guard isPlaying else { return }
+
+        if let sourceNode = sourceNode {
+            audioEngine.disconnectNodeOutput(sourceNode)
+            audioEngine.detach(sourceNode)
+        }
+        sourceNode = nil
+        audioEngine.stop()
         isPlaying = false
-        audioEngine?.stop()
-        playerNode?.stop()
+
+        logger.info("Focus soundscape stopped")
     }
 
     var isFocusModeActive: Bool {
         isPlaying
+    }
+}
+
+// MARK: - UI Sound Effects
+
+/// Additional UI feedback sounds for polish
+extension SynthesizedSoundEngine {
+
+    /// Navigation push/pop - subtle whoosh
+    func playNavigation() {
+        playSynthesizedSound(
+            frequencies: [800, 600],
+            durations: [0.08, 0.06],
+            delays: [0, 0.02],
+            volume: 0.15
+        )
+    }
+
+    /// Modal present - rising tone
+    func playModalPresent() {
+        playSynthesizedSound(
+            frequencies: [440, 660],
+            durations: [0.1, 0.12],
+            delays: [0, 0.05],
+            volume: 0.2
+        )
+    }
+
+    /// Modal dismiss - falling tone
+    func playModalDismiss() {
+        playSynthesizedSound(
+            frequencies: [660, 440],
+            durations: [0.1, 0.1],
+            delays: [0, 0.05],
+            volume: 0.18
+        )
+    }
+
+    /// Tab switch - light tick
+    func playTabSwitch() {
+        playSynthesizedSound(
+            frequencies: [1200],
+            durations: [0.04],
+            delays: [0],
+            volume: 0.1
+        )
+    }
+
+    /// Success confirmation - cheerful
+    func playSuccess() {
+        playSynthesizedSound(
+            frequencies: [523.25, 659.25, 783.99],  // C5, E5, G5
+            durations: [0.1, 0.1, 0.15],
+            delays: [0, 0.05, 0.1],
+            volume: 0.3
+        )
+    }
+
+    /// Error/warning - attention-getting
+    func playError() {
+        playSynthesizedSound(
+            frequencies: [200, 180],
+            durations: [0.15, 0.2],
+            delays: [0, 0.1],
+            volume: 0.25
+        )
+    }
+
+    /// Delete action - low thunk
+    func playDelete() {
+        playSynthesizedSound(
+            frequencies: [150],
+            durations: [0.12],
+            delays: [0],
+            volume: 0.2
+        )
     }
 }
