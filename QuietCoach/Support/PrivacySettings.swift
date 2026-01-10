@@ -164,8 +164,10 @@ struct PrivacySettingsView: View {
                     PrivacyPolicyView()
                 }
 
-                Link("Learn More About Your Data", destination: URL(string: "https://quietcoach.app/privacy")!)
-                    .foregroundStyle(.accent)
+                if let privacyURL = URL(string: "https://quietcoach.app/privacy") {
+                    Link("Learn More About Your Data", destination: privacyURL)
+                        .foregroundStyle(.accent)
+                }
             }
         }
         .navigationTitle("Privacy")

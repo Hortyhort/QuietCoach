@@ -43,7 +43,11 @@ actor LocalAnalyticsStore {
     // MARK: - Storage Path
 
     private var storageURL: URL {
-        let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        guard let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            // Fallback to temporary directory if Documents unavailable
+            logger.error("Documents directory unavailable, using temp directory for analytics")
+            return fileManager.temporaryDirectory.appendingPathComponent("analytics_events.json")
+        }
         return documentsPath.appendingPathComponent("analytics_events.json")
     }
 

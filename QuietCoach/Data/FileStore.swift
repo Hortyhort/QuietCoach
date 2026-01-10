@@ -28,10 +28,17 @@ final class FileStore {
 
     /// The recordings directory in Application Support
     var recordingsDirectory: URL {
-        let appSupport = fileManager.urls(
+        guard let appSupport = fileManager.urls(
             for: .applicationSupportDirectory,
             in: .userDomainMask
-        ).first!
+        ).first else {
+            // Fallback to temporary directory if Application Support unavailable
+            logger.error("Application Support directory unavailable, using temp directory")
+            return fileManager.temporaryDirectory.appendingPathComponent(
+                Constants.Directories.recordings,
+                isDirectory: true
+            )
+        }
 
         return appSupport.appendingPathComponent(
             Constants.Directories.recordings,

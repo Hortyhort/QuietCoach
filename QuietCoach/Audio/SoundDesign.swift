@@ -6,6 +6,7 @@
 
 import AVFoundation
 import UIKit
+import OSLog
 
 // MARK: - Sound Manager
 
@@ -18,6 +19,7 @@ final class SoundManager {
 
     // MARK: - Properties
 
+    private let logger = Logger(subsystem: "com.quietcoach", category: "SoundManager")
     private var audioPlayers: [SoundType: AVAudioPlayer] = [:]
     private var isEnabled: Bool = true
 
@@ -62,7 +64,7 @@ final class SoundManager {
                 options: [.mixWithOthers]
             )
         } catch {
-            print("SoundManager: Failed to set audio session category")
+            logger.error("Failed to set audio session category: \(error.localizedDescription)")
         }
     }
 
@@ -79,7 +81,7 @@ final class SoundManager {
                     player.volume = soundType.volume
                     audioPlayers[soundType] = player
                 } catch {
-                    print("SoundManager: Failed to load \(soundType.filename)")
+                    logger.error("Failed to load \(soundType.filename): \(error.localizedDescription)")
                 }
             }
         }

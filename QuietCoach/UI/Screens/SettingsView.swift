@@ -400,39 +400,43 @@ private extension SettingsView {
                     .foregroundColor(.qcTextSecondary)
             }
 
-            Link(destination: URL(string: "https://quietcoach.app/privacy")!) {
-                HStack {
-                    Text("Privacy Policy")
-                        .font(.qcBody)
-                        .foregroundColor(.qcTextPrimary)
+            if let privacyURL = URL(string: "https://quietcoach.app/privacy") {
+                Link(destination: privacyURL) {
+                    HStack {
+                        Text("Privacy Policy")
+                            .font(.qcBody)
+                            .foregroundColor(.qcTextPrimary)
 
-                    Spacer()
+                        Spacer()
 
-                    Image(systemName: "arrow.up.right")
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundColor(.qcTextTertiary)
-                        .accessibilityHidden(true)
+                        Image(systemName: "arrow.up.right")
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundColor(.qcTextTertiary)
+                            .accessibilityHidden(true)
+                    }
                 }
+                .accessibilityLabel("Privacy Policy")
+                .accessibilityHint("Opens in Safari")
             }
-            .accessibilityLabel("Privacy Policy")
-            .accessibilityHint("Opens in Safari")
 
-            Link(destination: URL(string: "https://quietcoach.app/support")!) {
-                HStack {
-                    Text("Support")
-                        .font(.qcBody)
-                        .foregroundColor(.qcTextPrimary)
+            if let supportURL = URL(string: "https://quietcoach.app/support") {
+                Link(destination: supportURL) {
+                    HStack {
+                        Text("Support")
+                            .font(.qcBody)
+                            .foregroundColor(.qcTextPrimary)
 
-                    Spacer()
+                        Spacer()
 
-                    Image(systemName: "arrow.up.right")
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundColor(.qcTextTertiary)
-                        .accessibilityHidden(true)
+                        Image(systemName: "arrow.up.right")
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundColor(.qcTextTertiary)
+                            .accessibilityHidden(true)
+                    }
                 }
+                .accessibilityLabel("Support")
+                .accessibilityHint("Opens in Safari")
             }
-            .accessibilityLabel("Support")
-            .accessibilityHint("Opens in Safari")
         }
     }
 

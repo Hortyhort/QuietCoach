@@ -7,6 +7,7 @@
 import SwiftUI
 import SwiftData
 import TipKit
+import OSLog
 
 @main
 struct QuietCoachApp: App {
@@ -14,23 +15,39 @@ struct QuietCoachApp: App {
     // MARK: - SwiftData Container
 
     let modelContainer: ModelContainer
+    private let logger = Logger(subsystem: "com.quietcoach", category: "App")
 
     // MARK: - Initialization
 
     init() {
-        // Configure SwiftData
-        do {
-            let schema = Schema([RehearsalSession.self])
-            let modelConfiguration = ModelConfiguration(
+        // Configure SwiftData with graceful fallback
+        let schema = Schema([RehearsalSession.self])
+
+        // Try persistent storage first
+        if let container = Self.createPersistentContainer(schema: schema) {
+            modelContainer = container
+        } else {
+            // Fallback to in-memory storage if persistent fails
+            // This preserves app functionality even with storage issues
+            Logger(subsystem: "com.quietcoach", category: "App")
+                .error("Persistent storage failed, using in-memory fallback")
+
+            let inMemoryConfig = ModelConfiguration(
                 schema: schema,
-                isStoredInMemoryOnly: false
+                isStoredInMemoryOnly: true
             )
-            modelContainer = try ModelContainer(
-                for: schema,
-                configurations: [modelConfiguration]
-            )
-        } catch {
-            fatalError("Failed to create ModelContainer: \(error.localizedDescription)")
+            do {
+                modelContainer = try ModelContainer(
+                    for: schema,
+                    configurations: [inMemoryConfig]
+                )
+            } catch {
+                // Last resort: this should never happen with in-memory
+                // but we still handle it gracefully
+                Logger(subsystem: "com.quietcoach", category: "App")
+                    .critical("All storage options failed: \(error.localizedDescription)")
+                modelContainer = try! ModelContainer(for: schema)
+            }
         }
 
         // Configure TipKit
@@ -122,4 +139,24 @@ struct QuietCoachApp: App {
         UITabBar.appearance().scrollEdgeAppearance = tabAppearance
     }
     #endif
+
+    // MARK: - Container Factory
+
+    /// Attempts to create a persistent ModelContainer, returns nil on failure
+    private static func createPersistentContainer(schema: Schema) -> ModelContainer? {
+        let modelConfiguration = ModelConfiguration(
+            schema: schema,
+            isStoredInMemoryOnly: false
+        )
+        do {
+            return try ModelContainer(
+                for: schema,
+                configurations: [modelConfiguration]
+            )
+        } catch {
+            Logger(subsystem: "com.quietcoach", category: "App")
+                .error("Failed to create persistent container: \(error.localizedDescription)")
+            return nil
+        }
+    }
 }
