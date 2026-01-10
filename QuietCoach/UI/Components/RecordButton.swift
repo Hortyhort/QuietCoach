@@ -10,7 +10,7 @@ struct RecordButton: View {
 
     // MARK: - Properties
 
-    let state: RehearsalRecorder.State
+    let state: RecordingState
     let onTap: () -> Void
 
     var size: CGFloat = Constants.Layout.recordButtonSize
@@ -271,7 +271,7 @@ struct TimerDisplay: View {
 // MARK: - Recording Warning Banner
 
 struct RecordingWarningBanner: View {
-    let warning: RehearsalRecorder.RecordingWarning
+    let warning: RecordingWarning
 
     var body: some View {
         HStack(spacing: 12) {

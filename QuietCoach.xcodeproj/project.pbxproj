@@ -40,12 +40,22 @@
 		1A0000110000000000000001 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000120000000000000001 /* Constants.swift */; };
 		1A0000130000000000000001 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000140000000000000001 /* Haptics.swift */; };
 		1A0000150000000000000001 /* FeatureGates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000160000000000000001 /* FeatureGates.swift */; };
-		1A0000170000000000000001 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000180000000000000001 /* Theme.swift */; };
+		1A0000170000000000000001 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000180000000000000001 /* Colors.swift */; };
+		1A0004060000000000000001 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0004000000000000000001 /* Typography.swift */; };
+		1A0004070000000000000001 /* Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0004010000000000000001 /* Formatting.swift */; };
+		1A0004080000000000000001 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0004020000000000000001 /* ViewModifiers.swift */; };
+		1A0004090000000000000001 /* MeshGradients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0004030000000000000001 /* MeshGradients.swift */; };
+		1A00040A0000000000000001 /* SymbolAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0004040000000000000001 /* SymbolAnimations.swift */; };
 		1A0000960000000000000001 /* AppTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000970000000000000001 /* AppTips.swift */; };
 		1A0000E00000000000000001 /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000E10000000000000001 /* Accessibility.swift */; };
 		1A0000A10000000000000001 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000A20000000000000001 /* LiveActivityManager.swift */; };
 		1A0000A30000000000000001 /* WidgetDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000A40000000000000001 /* WidgetDataManager.swift */; };
-		1A0000F10000000000000001 /* ElevatedDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000F00000000000000001 /* ElevatedDesign.swift */; };
+		1A0006000000000000000001 /* MoodColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0006010000000000000001 /* MoodColors.swift */; };
+		1A0006020000000000000001 /* ConfidencePulse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0006030000000000000001 /* ConfidencePulse.swift */; };
+		1A0006040000000000000001 /* LiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0006050000000000000001 /* LiquidGlass.swift */; };
+		1A0006060000000000000001 /* TypographyMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0006070000000000000001 /* TypographyMotion.swift */; };
+		1A0006080000000000000001 /* MicroInteractions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0006090000000000000001 /* MicroInteractions.swift */; };
+		1A00060A0000000000000001 /* ParticleEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00060B0000000000000001 /* ParticleEffects.swift */; };
 		1A0000FB0000000000000001 /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000FA0000000000000001 /* ErrorHandling.swift */; };
 		1A0000FD0000000000000001 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000FC0000000000000001 /* Analytics.swift */; };
 		1A0000FF0000000000000001 /* CrashReporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000FE0000000000000001 /* CrashReporting.swift */; };
@@ -55,16 +65,22 @@
 		1A0001070000000000000001 /* LocalAnalyticsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0001060000000000000001 /* LocalAnalyticsStore.swift */; };
 		1A0001090000000000000001 /* PerformanceMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0001080000000000000001 /* PerformanceMonitor.swift */; };
 		1A00010B0000000000000001 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00010A0000000000000001 /* NetworkMonitor.swift */; };
-		1A00010D0000000000000001 /* DependencyInjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00010C0000000000000001 /* DependencyInjection.swift */; };
+		1A00010D0000000000000001 /* ServiceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00010C0000000000000001 /* ServiceProtocols.swift */; };
+		1A00040B0000000000000001 /* AppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00040C0000000000000001 /* AppContainer.swift */; };
+		1A00040D0000000000000001 /* MockServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00040E0000000000000001 /* MockServices.swift */; };
 		1A00030A0000000000000001 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00030B0000000000000001 /* NotificationManager.swift */; };
 
 		/* Audio */
 		1A0000400000000000000001 /* RehearsalRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000410000000000000001 /* RehearsalRecorder.swift */; };
+		1A0005000000000000000001 /* RecordingTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0005010000000000000001 /* RecordingTypes.swift */; };
+		1A0005020000000000000001 /* RecordingInterruptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0005030000000000000001 /* RecordingInterruptions.swift */; };
 		1A0000420000000000000001 /* AudioMetricsAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000430000000000000001 /* AudioMetricsAnalyzer.swift */; };
 		1A0000440000000000000001 /* AudioPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000450000000000000001 /* AudioPlayerViewModel.swift */; };
 		1A0000940000000000000001 /* TranscriptionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000950000000000000001 /* TranscriptionEngine.swift */; };
 		1A0000F30000000000000001 /* SoundDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000F20000000000000001 /* SoundDesign.swift */; };
 		1A0000F90000000000000001 /* SpeechAnalysisEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000F80000000000000001 /* SpeechAnalysisEngine.swift */; };
+		1A0005090000000000000001 /* SpeechAnalysisTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0005050000000000000001 /* SpeechAnalysisTypes.swift */; };
+		1A0005060000000000000001 /* SpeechPatterns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0005070000000000000001 /* SpeechPatterns.swift */; };
 
 		/* Feedback */
 		1A0000500000000000000001 /* FeedbackEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000510000000000000001 /* FeedbackEngine.swift */; };
@@ -172,12 +188,22 @@
 		1A0000120000000000000001 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1A0000140000000000000001 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 		1A0000160000000000000001 /* FeatureGates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureGates.swift; sourceTree = "<group>"; };
-		1A0000180000000000000001 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		1A0000180000000000000001 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		1A0004000000000000000001 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
+		1A0004010000000000000001 /* Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatting.swift; sourceTree = "<group>"; };
+		1A0004020000000000000001 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
+		1A0004030000000000000001 /* MeshGradients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradients.swift; sourceTree = "<group>"; };
+		1A0004040000000000000001 /* SymbolAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolAnimations.swift; sourceTree = "<group>"; };
 		1A0000970000000000000001 /* AppTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTips.swift; sourceTree = "<group>"; };
 		1A0000E10000000000000001 /* Accessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
 		1A0000A20000000000000001 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
 		1A0000A40000000000000001 /* WidgetDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataManager.swift; sourceTree = "<group>"; };
-		1A0000F00000000000000001 /* ElevatedDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevatedDesign.swift; sourceTree = "<group>"; };
+		1A0006010000000000000001 /* MoodColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodColors.swift; sourceTree = "<group>"; };
+		1A0006030000000000000001 /* ConfidencePulse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfidencePulse.swift; sourceTree = "<group>"; };
+		1A0006050000000000000001 /* LiquidGlass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlass.swift; sourceTree = "<group>"; };
+		1A0006070000000000000001 /* TypographyMotion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyMotion.swift; sourceTree = "<group>"; };
+		1A0006090000000000000001 /* MicroInteractions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicroInteractions.swift; sourceTree = "<group>"; };
+		1A00060B0000000000000001 /* ParticleEffects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleEffects.swift; sourceTree = "<group>"; };
 		1A0000FA0000000000000001 /* ErrorHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandling.swift; sourceTree = "<group>"; };
 		1A0000FC0000000000000001 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		1A0000FE0000000000000001 /* CrashReporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReporting.swift; sourceTree = "<group>"; };
@@ -189,7 +215,9 @@
 		1A0001060000000000000001 /* LocalAnalyticsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAnalyticsStore.swift; sourceTree = "<group>"; };
 		1A0001080000000000000001 /* PerformanceMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceMonitor.swift; sourceTree = "<group>"; };
 		1A00010A0000000000000001 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
-		1A00010C0000000000000001 /* DependencyInjection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyInjection.swift; sourceTree = "<group>"; };
+		1A00010C0000000000000001 /* ServiceProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocols.swift; sourceTree = "<group>"; };
+		1A00040C0000000000000001 /* AppContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContainer.swift; sourceTree = "<group>"; };
+		1A00040E0000000000000001 /* MockServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockServices.swift; sourceTree = "<group>"; };
 		1A00030B0000000000000001 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 
 		/* UI - Navigation */
@@ -224,11 +252,15 @@
 
 		/* Audio */
 		1A0000410000000000000001 /* RehearsalRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RehearsalRecorder.swift; sourceTree = "<group>"; };
+		1A0005010000000000000001 /* RecordingTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingTypes.swift; sourceTree = "<group>"; };
+		1A0005030000000000000001 /* RecordingInterruptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingInterruptions.swift; sourceTree = "<group>"; };
 		1A0000430000000000000001 /* AudioMetricsAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMetricsAnalyzer.swift; sourceTree = "<group>"; };
 		1A0000450000000000000001 /* AudioPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerViewModel.swift; sourceTree = "<group>"; };
 		1A0000950000000000000001 /* TranscriptionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionEngine.swift; sourceTree = "<group>"; };
 		1A0000F20000000000000001 /* SoundDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundDesign.swift; sourceTree = "<group>"; };
 		1A0000F80000000000000001 /* SpeechAnalysisEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechAnalysisEngine.swift; sourceTree = "<group>"; };
+		1A0005050000000000000001 /* SpeechAnalysisTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechAnalysisTypes.swift; sourceTree = "<group>"; };
+		1A0005070000000000000001 /* SpeechPatterns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechPatterns.swift; sourceTree = "<group>"; };
 
 		/* Feedback */
 		1A0000510000000000000001 /* FeedbackEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackEngine.swift; sourceTree = "<group>"; };
@@ -379,7 +411,8 @@
 		1A0000290000000000000001 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				1A0000410000000000000001 /* RehearsalRecorder.swift */,
+				1A0005040000000000000001 /* Recording */,
+				1A0005080000000000000001 /* Analysis */,
 				1A0000430000000000000001 /* AudioMetricsAnalyzer.swift */,
 				1A0000450000000000000001 /* AudioPlayerViewModel.swift */,
 				1A0000950000000000000001 /* TranscriptionEngine.swift */,
@@ -387,6 +420,25 @@
 				1A0000F80000000000000001 /* SpeechAnalysisEngine.swift */,
 			);
 			path = Audio;
+			sourceTree = "<group>";
+		};
+		1A0005040000000000000001 /* Recording */ = {
+			isa = PBXGroup;
+			children = (
+				1A0000410000000000000001 /* RehearsalRecorder.swift */,
+				1A0005010000000000000001 /* RecordingTypes.swift */,
+				1A0005030000000000000001 /* RecordingInterruptions.swift */,
+			);
+			path = Recording;
+			sourceTree = "<group>";
+		};
+		1A0005080000000000000001 /* Analysis */ = {
+			isa = PBXGroup;
+			children = (
+				1A0005050000000000000001 /* SpeechAnalysisTypes.swift */,
+				1A0005070000000000000001 /* SpeechPatterns.swift */,
+			);
+			path = Analysis;
 			sourceTree = "<group>";
 		};
 		1A00002A0000000000000001 /* Feedback */ = {
@@ -466,12 +518,12 @@
 				1A0000120000000000000001 /* Constants.swift */,
 				1A0000140000000000000001 /* Haptics.swift */,
 				1A0000160000000000000001 /* FeatureGates.swift */,
-				1A0000180000000000000001 /* Theme.swift */,
+				1A0004050000000000000001 /* Theme */,
 				1A0000970000000000000001 /* AppTips.swift */,
 				1A0000E10000000000000001 /* Accessibility.swift */,
 				1A0000A20000000000000001 /* LiveActivityManager.swift */,
 				1A0000A40000000000000001 /* WidgetDataManager.swift */,
-				1A0000F00000000000000001 /* ElevatedDesign.swift */,
+				1A00060C0000000000000001 /* ElevatedDesign */,
 				1A0000FA0000000000000001 /* ErrorHandling.swift */,
 				1A0000FC0000000000000001 /* Analytics.swift */,
 				1A0000FE0000000000000001 /* CrashReporting.swift */,
@@ -480,7 +532,7 @@
 				1A0001060000000000000001 /* LocalAnalyticsStore.swift */,
 				1A0001080000000000000001 /* PerformanceMonitor.swift */,
 				1A00010A0000000000000001 /* NetworkMonitor.swift */,
-				1A00010C0000000000000001 /* DependencyInjection.swift */,
+				1A00040F0000000000000001 /* DI */,
 				1A00030B0000000000000001 /* NotificationManager.swift */,
 				1A0000320000000000000001 /* Extensions */,
 			);
@@ -492,6 +544,42 @@
 			children = (
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		1A0004050000000000000001 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				1A0000180000000000000001 /* Colors.swift */,
+				1A0004000000000000000001 /* Typography.swift */,
+				1A0004010000000000000001 /* Formatting.swift */,
+				1A0004020000000000000001 /* ViewModifiers.swift */,
+				1A0004030000000000000001 /* MeshGradients.swift */,
+				1A0004040000000000000001 /* SymbolAnimations.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		1A00060C0000000000000001 /* ElevatedDesign */ = {
+			isa = PBXGroup;
+			children = (
+				1A0006010000000000000001 /* MoodColors.swift */,
+				1A0006030000000000000001 /* ConfidencePulse.swift */,
+				1A0006050000000000000001 /* LiquidGlass.swift */,
+				1A0006070000000000000001 /* TypographyMotion.swift */,
+				1A0006090000000000000001 /* MicroInteractions.swift */,
+				1A00060B0000000000000001 /* ParticleEffects.swift */,
+			);
+			path = ElevatedDesign;
+			sourceTree = "<group>";
+		};
+		1A00040F0000000000000001 /* DI */ = {
+			isa = PBXGroup;
+			children = (
+				1A00010C0000000000000001 /* ServiceProtocols.swift */,
+				1A00040C0000000000000001 /* AppContainer.swift */,
+				1A00040E0000000000000001 /* MockServices.swift */,
+			);
+			path = DI;
 			sourceTree = "<group>";
 		};
 		1A00002D0000000000000001 /* Resources */ = {
@@ -685,7 +773,12 @@
 				1A0000110000000000000001 /* Constants.swift in Sources */,
 				1A0000130000000000000001 /* Haptics.swift in Sources */,
 				1A0000150000000000000001 /* FeatureGates.swift in Sources */,
-				1A0000170000000000000001 /* Theme.swift in Sources */,
+				1A0000170000000000000001 /* Colors.swift in Sources */,
+				1A0004060000000000000001 /* Typography.swift in Sources */,
+				1A0004070000000000000001 /* Formatting.swift in Sources */,
+				1A0004080000000000000001 /* ViewModifiers.swift in Sources */,
+				1A0004090000000000000001 /* MeshGradients.swift in Sources */,
+				1A00040A0000000000000001 /* SymbolAnimations.swift in Sources */,
 				1A0000960000000000000001 /* AppTips.swift in Sources */,
 				1A0000E00000000000000001 /* Accessibility.swift in Sources */,
 				1A0000A10000000000000001 /* LiveActivityManager.swift in Sources */,
@@ -697,6 +790,8 @@
 				1A00001B0000000000000001 /* HomeView.swift in Sources */,
 				1A00001D0000000000000001 /* OnboardingView.swift in Sources */,
 				1A0000400000000000000001 /* RehearsalRecorder.swift in Sources */,
+				1A0005000000000000000001 /* RecordingTypes.swift in Sources */,
+				1A0005020000000000000001 /* RecordingInterruptions.swift in Sources */,
 				1A0000420000000000000001 /* AudioMetricsAnalyzer.swift in Sources */,
 				1A0000440000000000000001 /* AudioPlayerViewModel.swift in Sources */,
 				1A0000940000000000000001 /* TranscriptionEngine.swift in Sources */,
@@ -718,7 +813,12 @@
 				1A0000840000000000000001 /* PrimaryButton.swift in Sources */,
 				1A0003020000000000000001 /* StreakBadgeView.swift in Sources */,
 				1A0003060000000000000001 /* StructureGuideSheet.swift in Sources */,
-				1A0000F10000000000000001 /* ElevatedDesign.swift in Sources */,
+				1A0006000000000000000001 /* MoodColors.swift in Sources */,
+				1A0006020000000000000001 /* ConfidencePulse.swift in Sources */,
+				1A0006040000000000000001 /* LiquidGlass.swift in Sources */,
+				1A0006060000000000000001 /* TypographyMotion.swift in Sources */,
+				1A0006080000000000000001 /* MicroInteractions.swift in Sources */,
+				1A00060A0000000000000001 /* ParticleEffects.swift in Sources */,
 				1A0000FB0000000000000001 /* ErrorHandling.swift in Sources */,
 				1A0000FD0000000000000001 /* Analytics.swift in Sources */,
 				1A0000FF0000000000000001 /* CrashReporting.swift in Sources */,
@@ -727,10 +827,14 @@
 				1A0001070000000000000001 /* LocalAnalyticsStore.swift in Sources */,
 				1A0001090000000000000001 /* PerformanceMonitor.swift in Sources */,
 				1A00010B0000000000000001 /* NetworkMonitor.swift in Sources */,
-				1A00010D0000000000000001 /* DependencyInjection.swift in Sources */,
+				1A00010D0000000000000001 /* ServiceProtocols.swift in Sources */,
+				1A00040B0000000000000001 /* AppContainer.swift in Sources */,
+				1A00040D0000000000000001 /* MockServices.swift in Sources */,
 				1A00030A0000000000000001 /* NotificationManager.swift in Sources */,
 				1A0000F30000000000000001 /* SoundDesign.swift in Sources */,
 				1A0000F90000000000000001 /* SpeechAnalysisEngine.swift in Sources */,
+				1A0005090000000000000001 /* SpeechAnalysisTypes.swift in Sources */,
+				1A0005060000000000000001 /* SpeechPatterns.swift in Sources */,
 				1A0000F50000000000000001 /* CoachPersonality.swift in Sources */,
 				1A0000F70000000000000001 /* ElevatedOnboarding.swift in Sources */,
 			);

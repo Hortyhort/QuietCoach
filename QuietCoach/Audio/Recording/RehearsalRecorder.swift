@@ -13,50 +13,9 @@ import OSLog
 @MainActor
 final class RehearsalRecorder {
 
-    // MARK: - State Machine
-
-    enum State: Equatable, Sendable {
-        case idle
-        case recording
-        case paused
-        case finished
-    }
-
-    // MARK: - Recording Warnings
-
-    enum RecordingWarning: Equatable, Sendable {
-        case tooQuiet
-        case tooLoud
-        case noisyEnvironment
-
-        var icon: String {
-            switch self {
-            case .tooQuiet: return "speaker.slash.fill"
-            case .tooLoud: return "speaker.wave.3.fill"
-            case .noisyEnvironment: return "waveform.badge.exclamationmark"
-            }
-        }
-
-        var message: String {
-            switch self {
-            case .tooQuiet: return "Speak up or move closer"
-            case .tooLoud: return "Too loud — move back slightly"
-            case .noisyEnvironment: return "Noisy environment detected"
-            }
-        }
-
-        var accessibilityLabel: String {
-            switch self {
-            case .tooQuiet: return "Warning: Audio too quiet. Speak up or move closer to the microphone."
-            case .tooLoud: return "Warning: Audio too loud. Move back slightly from the microphone."
-            case .noisyEnvironment: return "Warning: Noisy environment detected. Consider moving to a quieter location."
-            }
-        }
-    }
-
     // MARK: - Observable State
 
-    private(set) var state: State = .idle
+    private(set) var state: RecordingState = .idle
     private(set) var currentTime: TimeInterval = 0
     private(set) var currentLevel: Float = 0
     private(set) var waveformSamples: [Float] = []
@@ -64,7 +23,7 @@ final class RehearsalRecorder {
 
     // MARK: - Private Properties
 
-    private let logger = Logger(subsystem: "com.quietcoach", category: "Recorder")
+    let logger = Logger(subsystem: "com.quietcoach", category: "Recorder")
     private let fileStore = FileStore.shared
 
     private var audioRecorder: AVAudioRecorder?
@@ -87,6 +46,9 @@ final class RehearsalRecorder {
     // Current recording info
     private(set) var currentFileName: String?
     private(set) var currentFileURL: URL?
+
+    // Delegate for interruption callbacks
+    weak var interruptionDelegate: RecordingInterruptionDelegate?
 
     // MARK: - Initialization
 
@@ -378,100 +340,6 @@ final class RehearsalRecorder {
         activeWarning = nil
     }
 
-    // MARK: - Interruption Handling
-
-    /// Delegate for interruption callbacks
-    weak var interruptionDelegate: RecordingInterruptionDelegate?
-
-    private func handleInterruption(_ notification: Notification) async {
-        guard let userInfo = notification.userInfo,
-              let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
-              let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
-            return
-        }
-
-        switch type {
-        case .began:
-            // Phone call, Siri, etc.
-            if state == .recording {
-                pauseRecording()
-                logger.info("Recording paused due to interruption")
-
-                // Track for crash reporting context
-                CrashReporting.shared.recordBreadcrumb(
-                    "Recording interrupted",
-                    category: .audio,
-                    data: ["duration": String(format: "%.1f", currentTime)]
-                )
-
-                // Notify delegate
-                interruptionDelegate?.recordingWasInterrupted()
-            }
-
-        case .ended:
-            // Interruption ended - don't auto-resume, let user decide
-            if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
-                let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
-                if options.contains(.shouldResume) {
-                    logger.info("Interruption ended, can resume")
-                    interruptionDelegate?.recordingInterruptionEnded(canResume: true)
-                } else {
-                    interruptionDelegate?.recordingInterruptionEnded(canResume: false)
-                }
-            }
-
-        @unknown default:
-            break
-        }
-    }
-
-    private func handleRouteChange(_ notification: Notification) async {
-        guard let userInfo = notification.userInfo,
-              let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
-              let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else {
-            return
-        }
-
-        switch reason {
-        case .oldDeviceUnavailable:
-            // AirPods disconnected, etc.
-            if state == .recording {
-                pauseRecording()
-                logger.info("Recording paused due to route change (device unavailable)")
-
-                CrashReporting.shared.recordBreadcrumb(
-                    "Audio route changed - device unavailable",
-                    category: .audio
-                )
-
-                interruptionDelegate?.audioRouteChanged(deviceLost: true)
-            }
-
-        case .newDeviceAvailable:
-            logger.info("New audio device available")
-            interruptionDelegate?.audioRouteChanged(deviceLost: false)
-
-        default:
-            break
-        }
-    }
-
-    // MARK: - Memory Warning Handling
-
-    func handleMemoryWarning() {
-        if state == .recording {
-            // Save what we have and stop
-            logger.warning("Memory warning during recording - saving current progress")
-            _ = stopRecording()
-
-            CrashReporting.shared.recordBreadcrumb(
-                "Recording stopped due to memory warning",
-                category: .audio,
-                data: ["duration": String(format: "%.1f", currentTime)]
-            )
-        }
-    }
-
     // MARK: - Helpers
 
     private func resetMetrics() {
@@ -516,38 +384,4 @@ final class RehearsalRecorder {
     static var permissionDetermined: Bool {
         AVAudioApplication.shared.recordPermission != .undetermined
     }
-}
-
-// MARK: - Formatted Time
-
-extension RehearsalRecorder {
-    /// Current time formatted as "M:SS"
-    var formattedCurrentTime: String {
-        currentTime.qcFormattedDuration
-    }
-
-    /// Remaining time before max duration
-    var remainingTime: TimeInterval {
-        max(0, Constants.Limits.maxRecordingDuration - currentTime)
-    }
-
-    /// Whether recording is near max duration (last 30 seconds)
-    var isNearMaxDuration: Bool {
-        remainingTime < 30 && state == .recording
-    }
-}
-
-// MARK: - Recording Interruption Delegate
-
-/// Delegate protocol for handling recording interruptions
-@MainActor
-protocol RecordingInterruptionDelegate: AnyObject {
-    /// Called when recording is interrupted (phone call, Siri, etc.)
-    func recordingWasInterrupted()
-
-    /// Called when interruption ends
-    func recordingInterruptionEnded(canResume: Bool)
-
-    /// Called when audio route changes (device connected/disconnected)
-    func audioRouteChanged(deviceLost: Bool)
 }
