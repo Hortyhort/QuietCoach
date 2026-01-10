@@ -104,6 +104,13 @@ struct RehearseView: View {
         .sheet(isPresented: $showingStructureGuide) {
             StructureGuideSheet(scenario: scenario)
         }
+        .overlay {
+            if isProcessing {
+                AnalyzingOverlay()
+                    .transition(.opacity)
+            }
+        }
+        .animation(.easeInOut(duration: 0.3), value: isProcessing)
     }
 
     // MARK: - Top Section
