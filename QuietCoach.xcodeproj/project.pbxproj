@@ -23,6 +23,9 @@
 		1A0002180000000000000001 /* OnboardingFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0002080000000000000001 /* OnboardingFlowTests.swift */; };
 		1A0002190000000000000001 /* AudioMetricsAnalyzerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0002090000000000000001 /* AudioMetricsAnalyzerTests.swift */; };
 		1A00021A0000000000000001 /* ErrorHandlingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00020A0000000000000001 /* ErrorHandlingTests.swift */; };
+		1A00021B0000000000000001 /* UIComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00020B0000000000000001 /* UIComponentTests.swift */; };
+		1A00021C0000000000000001 /* IntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00020C0000000000000001 /* IntegrationTests.swift */; };
+		1A00021D0000000000000001 /* NetworkSecurityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00020D0000000000000001 /* NetworkSecurityTests.swift */; };
 
 		/* Domain */
 		1A0000030000000000000001 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000040000000000000001 /* Scenario.swift */; };
@@ -61,6 +64,7 @@
 		1A0000FB0000000000000001 /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000FA0000000000000001 /* ErrorHandling.swift */; };
 		1A0000FD0000000000000001 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000FC0000000000000001 /* Analytics.swift */; };
 		1A0009000000000000000001 /* CloudSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0009010000000000000001 /* CloudSyncManager.swift */; };
+		1A0009020000000000000001 /* NetworkSecurity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0009030000000000000001 /* NetworkSecurity.swift */; };
 		1A0000FF0000000000000001 /* CrashReporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000FE0000000000000001 /* CrashReporting.swift */; };
 		1A0001010000000000000001 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0001000000000000000001 /* Localization.swift */; };
 		1A0001030000000000000001 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A0001100000000000000001 /* Localizable.strings */; };
@@ -211,6 +215,7 @@
 		1A0000FA0000000000000001 /* ErrorHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandling.swift; sourceTree = "<group>"; };
 		1A0000FC0000000000000001 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		1A0009010000000000000001 /* CloudSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncManager.swift; sourceTree = "<group>"; };
+		1A0009030000000000000001 /* NetworkSecurity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSecurity.swift; sourceTree = "<group>"; };
 		1A0000FE0000000000000001 /* CrashReporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReporting.swift; sourceTree = "<group>"; };
 		1A0001000000000000000001 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		1A0001020000000000000001 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -300,6 +305,9 @@
 		1A0002080000000000000001 /* OnboardingFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlowTests.swift; sourceTree = "<group>"; };
 		1A0002090000000000000001 /* AudioMetricsAnalyzerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMetricsAnalyzerTests.swift; sourceTree = "<group>"; };
 		1A00020A0000000000000001 /* ErrorHandlingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandlingTests.swift; sourceTree = "<group>"; };
+		1A00020B0000000000000001 /* UIComponentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIComponentTests.swift; sourceTree = "<group>"; };
+		1A00020C0000000000000001 /* IntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationTests.swift; sourceTree = "<group>"; };
+		1A00020D0000000000000001 /* NetworkSecurityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSecurityTests.swift; sourceTree = "<group>"; };
 		1A0002500000000000000001 /* QuietCoachTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuietCoachTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -365,6 +373,9 @@
 				1A0002080000000000000001 /* OnboardingFlowTests.swift */,
 				1A0002090000000000000001 /* AudioMetricsAnalyzerTests.swift */,
 				1A00020A0000000000000001 /* ErrorHandlingTests.swift */,
+				1A00020B0000000000000001 /* UIComponentTests.swift */,
+				1A00020C0000000000000001 /* IntegrationTests.swift */,
+				1A00020D0000000000000001 /* NetworkSecurityTests.swift */,
 			);
 			path = QuietCoachTests;
 			sourceTree = "<group>";
@@ -538,6 +549,7 @@
 				1A0000FA0000000000000001 /* ErrorHandling.swift */,
 				1A0000FC0000000000000001 /* Analytics.swift */,
 				1A0009010000000000000001 /* CloudSyncManager.swift */,
+				1A0009030000000000000001 /* NetworkSecurity.swift */,
 				1A0000FE0000000000000001 /* CrashReporting.swift */,
 				1A0001000000000000000001 /* Localization.swift */,
 				1A0001040000000000000001 /* PrivacySettings.swift */,
@@ -835,6 +847,7 @@
 				1A0000FB0000000000000001 /* ErrorHandling.swift in Sources */,
 				1A0000FD0000000000000001 /* Analytics.swift in Sources */,
 				1A0009000000000000000001 /* CloudSyncManager.swift in Sources */,
+				1A0009020000000000000001 /* NetworkSecurity.swift in Sources */,
 				1A0000FF0000000000000001 /* CrashReporting.swift in Sources */,
 				1A0001010000000000000001 /* Localization.swift in Sources */,
 				1A0001050000000000000001 /* PrivacySettings.swift in Sources */,
@@ -882,6 +895,9 @@
 				1A0002180000000000000001 /* OnboardingFlowTests.swift in Sources */,
 				1A0002190000000000000001 /* AudioMetricsAnalyzerTests.swift in Sources */,
 				1A00021A0000000000000001 /* ErrorHandlingTests.swift in Sources */,
+				1A00021B0000000000000001 /* UIComponentTests.swift in Sources */,
+				1A00021C0000000000000001 /* IntegrationTests.swift in Sources */,
+				1A00021D0000000000000001 /* NetworkSecurityTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

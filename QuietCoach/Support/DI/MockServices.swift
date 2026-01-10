@@ -75,7 +75,17 @@ final class MockSessionRepository: SessionRepositoryProtocol {
     }
 
     func exportAllData() -> Data? {
-        nil
+        // Return serialized sessions as JSON
+        guard !sessions.isEmpty else { return nil }
+        let exportData = sessions.map { session in
+            [
+                "id": session.id.uuidString,
+                "scenarioId": session.scenarioId,
+                "duration": session.duration,
+                "createdAt": session.createdAt.timeIntervalSince1970
+            ] as [String: Any]
+        }
+        return try? JSONSerialization.data(withJSONObject: exportData)
     }
 }
 
