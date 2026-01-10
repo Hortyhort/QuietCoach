@@ -6,6 +6,9 @@
 
 import Foundation
 import OSLog
+#if canImport(UIKit)
+import UIKit
+#endif
 
 // MARK: - Analytics Protocol
 
@@ -64,6 +67,12 @@ enum AnalyticsEvent: Sendable {
     case speechRecognitionFailed(reason: String)
     case permissionDenied(type: String)
 
+    // MARK: - Funnel Events (Critical Path)
+    case firstSessionStarted
+    case firstSessionCompleted(score: Int)
+    case sessionAbandoned(reason: String, durationSeconds: Int)
+    case widgetTapped(widgetType: String, scenarioId: String)
+
     /// Event name for tracking
     var name: String {
         switch self {
@@ -91,6 +100,10 @@ enum AnalyticsEvent: Sendable {
         case .errorOccurred: return "error_occurred"
         case .speechRecognitionFailed: return "speech_recognition_failed"
         case .permissionDenied: return "permission_denied"
+        case .firstSessionStarted: return "first_session_started"
+        case .firstSessionCompleted: return "first_session_completed"
+        case .sessionAbandoned: return "session_abandoned"
+        case .widgetTapped: return "widget_tapped"
         }
     }
 
@@ -164,6 +177,18 @@ enum AnalyticsEvent: Sendable {
 
         case .permissionDenied(let type):
             return ["type": type]
+
+        case .firstSessionStarted:
+            return [:]
+
+        case .firstSessionCompleted(let score):
+            return ["score_bucket": scoreBucket(score)]
+
+        case .sessionAbandoned(let reason, let duration):
+            return ["reason": reason, "duration_bucket": durationBucket(duration)]
+
+        case .widgetTapped(let widgetType, let scenarioId):
+            return ["widget_type": widgetType, "scenario_id": scenarioId]
         }
     }
 
@@ -219,6 +244,15 @@ final class Analytics {
         // Add default local provider for debugging
         #if DEBUG
         providers.append(LocalAnalyticsProvider())
+        #else
+        // Production: Add TelemetryDeck provider
+        // Replace with your actual TelemetryDeck App ID
+        if let appId = Bundle.main.infoDictionary?["TELEMETRYDECK_APP_ID"] as? String {
+            providers.append(TelemetryDeckProvider(appID: appId))
+        } else {
+            // Fallback to placeholder - will log but not send
+            providers.append(TelemetryDeckProvider())
+        }
         #endif
     }
 
@@ -289,6 +323,35 @@ final class Analytics {
     func trackError(_ error: any AppError) {
         track(.errorOccurred(type: String(describing: type(of: error)), recoverable: error.isRecoverable))
     }
+
+    // MARK: - Funnel Tracking
+
+    /// Track first session started (only fires once per install)
+    func trackFirstSessionStartedIfNeeded() {
+        guard SessionTracker.shared.isFirstSession else { return }
+        let key = "com.quietcoach.analytics.firstSessionTracked"
+        guard !UserDefaults.standard.bool(forKey: key) else { return }
+        UserDefaults.standard.set(true, forKey: key)
+        track(.firstSessionStarted)
+    }
+
+    /// Track first session completed (only fires once per install)
+    func trackFirstSessionCompletedIfNeeded(score: Int) {
+        let key = "com.quietcoach.analytics.firstSessionCompleted"
+        guard !UserDefaults.standard.bool(forKey: key) else { return }
+        UserDefaults.standard.set(true, forKey: key)
+        track(.firstSessionCompleted(score: score))
+    }
+
+    /// Track session abandonment
+    func sessionAbandoned(reason: String, duration: TimeInterval) {
+        track(.sessionAbandoned(reason: reason, durationSeconds: Int(duration)))
+    }
+
+    /// Track widget tap
+    func widgetTapped(widgetType: String, scenarioId: String) {
+        track(.widgetTapped(widgetType: widgetType, scenarioId: scenarioId))
+    }
 }
 
 // MARK: - Local Analytics Provider (Debug)
@@ -309,6 +372,155 @@ final class LocalAnalyticsProvider: AnalyticsProvider, @unchecked Sendable {
 
     func setUserProperty(_ property: String, value: String?) {
         logger.debug("User property: \(property) = \(value ?? "nil")")
+    }
+}
+
+// MARK: - TelemetryDeck Provider (Production)
+
+/// Production analytics provider using TelemetryDeck
+/// Privacy-focused, GDPR-compliant analytics
+final class TelemetryDeckProvider: AnalyticsProvider, @unchecked Sendable {
+    private let logger = Logger(subsystem: "com.quietcoach", category: "TelemetryDeck")
+
+    /// App ID from TelemetryDeck dashboard
+    /// Set this in production or via environment variable
+    private let appID: String
+
+    /// Base URL for TelemetryDeck API
+    private let baseURL = URL(string: "https://nom.telemetrydeck.com/v2/")!
+
+    /// Anonymous user identifier (consistent per install, not trackable)
+    private let userIdentifier: String
+
+    init(appID: String = "YOUR_TELEMETRYDECK_APP_ID") {
+        self.appID = appID
+
+        // Generate or retrieve anonymous user identifier
+        let key = "com.quietcoach.analytics.anonymousId"
+        if let existingId = UserDefaults.standard.string(forKey: key) {
+            self.userIdentifier = existingId
+        } else {
+            let newId = UUID().uuidString
+            UserDefaults.standard.set(newId, forKey: key)
+            self.userIdentifier = newId
+        }
+
+        logger.info("TelemetryDeck initialized with anonymous ID")
+    }
+
+    func track(_ event: AnalyticsEvent) {
+        let payload = buildPayload(type: event.name, additionalPayload: event.parameters)
+        sendSignal(payload)
+    }
+
+    func trackScreen(_ screen: String) {
+        let payload = buildPayload(type: "screen_view", additionalPayload: ["screen": screen])
+        sendSignal(payload)
+    }
+
+    func setUserProperty(_ property: String, value: String?) {
+        // TelemetryDeck handles user properties via payload enrichment
+        // Store locally for inclusion in future events
+        let key = "com.quietcoach.analytics.property.\(property)"
+        UserDefaults.standard.set(value, forKey: key)
+    }
+
+    // MARK: - Payload Building
+
+    private func buildPayload(type: String, additionalPayload: [String: String]) -> [String: String] {
+        var payload: [String: String] = [
+            "appID": appID,
+            "clientUser": userIdentifier,
+            "type": type
+        ]
+
+        // Flatten additional payload with prefix
+        for (key, value) in additionalPayload {
+            payload["param_\(key)"] = value
+        }
+
+        // Add system info (non-identifying)
+        #if os(iOS)
+        payload["platform"] = "iOS"
+        payload["systemVersion"] = ProcessInfo.processInfo.operatingSystemVersionString
+        #elseif os(macOS)
+        payload["platform"] = "macOS"
+        payload["systemVersion"] = ProcessInfo.processInfo.operatingSystemVersionString
+        #elseif os(visionOS)
+        payload["platform"] = "visionOS"
+        payload["systemVersion"] = ProcessInfo.processInfo.operatingSystemVersionString
+        #else
+        payload["platform"] = "unknown"
+        payload["systemVersion"] = "unknown"
+        #endif
+        payload["appVersion"] = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
+        payload["buildNumber"] = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "unknown"
+
+        // Add session info
+        payload["sessionID"] = SessionTracker.shared.currentSessionId
+
+        return payload
+    }
+
+    // MARK: - Network
+
+    private func sendSignal(_ payload: [String: String]) {
+        guard appID != "YOUR_TELEMETRYDECK_APP_ID" else {
+            logger.debug("TelemetryDeck not configured - skipping signal")
+            return
+        }
+
+        // Copy payload for safe sending
+        let payloadCopy = payload
+
+        Task.detached {
+            do {
+                var request = URLRequest(url: self.baseURL)
+                request.httpMethod = "POST"
+                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                request.httpBody = try JSONSerialization.data(withJSONObject: [payloadCopy])
+
+                let (_, response) = try await URLSession.shared.data(for: request)
+
+                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
+                    // Log silently - analytics failures shouldn't disrupt user
+                }
+            } catch {
+                // Silently fail - analytics shouldn't disrupt user experience
+            }
+        }
+    }
+}
+
+// MARK: - Session Tracker
+
+/// Tracks app session for analytics continuity
+final class SessionTracker: @unchecked Sendable {
+    static let shared = SessionTracker()
+
+    private(set) var currentSessionId: String
+    private(set) var sessionStartTime: Date
+    private(set) var isFirstSession: Bool
+
+    private init() {
+        self.currentSessionId = UUID().uuidString
+        self.sessionStartTime = Date()
+
+        // Check if this is the first session ever
+        let hasLaunchedKey = "com.quietcoach.analytics.hasLaunched"
+        self.isFirstSession = !UserDefaults.standard.bool(forKey: hasLaunchedKey)
+        UserDefaults.standard.set(true, forKey: hasLaunchedKey)
+    }
+
+    /// Start a new session (call on app foreground)
+    func startNewSession() {
+        currentSessionId = UUID().uuidString
+        sessionStartTime = Date()
+    }
+
+    /// Get session duration in seconds
+    var sessionDuration: Int {
+        Int(Date().timeIntervalSince(sessionStartTime))
     }
 }
 

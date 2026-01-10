@@ -112,6 +112,10 @@ final class WidgetDataManager {
 
         // Clear the pending ID
         defaults.removeObject(forKey: Keys.pendingScenarioId)
+
+        // Track widget tap attribution
+        Analytics.shared.widgetTapped(widgetType: "quick_practice", scenarioId: scenarioId)
+
         logger.info("Consumed pending scenario: \(scenarioId)")
         return scenarioId
     }

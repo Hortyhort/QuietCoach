@@ -83,6 +83,13 @@ struct RehearseView: View {
             titleVisibility: .visible
         ) {
             Button("Cancel Rehearsal", role: .destructive) {
+                // Track session abandonment
+                Task { @MainActor in
+                    Analytics.shared.sessionAbandoned(
+                        reason: "user_cancelled",
+                        duration: recorder.currentTime
+                    )
+                }
                 recorder.cancelRecording()
                 onCancel()
             }
@@ -228,6 +235,11 @@ struct RehearseView: View {
         switch recorder.state {
         case .idle:
             recorder.startRecording()
+            // Track recording start
+            Task { @MainActor in
+                Analytics.shared.recordingStarted(scenario: scenario)
+                Analytics.shared.trackFirstSessionStartedIfNeeded()
+            }
 
         case .recording:
             finishRecording()
@@ -337,6 +349,12 @@ struct RehearseView: View {
 
         // Log memory state after processing
         PerformanceMonitor.shared.logMemoryState("Post-feedback")
+
+        // Track completion
+        let overallScore = (result.scores.clarity + result.scores.pacing + result.scores.tone + result.scores.confidence) / 4
+        Analytics.shared.recordingCompleted(duration: metrics.duration)
+        Analytics.shared.feedbackViewed(score: overallScore)
+        Analytics.shared.trackFirstSessionCompletedIfNeeded(score: overallScore)
 
         Haptics.scoresRevealed()
         isProcessing = false
