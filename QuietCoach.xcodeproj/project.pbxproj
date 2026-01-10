@@ -76,6 +76,7 @@
 		1A00040B0000000000000001 /* AppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00040C0000000000000001 /* AppContainer.swift */; };
 		1A00040D0000000000000001 /* MockServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00040E0000000000000001 /* MockServices.swift */; };
 		1A00030A0000000000000001 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00030B0000000000000001 /* NotificationManager.swift */; };
+		1ASPOTLIGHT00000000000001 /* SpotlightManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ASPOTLIGHT00000000000002 /* SpotlightManager.swift */; };
 
 		/* Audio */
 		1A0000400000000000000001 /* RehearsalRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000410000000000000001 /* RehearsalRecorder.swift */; };
@@ -230,6 +231,7 @@
 		1A00040C0000000000000001 /* AppContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContainer.swift; sourceTree = "<group>"; };
 		1A00040E0000000000000001 /* MockServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockServices.swift; sourceTree = "<group>"; };
 		1A00030B0000000000000001 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		1ASPOTLIGHT00000000000002 /* SpotlightManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotlightManager.swift; sourceTree = "<group>"; };
 
 		/* UI - Navigation */
 		1A00001A0000000000000001 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -561,6 +563,7 @@
 				1A00010A0000000000000001 /* NetworkMonitor.swift */,
 				1A00040F0000000000000001 /* DI */,
 				1A00030B0000000000000001 /* NotificationManager.swift */,
+				1ASPOTLIGHT00000000000002 /* SpotlightManager.swift */,
 				1A0000320000000000000001 /* Extensions */,
 			);
 			path = Support;
@@ -862,6 +865,7 @@
 				1A00040B0000000000000001 /* AppContainer.swift in Sources */,
 				1A00040D0000000000000001 /* MockServices.swift in Sources */,
 				1A00030A0000000000000001 /* NotificationManager.swift in Sources */,
+				1ASPOTLIGHT00000000000001 /* SpotlightManager.swift in Sources */,
 				1A0000F30000000000000001 /* SoundDesign.swift in Sources */,
 				1A0000F90000000000000001 /* SpeechAnalysisEngine.swift in Sources */,
 				1A0005090000000000000001 /* SpeechAnalysisTypes.swift in Sources */,

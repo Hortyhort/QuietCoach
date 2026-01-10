@@ -7,6 +7,7 @@
 import SwiftUI
 import SwiftData
 import StoreKit
+import CoreSpotlight
 
 struct RootView: View {
 
@@ -20,6 +21,8 @@ struct RootView: View {
     @AppStorage("hasUpgradedFromAppClip") private var hasUpgradedFromAppClip = false
     @State private var repository = SessionRepository.placeholder
     @State private var showingAppClipWelcome = false
+    @State private var spotlightScenario: Scenario?
+    @State private var showingHistory = false
     private let featureGates = FeatureGates.shared
 
     // MARK: - Body
@@ -48,6 +51,59 @@ struct RootView: View {
                 hasUpgradedFromAppClip = true
                 showingAppClipWelcome = false
             }
+        }
+        .sheet(isPresented: $showingHistory) {
+            HistoryView()
+                .environment(repository)
+        }
+        .onContinueUserActivity(CSSearchableItemActionType) { activity in
+            handleSpotlightActivity(activity)
+        }
+    }
+
+    // MARK: - Spotlight Handling
+
+    private func handleSpotlightActivity(_ activity: NSUserActivity) {
+        guard let identifier = activity.userInfo?[CSSearchableItemActivityIdentifier] as? String else {
+            return
+        }
+
+        guard let result = SpotlightManager.shared.parseIdentifier(identifier) else {
+            return
+        }
+
+        switch result {
+        case .scenario(let scenarioId):
+            // Find and open the scenario
+            if let scenario = Scenario.scenario(for: scenarioId) {
+                spotlightScenario = scenario
+                // Note: The HomeView should observe spotlightScenario to navigate
+            }
+
+        case .session:
+            // Open history to show the session
+            showingHistory = true
+
+        case .quickAction(let action):
+            handleQuickAction(action)
+        }
+    }
+
+    private func handleQuickAction(_ action: String) {
+        switch action {
+        case "start-practice":
+            // The HomeView is already the practice start point
+            break
+
+        case "view-history":
+            showingHistory = true
+
+        case "view-streak":
+            // Could show streak detail, for now just go home
+            break
+
+        default:
+            break
         }
     }
 

@@ -77,6 +77,11 @@ struct QuietCoachApp: App {
         Task { @MainActor in
             FileStore.shared.applyFileProtectionToExistingRecordings()
         }
+
+        // Index content for Spotlight search
+        Task { @MainActor in
+            SpotlightManager.shared.indexAllContent()
+        }
     }
 
     // MARK: - Scene
