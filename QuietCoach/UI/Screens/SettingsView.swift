@@ -40,6 +40,9 @@ struct SettingsView: View {
                 // Data section
                 dataSection
 
+                // Sync section
+                syncSection
+
                 // Achievements section
                 achievementsSection
 
@@ -355,6 +358,14 @@ private extension SettingsView {
                 Text("Delete All Data")
                     .font(.qcBody)
             }
+        }
+    }
+
+    // MARK: - Sync Section
+
+    private var syncSection: some View {
+        Section("Sync") {
+            SyncSettingsRow()
         }
     }
 

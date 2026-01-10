@@ -151,11 +151,21 @@ struct QuietCoachApp: App {
 
     /// Attempts to create a persistent ModelContainer, returns nil on failure
     private static func createPersistentContainer(schema: Schema) -> ModelContainer? {
+        // Try CloudKit-enabled configuration first
+        if let cloudContainer = createCloudKitContainer(schema: schema) {
+            Logger(subsystem: "com.quietcoach", category: "App")
+                .info("Using CloudKit-enabled container")
+            return cloudContainer
+        }
+
+        // Fallback to local-only storage
         let modelConfiguration = ModelConfiguration(
             schema: schema,
             isStoredInMemoryOnly: false
         )
         do {
+            Logger(subsystem: "com.quietcoach", category: "App")
+                .info("Using local-only container")
             return try ModelContainer(
                 for: schema,
                 configurations: [modelConfiguration]
@@ -165,5 +175,32 @@ struct QuietCoachApp: App {
                 .error("Failed to create persistent container: \(error.localizedDescription)")
             return nil
         }
+    }
+
+    /// Attempts to create a CloudKit-enabled container
+    private static func createCloudKitContainer(schema: Schema) -> ModelContainer? {
+        #if !targetEnvironment(simulator)
+        // CloudKit requires a real device and iCloud account
+        let cloudConfig = ModelConfiguration(
+            schema: schema,
+            isStoredInMemoryOnly: false,
+            cloudKitDatabase: .private("iCloud.com.quietcoach")
+        )
+        do {
+            return try ModelContainer(
+                for: schema,
+                configurations: [cloudConfig]
+            )
+        } catch {
+            Logger(subsystem: "com.quietcoach", category: "App")
+                .warning("CloudKit container failed, falling back to local: \(error.localizedDescription)")
+            return nil
+        }
+        #else
+        // Simulator doesn't support CloudKit sync well
+        Logger(subsystem: "com.quietcoach", category: "App")
+            .info("Simulator detected, skipping CloudKit")
+        return nil
+        #endif
     }
 }
