@@ -20,6 +20,7 @@ final class RehearsalRecorder {
     private(set) var currentLevel: Float = 0
     private(set) var waveformSamples: [Float] = []
     private(set) var activeWarning: RecordingWarning?
+    private(set) var setupError: RecordingError?
 
     // MARK: - Private Properties
 
@@ -65,8 +66,11 @@ final class RehearsalRecorder {
     // MARK: - Audio Session Setup
 
     /// Configure the audio session for recording
-    func setupAudioSession() {
+    /// Returns true if setup succeeded, false otherwise
+    @discardableResult
+    func setupAudioSession() -> Bool {
         let session = AVAudioSession.sharedInstance()
+        setupError = nil
 
         do {
             try session.setCategory(
@@ -76,12 +80,20 @@ final class RehearsalRecorder {
             )
             try session.setActive(true)
             logger.info("Audio session configured successfully")
+
+            // Set up notification observers using async sequences
+            setupNotificationObservers()
+            return true
         } catch {
             logger.error("Failed to configure audio session: \(error.localizedDescription)")
+            setupError = .audioSessionFailed(error)
+            return false
         }
+    }
 
-        // Set up notification observers using async sequences
-        setupNotificationObservers()
+    /// Clear any setup error
+    func clearSetupError() {
+        setupError = nil
     }
 
     private func setupNotificationObservers() {

@@ -62,7 +62,7 @@ final class IntelligentCoach {
         insights = []
 
         // Perform analysis
-        let clarityInsight = analyzeCarity(transcript: transcript)
+        let clarityInsight = analyzeClarity(transcript: transcript)
         let pacingInsight = analyzePacing(transcript: transcript, metrics: metrics)
         let structureInsight = analyzeStructure(transcript: transcript, scenario: scenario)
         let sentimentInsight = analyzeSentiment(transcript: transcript)
@@ -82,7 +82,7 @@ final class IntelligentCoach {
 
     // MARK: - Clarity Analysis
 
-    private func analyzeCarity(transcript: String) -> Insight? {
+    private func analyzeClarity(transcript: String) -> Insight? {
         let words = transcript.split(separator: " ")
         let wordCount = words.count
 

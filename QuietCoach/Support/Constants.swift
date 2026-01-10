@@ -18,6 +18,9 @@ enum Constants {
         static let supportEmail = "support@quietcoach.app"
         static let privacyURL = "https://quietcoach.app/privacy"
         static let supportURL = "https://quietcoach.app/support"
+
+        // CloudKit container identifier
+        static let cloudKitContainerID = "iCloud.com.quietcoach"
     }
 
     // MARK: - Recording Limits

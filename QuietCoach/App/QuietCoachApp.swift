@@ -44,10 +44,24 @@ struct QuietCoachApp: App {
                 )
             } catch {
                 // Last resort: this should never happen with in-memory
-                // but we still handle it gracefully
+                // Log critical error and create minimal fallback
                 Logger(subsystem: "com.quietcoach", category: "App")
                     .critical("All storage options failed: \(error.localizedDescription)")
-                modelContainer = try! ModelContainer(for: schema)
+
+                // In DEBUG, fail fast to catch issues during development
+                #if DEBUG
+                fatalError("SwiftData initialization failed: \(error.localizedDescription)")
+                #else
+                // In production, attempt one more time with default configuration
+                // This is extremely unlikely to fail if in-memory already failed
+                do {
+                    modelContainer = try ModelContainer(for: schema)
+                } catch {
+                    // Absolute last resort - this path should never be reached
+                    // but we handle it to avoid undefined behavior
+                    fatalError("Critical: Unable to initialize any data storage")
+                }
+                #endif
             }
         }
 
@@ -189,7 +203,7 @@ struct QuietCoachApp: App {
         let cloudConfig = ModelConfiguration(
             schema: schema,
             isStoredInMemoryOnly: false,
-            cloudKitDatabase: .private("iCloud.com.quietcoach")
+            cloudKitDatabase: .private(Constants.App.cloudKitContainerID)
         )
         do {
             return try ModelContainer(

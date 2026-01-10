@@ -23,45 +23,73 @@ struct WaveformView: View {
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
+    // MARK: - State for animation
+
+    @State private var animatedLevels: [Float] = []
+
     // MARK: - Body
 
     var body: some View {
-        GeometryReader { geometry in
-            HStack(spacing: barSpacing) {
-                ForEach(0..<barCount, id: \.self) { index in
-                    WaveformBar(
-                        level: barLevel(for: index),
-                        isActive: isActive,
-                        minHeight: minBarHeight,
-                        maxHeight: maxBarHeight,
-                        activeColor: activeColor,
-                        inactiveColor: inactiveColor,
-                        reduceMotion: reduceMotion
-                    )
-                }
+        Canvas { context, size in
+            let barWidth: CGFloat = 3
+            let totalBarWidth = barWidth + barSpacing
+            let totalWidth = CGFloat(barCount) * totalBarWidth - barSpacing
+            let startX = (size.width - totalWidth) / 2
+            let centerY = size.height / 2
+
+            for index in 0..<barCount {
+                let level = animatedLevels.indices.contains(index) ? animatedLevels[index] : 0.1
+                let normalizedLevel = CGFloat(level)
+                let barHeight = minBarHeight + (normalizedLevel * (maxBarHeight - minBarHeight))
+                let clampedHeight = max(minBarHeight, min(maxBarHeight, barHeight))
+
+                let x = startX + CGFloat(index) * totalBarWidth
+                let y = centerY - clampedHeight / 2
+
+                let rect = CGRect(x: x, y: y, width: barWidth, height: clampedHeight)
+                let path = Path(roundedRect: rect, cornerRadius: 2)
+
+                context.fill(path, with: .color(isActive ? activeColor : inactiveColor))
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .onChange(of: samples) { _, newSamples in
+            updateAnimatedLevels(from: newSamples)
+        }
+        .onAppear {
+            updateAnimatedLevels(from: samples)
         }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(accessibilityDescription)
         .accessibilityValue(isActive ? "Recording" : "Idle")
     }
 
+    // MARK: - Level Updates
+
+    private func updateAnimatedLevels(from samples: [Float]) {
+        var newLevels: [Float] = []
+        for index in 0..<barCount {
+            newLevels.append(barLevel(for: index, from: samples))
+        }
+
+        if reduceMotion {
+            animatedLevels = newLevels
+        } else {
+            withAnimation(.spring(response: 0.15, dampingFraction: 0.7)) {
+                animatedLevels = newLevels
+            }
+        }
+    }
+
     // MARK: - Bar Level Calculation
 
-    private func barLevel(for index: Int) -> Float {
+    private func barLevel(for index: Int, from samples: [Float]) -> Float {
         guard !samples.isEmpty else {
-            // Idle state: show minimal bars
             return 0.1
         }
 
-        // Map bar index to sample index
         let sampleIndex = Int(Float(index) / Float(barCount) * Float(samples.count))
         let clampedIndex = min(sampleIndex, samples.count - 1)
-
-        // Get sample value, ensure minimum visibility
-        let sample = samples[clampedIndex]
-        return max(0.1, sample)
+        return max(0.1, samples[clampedIndex])
     }
 
     // MARK: - Accessibility
@@ -81,46 +109,6 @@ struct WaveformView: View {
     }
 }
 
-// MARK: - Waveform Bar
-
-private struct WaveformBar: View {
-    let level: Float
-    let isActive: Bool
-    let minHeight: CGFloat
-    let maxHeight: CGFloat
-    let activeColor: Color
-    let inactiveColor: Color
-    let reduceMotion: Bool
-
-    @State private var animatedLevel: Float = 0.1
-
-    var body: some View {
-        RoundedRectangle(cornerRadius: 2, style: .continuous)
-            .fill(isActive ? activeColor : inactiveColor)
-            .frame(width: 3, height: barHeight)
-            .animation(animation, value: animatedLevel)
-            .onChange(of: level) { _, newValue in
-                animatedLevel = newValue
-            }
-            .onAppear {
-                animatedLevel = level
-            }
-    }
-
-    private var barHeight: CGFloat {
-        let normalizedLevel = CGFloat(animatedLevel)
-        let height = minHeight + (normalizedLevel * (maxHeight - minHeight))
-        return max(minHeight, min(maxHeight, height))
-    }
-
-    private var animation: Animation {
-        if reduceMotion {
-            return .linear(duration: 0.05)
-        }
-        return .spring(response: 0.15, dampingFraction: 0.7)
-    }
-}
-
 // MARK: - Compact Waveform (for playback scrubber)
 
 struct CompactWaveformView: View {
@@ -130,18 +118,29 @@ struct CompactWaveformView: View {
     var height: CGFloat = 32
 
     var body: some View {
-        GeometryReader { geometry in
-            HStack(spacing: 2) {
-                ForEach(0..<barCount, id: \.self) { index in
-                    let level = barLevel(for: index)
-                    let isPast = Double(index) / Double(barCount) <= progress
+        Canvas { context, size in
+            let barWidth: CGFloat = 2
+            let barSpacing: CGFloat = 2
+            let totalBarWidth = barWidth + barSpacing
+            let totalWidth = CGFloat(barCount) * totalBarWidth - barSpacing
+            let startX = (size.width - totalWidth) / 2
+            let centerY = size.height / 2
+            let minBarHeight: CGFloat = 4
+            let maxBarHeight = size.height
 
-                    RoundedRectangle(cornerRadius: 1, style: .continuous)
-                        .fill(isPast ? Color.qcAccent : Color.qcWaveformInactive)
-                        .frame(width: 2, height: barHeight(for: level))
-                }
+            for index in 0..<barCount {
+                let level = barLevel(for: index)
+                let barHeight = minBarHeight + (CGFloat(level) * (maxBarHeight - minBarHeight))
+                let isPast = Double(index) / Double(barCount) <= progress
+
+                let x = startX + CGFloat(index) * totalBarWidth
+                let y = centerY - barHeight / 2
+
+                let rect = CGRect(x: x, y: y, width: barWidth, height: barHeight)
+                let path = Path(roundedRect: rect, cornerRadius: 1)
+
+                context.fill(path, with: .color(isPast ? .qcAccent : .qcWaveformInactive))
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         }
         .frame(height: height)
         .accessibilityElement(children: .ignore)
@@ -154,12 +153,6 @@ struct CompactWaveformView: View {
         let sampleIndex = Int(Float(index) / Float(barCount) * Float(samples.count))
         let clampedIndex = min(sampleIndex, samples.count - 1)
         return max(0.2, samples[clampedIndex])
-    }
-
-    private func barHeight(for level: Float) -> CGFloat {
-        let minHeight: CGFloat = 4
-        let maxHeight = height
-        return minHeight + (CGFloat(level) * (maxHeight - minHeight))
     }
 }
 
