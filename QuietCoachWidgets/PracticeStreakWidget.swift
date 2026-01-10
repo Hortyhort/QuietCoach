@@ -114,77 +114,142 @@ struct PracticeStreakWidgetEntryView: View {
         }
     }
 
-    // MARK: - Home Screen Small
+    // MARK: - Home Screen Small (iOS 26 Liquid Glass)
 
     private var smallView: some View {
-        VStack(spacing: 8) {
-            HStack {
-                Image(systemName: "flame.fill")
-                    .font(.title2)
-                    .foregroundStyle(.orange)
-                Spacer()
-            }
+        ZStack {
+            // Liquid Glass gradient background
+            LinearGradient(
+                colors: [
+                    Color.orange.opacity(0.15),
+                    Color.clear
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
 
-            Spacer()
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text("\(entry.streakDays)")
-                    .font(.system(size: 42, weight: .bold, design: .rounded))
-                    .foregroundStyle(.primary)
-
-                Text("day streak")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .padding()
-        .containerBackground(.black, for: .widget)
-    }
-
-    // MARK: - Home Screen Medium
-
-    private var mediumView: some View {
-        HStack(spacing: 16) {
-            // Streak section
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(spacing: 8) {
                 HStack {
-                    Image(systemName: "flame.fill")
-                        .font(.title2)
-                        .foregroundStyle(.orange)
-                    Text("Practice Streak")
+                    // Glowing flame icon
+                    ZStack {
+                        Circle()
+                            .fill(Color.orange.opacity(0.2))
+                            .frame(width: 32, height: 32)
+                            .blur(radius: 4)
+
+                        Image(systemName: "flame.fill")
+                            .font(.title3)
+                            .foregroundStyle(
+                                LinearGradient(
+                                    colors: [.orange, .red.opacity(0.8)],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
+                    }
+                    Spacer()
+                }
+
+                Spacer()
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("\(entry.streakDays)")
+                        .font(.system(size: 42, weight: .bold, design: .rounded))
+                        .foregroundStyle(.primary)
+
+                    Text(entry.streakDays == 1 ? "day streak" : "day streak")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
-
-                Text("\(entry.streakDays) days")
-                    .font(.system(size: 32, weight: .bold, design: .rounded))
-                    .foregroundStyle(.primary)
-
-                if let lastDate = entry.lastPracticeDate {
-                    Text("Last: \(lastDate, style: .relative) ago")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
+            .padding()
+        }
+        .containerBackground(for: .widget) {
+            // Frosted glass effect
+            Color.black.opacity(0.3)
+                .background(.ultraThinMaterial)
+        }
+    }
 
-            Spacer()
+    // MARK: - Home Screen Medium (iOS 26 Liquid Glass)
 
-            // Stats section
-            VStack(alignment: .trailing, spacing: 8) {
+    private var mediumView: some View {
+        ZStack {
+            // Liquid Glass gradient background
+            LinearGradient(
+                colors: [
+                    Color.orange.opacity(0.12),
+                    Color.purple.opacity(0.08),
+                    Color.clear
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+
+            HStack(spacing: 16) {
+                // Streak section with floating card effect
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(spacing: 8) {
+                        // Glowing flame icon
+                        ZStack {
+                            Circle()
+                                .fill(Color.orange.opacity(0.25))
+                                .frame(width: 28, height: 28)
+                                .blur(radius: 3)
+
+                            Image(systemName: "flame.fill")
+                                .font(.subheadline)
+                                .foregroundStyle(
+                                    LinearGradient(
+                                        colors: [.orange, .red.opacity(0.8)],
+                                        startPoint: .top,
+                                        endPoint: .bottom
+                                    )
+                                )
+                        }
+
+                        Text("Practice Streak")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    Text("\(entry.streakDays) days")
+                        .font(.system(size: 32, weight: .bold, design: .rounded))
+                        .foregroundStyle(.primary)
+
+                    if let lastDate = entry.lastPracticeDate {
+                        Text("Last: \(lastDate, style: .relative) ago")
+                            .font(.caption)
+                            .foregroundStyle(.tertiary)
+                    }
+                }
+
                 Spacer()
 
-                VStack(alignment: .trailing, spacing: 4) {
-                    Text("\(entry.totalSessions)")
-                        .font(.system(size: 24, weight: .semibold, design: .rounded))
-                    Text("total sessions")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                // Stats section with glass pill
+                VStack(alignment: .trailing, spacing: 8) {
+                    Spacer()
+
+                    VStack(alignment: .trailing, spacing: 4) {
+                        Text("\(entry.totalSessions)")
+                            .font(.system(size: 24, weight: .semibold, design: .rounded))
+                        Text("total sessions")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(.ultraThinMaterial.opacity(0.5))
+                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 }
             }
+            .padding()
         }
-        .padding()
-        .containerBackground(.black, for: .widget)
+        .containerBackground(for: .widget) {
+            Color.black.opacity(0.3)
+                .background(.ultraThinMaterial)
+        }
     }
 }
 

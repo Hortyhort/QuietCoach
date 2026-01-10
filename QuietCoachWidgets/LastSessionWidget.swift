@@ -102,23 +102,45 @@ struct LastSessionWidgetEntryView: View {
         }
     }
 
-    // MARK: - Empty State
+    // MARK: - Empty State (iOS 26 Liquid Glass)
 
     private var emptyView: some View {
-        VStack(spacing: 8) {
-            Image(systemName: "waveform")
-                .font(.title)
-                .foregroundStyle(.secondary)
+        ZStack {
+            // Subtle gradient
+            LinearGradient(
+                colors: [
+                    Color.gray.opacity(0.08),
+                    Color.clear
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
 
-            Text("No sessions yet")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            VStack(spacing: 8) {
+                ZStack {
+                    Circle()
+                        .fill(Color.gray.opacity(0.1))
+                        .frame(width: 48, height: 48)
+                        .blur(radius: 4)
 
-            Text("Start practicing!")
-                .font(.caption2)
-                .foregroundStyle(.tertiary)
+                    Image(systemName: "waveform")
+                        .font(.title)
+                        .foregroundStyle(.secondary)
+                }
+
+                Text("No sessions yet")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                Text("Start practicing!")
+                    .font(.caption2)
+                    .foregroundStyle(.tertiary)
+            }
         }
-        .containerBackground(.black, for: .widget)
+        .containerBackground(for: .widget) {
+            Color.black.opacity(0.3)
+                .background(.ultraThinMaterial)
+        }
     }
 
     // MARK: - Lock Screen Rectangular
@@ -141,34 +163,59 @@ struct LastSessionWidgetEntryView: View {
         }
     }
 
-    // MARK: - Home Screen Small
+    // MARK: - Home Screen Small (iOS 26 Liquid Glass)
 
     private var smallView: some View {
-        VStack(spacing: 8) {
-            HStack {
-                Text("Last Session")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+        ZStack {
+            // Liquid Glass gradient based on score
+            LinearGradient(
+                colors: [
+                    scoreColor.opacity(0.15),
+                    scoreColor.opacity(0.05),
+                    Color.clear
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+
+            VStack(spacing: 8) {
+                HStack {
+                    Text("Last Session")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                }
+
                 Spacer()
+
+                // Glowing score circle
+                ZStack {
+                    // Glow effect
+                    Circle()
+                        .fill(scoreColor.opacity(0.2))
+                        .frame(width: 72, height: 72)
+                        .blur(radius: 8)
+
+                    scoreCircle(size: 64, fontSize: 24)
+                }
+
+                Text(entry.scenarioTitle)
+                    .font(.caption)
+                    .foregroundStyle(.primary)
+                    .lineLimit(1)
+
+                if let date = entry.sessionDate {
+                    Text(date, style: .relative)
+                        .font(.caption2)
+                        .foregroundStyle(.tertiary)
+                }
             }
-
-            Spacer()
-
-            scoreCircle(size: 64, fontSize: 24)
-
-            Text(entry.scenarioTitle)
-                .font(.caption)
-                .foregroundStyle(.primary)
-                .lineLimit(1)
-
-            if let date = entry.sessionDate {
-                Text(date, style: .relative)
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-            }
+            .padding()
         }
-        .padding()
-        .containerBackground(.black, for: .widget)
+        .containerBackground(for: .widget) {
+            Color.black.opacity(0.3)
+                .background(.ultraThinMaterial)
+        }
     }
 
     // MARK: - Score Circle
@@ -180,7 +227,14 @@ struct LastSessionWidgetEntryView: View {
 
             Circle()
                 .trim(from: 0, to: CGFloat(entry.overallScore) / 100)
-                .stroke(scoreColor, style: StrokeStyle(lineWidth: 4, lineCap: .round))
+                .stroke(
+                    LinearGradient(
+                        colors: [scoreColor, scoreColor.opacity(0.7)],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ),
+                    style: StrokeStyle(lineWidth: 4, lineCap: .round)
+                )
                 .rotationEffect(.degrees(-90))
 
             Text("\(entry.overallScore)")

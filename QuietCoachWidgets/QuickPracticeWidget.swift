@@ -94,83 +94,162 @@ struct QuickPracticeWidgetEntryView: View {
         }
     }
 
-    // MARK: - Home Screen Small
+    // MARK: - Home Screen Small (iOS 26 Liquid Glass)
 
     private var smallView: some View {
-        VStack(spacing: 8) {
-            HStack {
-                Image(systemName: "waveform")
-                    .foregroundStyle(.orange)
-                Text("Practice")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                Spacer()
-            }
+        ZStack {
+            // Liquid Glass gradient
+            LinearGradient(
+                colors: [
+                    Color.blue.opacity(0.12),
+                    Color.purple.opacity(0.08),
+                    Color.clear
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
 
-            Spacer()
+            VStack(spacing: 8) {
+                HStack {
+                    ZStack {
+                        Circle()
+                            .fill(Color.orange.opacity(0.2))
+                            .frame(width: 24, height: 24)
+                            .blur(radius: 3)
 
-            if let firstScenario = entry.scenarios.first {
-                Button(intent: QuickPracticeIntent(scenarioId: firstScenario.id)) {
-                    VStack(spacing: 8) {
-                        Image(systemName: firstScenario.icon)
-                            .font(.title)
-                            .foregroundStyle(.orange)
-
-                        Text(firstScenario.title)
+                        Image(systemName: "waveform")
                             .font(.caption)
-                            .foregroundStyle(.primary)
-                            .lineLimit(2)
-                            .multilineTextAlignment(.center)
+                            .foregroundStyle(.orange)
                     }
+
+                    Text("Practice")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Spacer()
                 }
-                .buttonStyle(.plain)
-            }
 
-            Spacer()
-        }
-        .padding()
-        .containerBackground(.black, for: .widget)
-    }
-
-    // MARK: - Home Screen Medium
-
-    private var mediumView: some View {
-        VStack(spacing: 12) {
-            HStack {
-                Image(systemName: "waveform")
-                    .foregroundStyle(.orange)
-                Text("Quick Practice")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
                 Spacer()
-            }
 
-            HStack(spacing: 12) {
-                ForEach(entry.scenarios.prefix(4)) { scenario in
-                    Button(intent: QuickPracticeIntent(scenarioId: scenario.id)) {
-                        VStack(spacing: 6) {
-                            Image(systemName: scenario.icon)
-                                .font(.title2)
-                                .foregroundStyle(.orange)
-                                .frame(width: 32, height: 32)
+                if let firstScenario = entry.scenarios.first {
+                    Button(intent: QuickPracticeIntent(scenarioId: firstScenario.id)) {
+                        VStack(spacing: 8) {
+                            // Glowing icon
+                            ZStack {
+                                Circle()
+                                    .fill(Color.orange.opacity(0.2))
+                                    .frame(width: 48, height: 48)
+                                    .blur(radius: 6)
 
-                            Text(scenario.title)
-                                .font(.caption2)
+                                Image(systemName: firstScenario.icon)
+                                    .font(.title)
+                                    .foregroundStyle(
+                                        LinearGradient(
+                                            colors: [.orange, .yellow.opacity(0.8)],
+                                            startPoint: .top,
+                                            endPoint: .bottom
+                                        )
+                                    )
+                            }
+
+                            Text(firstScenario.title)
+                                .font(.caption)
                                 .foregroundStyle(.primary)
                                 .lineLimit(2)
                                 .multilineTextAlignment(.center)
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 8)
-                        .background(Color.white.opacity(0.1))
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
                     .buttonStyle(.plain)
                 }
+
+                Spacer()
             }
+            .padding()
         }
-        .padding()
-        .containerBackground(.black, for: .widget)
+        .containerBackground(for: .widget) {
+            Color.black.opacity(0.3)
+                .background(.ultraThinMaterial)
+        }
+    }
+
+    // MARK: - Home Screen Medium (iOS 26 Liquid Glass)
+
+    private var mediumView: some View {
+        ZStack {
+            // Liquid Glass gradient
+            LinearGradient(
+                colors: [
+                    Color.blue.opacity(0.1),
+                    Color.purple.opacity(0.06),
+                    Color.orange.opacity(0.04)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+
+            VStack(spacing: 12) {
+                HStack {
+                    ZStack {
+                        Circle()
+                            .fill(Color.orange.opacity(0.2))
+                            .frame(width: 24, height: 24)
+                            .blur(radius: 3)
+
+                        Image(systemName: "waveform")
+                            .font(.caption)
+                            .foregroundStyle(.orange)
+                    }
+
+                    Text("Quick Practice")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                }
+
+                HStack(spacing: 10) {
+                    ForEach(entry.scenarios.prefix(4)) { scenario in
+                        Button(intent: QuickPracticeIntent(scenarioId: scenario.id)) {
+                            VStack(spacing: 6) {
+                                // Glass button with glow
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                        .fill(.ultraThinMaterial)
+                                        .frame(height: 44)
+
+                                    // Glow effect
+                                    Circle()
+                                        .fill(Color.orange.opacity(0.15))
+                                        .frame(width: 30, height: 30)
+                                        .blur(radius: 4)
+
+                                    Image(systemName: scenario.icon)
+                                        .font(.title3)
+                                        .foregroundStyle(
+                                            LinearGradient(
+                                                colors: [.orange, .yellow.opacity(0.8)],
+                                                startPoint: .top,
+                                                endPoint: .bottom
+                                            )
+                                        )
+                                }
+
+                                Text(scenario.title)
+                                    .font(.system(size: 10))
+                                    .foregroundStyle(.primary)
+                                    .lineLimit(2)
+                                    .multilineTextAlignment(.center)
+                            }
+                            .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+            .padding()
+        }
+        .containerBackground(for: .widget) {
+            Color.black.opacity(0.3)
+                .background(.ultraThinMaterial)
+        }
     }
 }
 
