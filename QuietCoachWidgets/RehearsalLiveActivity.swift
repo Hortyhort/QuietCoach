@@ -32,98 +32,180 @@ struct RehearsalLiveActivity: Widget {
             lockScreenView(context: context)
         } dynamicIsland: { context in
             DynamicIsland {
-                // Expanded regions
+                // Expanded regions with Liquid Glass design
                 DynamicIslandExpandedRegion(.leading) {
                     HStack(spacing: 8) {
-                        Image(systemName: context.attributes.scenarioIcon)
-                            .foregroundStyle(.orange)
+                        // Glowing icon
+                        ZStack {
+                            Circle()
+                                .fill(Color.orange.opacity(0.2))
+                                .frame(width: 24, height: 24)
+                                .blur(radius: 2)
+
+                            Image(systemName: context.attributes.scenarioIcon)
+                                .font(.caption)
+                                .foregroundStyle(
+                                    LinearGradient(
+                                        colors: [.orange, .yellow.opacity(0.8)],
+                                        startPoint: .top,
+                                        endPoint: .bottom
+                                    )
+                                )
+                        }
+
                         Text(context.attributes.scenarioTitle)
                             .font(.caption)
                             .lineLimit(1)
+                            .foregroundStyle(.secondary)
                     }
                 }
 
                 DynamicIslandExpandedRegion(.trailing) {
                     recordingIndicator(isRecording: context.state.isRecording, isPaused: context.state.isPaused)
+                        .frame(width: 28, height: 28)
                 }
 
                 DynamicIslandExpandedRegion(.bottom) {
                     HStack {
-                        // Timer
+                        // Glowing timer
                         Text(formatTime(context.state.elapsedTime))
                             .font(.system(size: 32, weight: .medium, design: .monospaced))
                             .foregroundStyle(.primary)
+                            .shadow(color: indicatorColor(isRecording: context.state.isRecording, isPaused: context.state.isPaused).opacity(0.3), radius: 4)
 
                         Spacer()
 
-                        // Status
+                        // Status pill
                         statusLabel(isRecording: context.state.isRecording, isPaused: context.state.isPaused)
                     }
                     .padding(.horizontal, 4)
                 }
             } compactLeading: {
-                // Compact leading
-                Image(systemName: "waveform")
-                    .foregroundStyle(.orange)
+                // Compact leading with glow
+                ZStack {
+                    Circle()
+                        .fill(Color.orange.opacity(0.3))
+                        .frame(width: 20, height: 20)
+                        .blur(radius: 2)
+
+                    Image(systemName: "waveform")
+                        .font(.caption2)
+                        .foregroundStyle(.orange)
+                }
             } compactTrailing: {
-                // Compact trailing
+                // Compact trailing with color indicator
                 Text(formatTimeCompact(context.state.elapsedTime))
                     .font(.system(.caption, design: .monospaced))
                     .foregroundStyle(context.state.isRecording ? .primary : .secondary)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(
+                        Capsule()
+                            .fill(indicatorColor(isRecording: context.state.isRecording, isPaused: context.state.isPaused).opacity(0.2))
+                    )
             } minimal: {
-                // Minimal presentation
-                Image(systemName: context.state.isRecording ? "waveform" : "pause.fill")
-                    .foregroundStyle(.orange)
+                // Minimal with pulsing glow
+                ZStack {
+                    Circle()
+                        .fill(indicatorColor(isRecording: context.state.isRecording, isPaused: context.state.isPaused).opacity(0.3))
+                        .blur(radius: 2)
+
+                    Image(systemName: context.state.isRecording ? "waveform" : "pause.fill")
+                        .font(.caption2)
+                        .foregroundStyle(indicatorColor(isRecording: context.state.isRecording, isPaused: context.state.isPaused))
+                }
             }
         }
     }
 
-    // MARK: - Lock Screen View
+    // MARK: - Lock Screen View (iOS 26 Liquid Glass)
 
     @ViewBuilder
     private func lockScreenView(context: ActivityViewContext<RehearsalActivityAttributes>) -> some View {
-        HStack(spacing: 16) {
-            // Recording indicator
-            recordingIndicator(isRecording: context.state.isRecording, isPaused: context.state.isPaused)
-                .frame(width: 44, height: 44)
+        ZStack {
+            // Liquid Glass gradient background
+            LinearGradient(
+                colors: [
+                    indicatorColor(isRecording: context.state.isRecording, isPaused: context.state.isPaused).opacity(0.15),
+                    Color.clear
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
 
-            // Info
-            VStack(alignment: .leading, spacing: 4) {
-                Text(context.attributes.scenarioTitle)
-                    .font(.headline)
-                    .lineLimit(1)
+            HStack(spacing: 16) {
+                // Glowing recording indicator
+                recordingIndicator(isRecording: context.state.isRecording, isPaused: context.state.isPaused)
+                    .frame(width: 44, height: 44)
 
-                HStack(spacing: 8) {
-                    Text(formatTime(context.state.elapsedTime))
-                        .font(.system(.subheadline, design: .monospaced))
-                        .foregroundStyle(.secondary)
+                // Info
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(context.attributes.scenarioTitle)
+                        .font(.headline)
+                        .lineLimit(1)
 
-                    statusLabel(isRecording: context.state.isRecording, isPaused: context.state.isPaused)
+                    HStack(spacing: 8) {
+                        Text(formatTime(context.state.elapsedTime))
+                            .font(.system(.subheadline, design: .monospaced))
+                            .foregroundStyle(.secondary)
+
+                        statusLabel(isRecording: context.state.isRecording, isPaused: context.state.isPaused)
+                    }
+                }
+
+                Spacer()
+
+                // Glowing scenario icon
+                ZStack {
+                    Circle()
+                        .fill(Color.orange.opacity(0.2))
+                        .frame(width: 40, height: 40)
+                        .blur(radius: 4)
+
+                    Image(systemName: context.attributes.scenarioIcon)
+                        .font(.title2)
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [.orange, .yellow.opacity(0.8)],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
                 }
             }
-
-            Spacer()
-
-            // Icon
-            Image(systemName: context.attributes.scenarioIcon)
-                .font(.title2)
-                .foregroundStyle(.orange)
+            .padding()
         }
-        .padding()
-        .activityBackgroundTint(.black.opacity(0.8))
+        .activityBackgroundTint(.black.opacity(0.6))
     }
 
-    // MARK: - Recording Indicator
+    // MARK: - Recording Indicator (Liquid Glass)
 
     @ViewBuilder
     private func recordingIndicator(isRecording: Bool, isPaused: Bool) -> some View {
-        ZStack {
-            Circle()
-                .fill(indicatorColor(isRecording: isRecording, isPaused: isPaused).opacity(0.2))
+        let color = indicatorColor(isRecording: isRecording, isPaused: isPaused)
 
+        ZStack {
+            // Outer glow
             Circle()
-                .fill(indicatorColor(isRecording: isRecording, isPaused: isPaused))
-                .frame(width: 12, height: 12)
+                .fill(color.opacity(0.2))
+                .blur(radius: 4)
+
+            // Glass ring
+            Circle()
+                .stroke(color.opacity(0.3), lineWidth: 2)
+
+            // Pulsing inner dot
+            Circle()
+                .fill(
+                    RadialGradient(
+                        colors: [color, color.opacity(0.6)],
+                        center: .center,
+                        startRadius: 0,
+                        endRadius: 8
+                    )
+                )
+                .frame(width: 16, height: 16)
+                .shadow(color: color.opacity(0.6), radius: 4)
         }
     }
 
@@ -137,23 +219,31 @@ struct RehearsalLiveActivity: Widget {
         }
     }
 
-    // MARK: - Status Label
+    // MARK: - Status Label (Liquid Glass)
 
     @ViewBuilder
     private func statusLabel(isRecording: Bool, isPaused: Bool) -> some View {
-        if isPaused {
-            Label("Paused", systemImage: "pause.fill")
-                .font(.caption)
-                .foregroundStyle(.yellow)
-        } else if isRecording {
-            Label("Recording", systemImage: "circle.fill")
-                .font(.caption)
-                .foregroundStyle(.red)
-        } else {
-            Label("Stopped", systemImage: "stop.fill")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+        let (text, icon, color): (String, String, Color) = {
+            if isPaused {
+                return ("Paused", "pause.fill", .yellow)
+            } else if isRecording {
+                return ("Recording", "circle.fill", .red)
+            } else {
+                return ("Stopped", "stop.fill", .gray)
+            }
+        }()
+
+        HStack(spacing: 4) {
+            Image(systemName: icon)
+                .font(.system(size: 8))
+            Text(text)
+                .font(.caption2)
         }
+        .foregroundStyle(color)
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .background(color.opacity(0.15))
+        .clipShape(Capsule())
     }
 
     // MARK: - Time Formatting
