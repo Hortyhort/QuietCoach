@@ -127,6 +127,12 @@ struct ReviewView: View {
                         showConfidencePulse = false
                         showScoreAnimation = true
                     }
+                    // Play celebration sound for high scores, milestone for others
+                    if scores.overall >= 80 {
+                        SoundManager.shared.play(.celebration)
+                    } else {
+                        SoundManager.shared.play(.milestone)
+                    }
                 }
                 .transition(.opacity)
             }

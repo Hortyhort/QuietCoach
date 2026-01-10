@@ -242,6 +242,8 @@ struct RehearseView: View {
         switch recorder.state {
         case .idle:
             recorder.startRecording()
+            // Play recording start sound
+            SoundManager.shared.play(.recording)
             // Track recording start
             Task { @MainActor in
                 Analytics.shared.recordingStarted(scenario: scenario)
@@ -253,11 +255,14 @@ struct RehearseView: View {
 
         case .paused:
             recorder.resumeRecording()
+            // Play ready sound on resume
+            SoundManager.shared.play(.ready)
 
         case .finished:
             // Start new recording
             recorder.resetForNewRecording()
             recorder.startRecording()
+            SoundManager.shared.play(.recording)
         }
     }
 
@@ -276,6 +281,8 @@ struct RehearseView: View {
             return
         }
 
+        // Play completion sound
+        SoundManager.shared.play(.complete)
         isProcessing = true
 
         // Log memory state before processing
