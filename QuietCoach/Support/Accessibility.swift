@@ -88,11 +88,29 @@ enum AccessibilityAnnouncement {
         )
     }
 
+    /// Announce individual score
+    static func individualScore(category: String, score: Int) {
+        UIAccessibility.post(
+            notification: .announcement,
+            argument: "\(category): \(score) out of 100"
+        )
+    }
+
     /// Announce playback state
     static func playbackState(isPlaying: Bool) {
         UIAccessibility.post(
             notification: .announcement,
             argument: isPlaying ? "Playing" : "Paused"
+        )
+    }
+
+    /// Announce playback position
+    static func playbackPosition(seconds: Int, total: Int) {
+        let position = formatTime(seconds)
+        let duration = formatTime(total)
+        UIAccessibility.post(
+            notification: .announcement,
+            argument: "\(position) of \(duration)"
         )
     }
 
@@ -110,6 +128,65 @@ enum AccessibilityAnnouncement {
             notification: .screenChanged,
             argument: screen
         )
+    }
+
+    /// Announce navigation
+    static func navigated(to destination: String) {
+        UIAccessibility.post(
+            notification: .announcement,
+            argument: "Navigated to \(destination)"
+        )
+    }
+
+    /// Announce success
+    static func success(_ message: String) {
+        UIAccessibility.post(
+            notification: .announcement,
+            argument: message
+        )
+    }
+
+    /// Announce error
+    static func error(_ message: String) {
+        UIAccessibility.post(
+            notification: .announcement,
+            argument: "Error: \(message)"
+        )
+    }
+
+    /// Announce streak milestone
+    static func streakMilestone(days: Int) {
+        UIAccessibility.post(
+            notification: .announcement,
+            argument: "Congratulations! You've practiced \(days) days in a row"
+        )
+    }
+
+    /// Announce analysis progress
+    static func analysisProgress(_ progress: String) {
+        UIAccessibility.post(
+            notification: .announcement,
+            argument: progress
+        )
+    }
+
+    /// Announce timer
+    static func timerUpdate(seconds: Int) {
+        let time = formatTime(seconds)
+        UIAccessibility.post(
+            notification: .announcement,
+            argument: "Recording time: \(time)"
+        )
+    }
+
+    // Helper
+    private static func formatTime(_ totalSeconds: Int) -> String {
+        let minutes = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        if minutes > 0 {
+            return "\(minutes) minutes, \(seconds) seconds"
+        }
+        return "\(seconds) seconds"
     }
 }
 
@@ -231,6 +308,186 @@ extension View {
     }
 }
 
+// MARK: - Semantic Content Grouping
+
+extension View {
+    /// Groups content as a single accessible element
+    func qcAccessibilityGroup(label: String, hint: String? = nil) -> some View {
+        self
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(label)
+            .accessibilityHint(hint ?? "")
+    }
+
+    /// Marks as a heading for rotor navigation
+    func qcAccessibilityHeading(_ level: AccessibilityHeadingLevel = .h1) -> some View {
+        self.accessibilityAddTraits(.isHeader)
+    }
+
+    /// Makes a container with custom rotor
+    func qcAccessibilityRotor<Items: RandomAccessCollection>(
+        _ name: String,
+        items: Items,
+        itemLabel: @escaping (Items.Element) -> String
+    ) -> some View where Items.Element: Identifiable {
+        self.accessibilityRotor(name) {
+            ForEach(items) { item in
+                AccessibilityRotorEntry(itemLabel(item), id: item.id)
+            }
+        }
+    }
+}
+
+// MARK: - Score Accessibility
+
+extension View {
+    /// Adds comprehensive score accessibility
+    func qcScoreAccessibility(
+        category: String,
+        score: Int,
+        previousScore: Int? = nil
+    ) -> some View {
+        var label = "\(category): \(score) out of 100"
+
+        if let previous = previousScore {
+            let delta = score - previous
+            if delta > 0 {
+                label += ", improved by \(delta) points"
+            } else if delta < 0 {
+                label += ", decreased by \(abs(delta)) points"
+            } else {
+                label += ", same as before"
+            }
+        }
+
+        // Add grade
+        switch score {
+        case 90...100: label += ", excellent"
+        case 80..<90: label += ", very good"
+        case 70..<80: label += ", good"
+        case 60..<70: label += ", fair"
+        default: label += ", needs practice"
+        }
+
+        return self.accessibilityLabel(label)
+    }
+}
+
+// MARK: - Timer Accessibility
+
+extension View {
+    /// Makes a timer accessible with periodic announcements
+    func qcTimerAccessibility(
+        seconds: TimeInterval,
+        isRecording: Bool
+    ) -> some View {
+        let minutes = Int(seconds) / 60
+        let secs = Int(seconds) % 60
+
+        var label = "Recording time: "
+        if minutes > 0 {
+            label += "\(minutes) minute\(minutes == 1 ? "" : "s") "
+        }
+        label += "\(secs) second\(secs == 1 ? "" : "s")"
+
+        if !isRecording {
+            label = "Paused at " + label
+        }
+
+        return self.accessibilityLabel(label)
+    }
+}
+
+// MARK: - Waveform Accessibility
+
+extension View {
+    /// Makes a waveform visualization accessible
+    func qcWaveformAccessibility(
+        averageLevel: Float,
+        isRecording: Bool
+    ) -> some View {
+        var label = "Audio waveform visualization"
+
+        if isRecording {
+            let levelDescription: String
+            switch averageLevel {
+            case 0..<0.2: levelDescription = "very quiet"
+            case 0.2..<0.4: levelDescription = "quiet"
+            case 0.4..<0.6: levelDescription = "moderate"
+            case 0.6..<0.8: levelDescription = "loud"
+            default: levelDescription = "very loud"
+            }
+            label = "Recording, audio level is \(levelDescription)"
+        }
+
+        return self
+            .accessibilityLabel(label)
+            .accessibilityAddTraits(.updatesFrequently)
+    }
+}
+
+// MARK: - Playback Scrubber Accessibility
+
+extension View {
+    /// Makes a playback scrubber fully accessible
+    func qcScrubberAccessibility(
+        currentTime: TimeInterval,
+        duration: TimeInterval,
+        onSeek: @escaping (TimeInterval) -> Void
+    ) -> some View {
+        let current = Int(currentTime)
+        let total = Int(duration)
+
+        return self
+            .accessibilityLabel("Playback position")
+            .accessibilityValue("\(formatTime(current)) of \(formatTime(total))")
+            .accessibilityAdjustableAction { direction in
+                switch direction {
+                case .increment:
+                    onSeek(min(currentTime + 5, duration))
+                case .decrement:
+                    onSeek(max(currentTime - 5, 0))
+                @unknown default:
+                    break
+                }
+            }
+    }
+
+    private func formatTime(_ totalSeconds: Int) -> String {
+        let minutes = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        return "\(minutes):\(String(format: "%02d", seconds))"
+    }
+}
+
+// MARK: - Scenario Card Accessibility
+
+extension View {
+    /// Makes a scenario card fully accessible
+    func qcScenarioAccessibility(
+        title: String,
+        category: String,
+        isLocked: Bool,
+        isPro: Bool
+    ) -> some View {
+        var label = title
+        label += ", \(category) category"
+
+        if isLocked {
+            label += ", locked, requires Pro upgrade"
+        }
+
+        let hint = isLocked
+            ? AccessibilityHint.lockedScenario
+            : AccessibilityHint.scenarioCard
+
+        return self
+            .accessibilityLabel(label)
+            .accessibilityHint(hint)
+            .accessibilityAddTraits(isLocked ? [.isButton] : [.isButton, .startsMediaSession])
+    }
+}
+
 // MARK: - Preview Helper
 
 #if DEBUG
@@ -239,11 +496,14 @@ struct AccessibilityPreviewHelper: View {
         VStack(spacing: 20) {
             Text("Accessibility Test View")
                 .font(.qcTitle2)
-                .accessibilityLabel("Heading: Accessibility Test View")
+                .qcAccessibilityHeading()
 
             Button("Test Button") {}
                 .qcAccessibleTouchTarget()
                 .accessibilityHint("Double tap to test")
+
+            Text("Score Example")
+                .qcScoreAccessibility(category: "Clarity", score: 85, previousScore: 78)
 
             Text("This text scales with Dynamic Type")
                 .font(.qcBody)
