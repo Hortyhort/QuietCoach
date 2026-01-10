@@ -3,6 +3,32 @@
 //
 // Transforms audio metrics and speech analysis into meaningful scores.
 // Each score maps to one measurable behavior. Every score is actionable.
+//
+// ## Scoring Philosophy
+//
+// All scores start at 75 (competent baseline) and adjust based on:
+// - Positive behaviors → add points (max 100)
+// - Concerning patterns → subtract points (min 0)
+//
+// ## Score Dimensions
+//
+// - **Clarity** (0-100): Are you easy to follow?
+//   Based on pause patterns, silence ratio, sustained engagement
+//
+// - **Pacing** (0-100): Is your rhythm engaging?
+//   Based on segments per minute, effective speaking duration
+//
+// - **Tone** (0-100): Do you sound calm and controlled?
+//   Based on volume stability, spike frequency
+//
+// - **Confidence** (0-100): Do you sound assured?
+//   Based on projection (average level), consistency, silence ratio
+//
+// ## Blending Strategy
+//
+// When speech analysis is available, NLP scores are primary and
+// audio metrics serve as modifiers (+5 for positive patterns).
+// When only audio is available, audio metrics drive scoring directly.
 
 import Foundation
 import OSLog

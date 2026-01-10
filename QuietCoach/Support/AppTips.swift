@@ -193,6 +193,104 @@ struct SiriIntegrationTip: Tip {
     }
 }
 
+// MARK: - Try Again Tip
+
+/// Tip about the Try Again feature
+struct TryAgainTip: Tip {
+    var title: Text {
+        Text("Practice makes progress")
+    }
+
+    var message: Text? {
+        Text("Tap 'Try Again' to rehearse the same scenario. Each attempt builds muscle memory.")
+    }
+
+    var image: Image? {
+        Image(systemName: "arrow.counterclockwise")
+    }
+
+    var options: [TipOption] {
+        MaxDisplayCount(2)
+    }
+}
+
+// MARK: - First Practice Tip
+
+/// Encouragement tip for first-time users
+struct FirstPracticeTip: Tip {
+    var title: Text {
+        Text("You've got this")
+    }
+
+    var message: Text? {
+        Text("Your first rehearsal doesn't need to be perfect. Just speak naturally and see what happens.")
+    }
+
+    var image: Image? {
+        Image(systemName: "heart.fill")
+    }
+
+    var options: [TipOption] {
+        MaxDisplayCount(1)
+    }
+}
+
+// MARK: - Score Improvement Tip
+
+/// Tip about improving scores
+struct ScoreImprovementTip: Tip {
+    var title: Text {
+        Text("Focus on one thing")
+    }
+
+    var message: Text? {
+        Text("Pick one coaching note to work on. Small improvements compound over time.")
+    }
+
+    var image: Image? {
+        Image(systemName: "scope")
+    }
+
+    var rules: [Rule] {
+        #Rule(Self.$practiceCount) { $0 >= 2 }
+    }
+
+    @Parameter
+    static var practiceCount: Int = 0
+
+    var options: [TipOption] {
+        MaxDisplayCount(2)
+    }
+}
+
+// MARK: - Streak Tip
+
+/// Tip about maintaining streaks
+struct StreakTip: Tip {
+    var title: Text {
+        Text("Build a habit")
+    }
+
+    var message: Text? {
+        Text("Practice once a day to build your streak. Consistency matters more than perfection.")
+    }
+
+    var image: Image? {
+        Image(systemName: "flame.fill")
+    }
+
+    var rules: [Rule] {
+        #Rule(Self.$daysActive) { $0 >= 1 }
+    }
+
+    @Parameter
+    static var daysActive: Int = 0
+
+    var options: [TipOption] {
+        MaxDisplayCount(2)
+    }
+}
+
 // MARK: - Tip Configuration
 
 /// Configure TipKit for the app
@@ -216,6 +314,7 @@ enum AppTipsConfiguration {
     static func recordSessionCompleted() {
         ProScenariosTip.sessionsCompleted += 1
         SiriIntegrationTip.sessionsCompleted += 1
+        ScoreImprovementTip.practiceCount += 1
     }
 
     /// Update high score for tip rules
@@ -223,5 +322,10 @@ enum AppTipsConfiguration {
         if score > ShareProgressTip.highScore {
             ShareProgressTip.highScore = score
         }
+    }
+
+    /// Record that user was active today (for streak tips)
+    static func recordDayActive() {
+        StreakTip.daysActive += 1
     }
 }

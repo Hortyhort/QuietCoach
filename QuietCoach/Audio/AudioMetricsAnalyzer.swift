@@ -3,6 +3,20 @@
 //
 // Post-recording analysis. Takes raw audio metrics and extracts
 // meaningful patterns for feedback scoring.
+//
+// ## Algorithm Overview
+//
+// The analyzer processes RMS (root mean square) audio windows to detect:
+// - **Pauses**: Consecutive windows below noise floor (indicates intentional breaks)
+// - **Spikes**: Windows exceeding 2 standard deviations from mean (volume control)
+// - **Rhythm**: Speech segment transitions per minute (pacing indicator)
+// - **Stability**: Coefficient of variation inverted to 0-1 scale (consistency)
+//
+// These metrics map to the four scoring dimensions:
+// - Clarity ← pause patterns, silence ratio
+// - Pacing ← segments per minute, effective duration
+// - Tone ← volume stability, spike count
+// - Confidence ← average level, silence ratio
 
 import Foundation
 
@@ -10,7 +24,12 @@ struct AudioMetricsAnalyzer {
 
     // MARK: - Main Analysis
 
-    /// Analyze raw audio metrics into structured patterns
+    /// Analyze raw audio metrics into structured patterns.
+    ///
+    /// - Parameters:
+    ///   - metrics: Raw RMS and peak windows from the recording
+    ///   - noiseFloor: Threshold below which audio is considered silence (default 0.01)
+    /// - Returns: Analyzed patterns ready for scoring
     static func analyze(_ metrics: AudioMetrics, noiseFloor: Float = 0.01) -> AnalyzedMetrics {
         // Filter out noise
         let effectiveWindows = metrics.rmsWindows.filter { $0 > noiseFloor }
@@ -62,7 +81,20 @@ struct AudioMetricsAnalyzer {
 
     // MARK: - Pause Detection
 
-    /// Count distinct pause events (consecutive silence)
+    /// Count distinct pause events (consecutive silence).
+    ///
+    /// A pause is detected when `minConsecutiveWindows` or more consecutive
+    /// windows fall below the noise threshold. This filters out brief hesitations
+    /// and captures intentional breaks in speech.
+    ///
+    /// At the default metering interval of 0.1s and minConsecutive of 3,
+    /// a pause must be at least 0.3 seconds to register.
+    ///
+    /// - Parameters:
+    ///   - windows: RMS values for each audio window
+    ///   - threshold: Level below which audio is considered silence
+    ///   - minConsecutiveWindows: Minimum consecutive silent windows to count as pause
+    /// - Returns: Number of distinct pause events
     private static func countPauses(
         windows: [Float],
         threshold: Float,
@@ -75,6 +107,7 @@ struct AudioMetricsAnalyzer {
             if rms < threshold {
                 consecutiveSilent += 1
             } else {
+                // Transition from silence to speech - count if long enough
                 if consecutiveSilent >= minConsecutiveWindows {
                     count += 1
                 }
@@ -82,7 +115,7 @@ struct AudioMetricsAnalyzer {
             }
         }
 
-        // Check for trailing pause
+        // Check for trailing pause (recording ended during silence)
         if consecutiveSilent >= minConsecutiveWindows {
             count += 1
         }
@@ -92,17 +125,33 @@ struct AudioMetricsAnalyzer {
 
     // MARK: - Spike Detection
 
-    /// Count volume spikes (sudden loudness increases)
+    /// Count volume spikes (sudden loudness increases).
+    ///
+    /// Uses statistical analysis to identify outliers. A spike is any window
+    /// that exceeds `mean + (stdDev × stdDevMultiplier)`. With the default
+    /// multiplier of 2.0, this captures values in the top ~2.5% of the distribution.
+    ///
+    /// Too many spikes indicates poor volume control or nervous energy.
+    /// Some spikes are natural for emphasis, but excessive spikes hurt tone scores.
+    ///
+    /// - Parameters:
+    ///   - windows: RMS values for each audio window
+    ///   - stdDevMultiplier: How many standard deviations above mean constitutes a spike
+    /// - Returns: Number of windows exceeding the spike threshold
     private static func countSpikes(
         windows: [Float],
         stdDevMultiplier: Float
     ) -> Int {
         guard windows.count > 1 else { return 0 }
 
+        // Calculate mean (average volume level)
         let mean = windows.reduce(0, +) / Float(windows.count)
+
+        // Calculate variance and standard deviation
         let variance = windows.map { pow($0 - mean, 2) }.reduce(0, +) / Float(windows.count)
         let stdDev = sqrt(variance)
 
+        // Spike threshold = mean + (stdDev × multiplier)
         let threshold = mean + (stdDev * stdDevMultiplier)
 
         return windows.filter { $0 > threshold }.count
