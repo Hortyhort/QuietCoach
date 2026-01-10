@@ -59,6 +59,33 @@ struct RootView: View {
         .onContinueUserActivity(CSSearchableItemActionType) { activity in
             handleSpotlightActivity(activity)
         }
+        .onContinueUserActivity(HandoffManager.ActivityType.viewScenario.rawValue) { activity in
+            handleHandoffActivity(activity)
+        }
+        .onContinueUserActivity(HandoffManager.ActivityType.reviewSession.rawValue) { activity in
+            handleHandoffActivity(activity)
+        }
+        .onContinueUserActivity(HandoffManager.ActivityType.practicing.rawValue) { activity in
+            handleHandoffActivity(activity)
+        }
+    }
+
+    // MARK: - Handoff Handling
+
+    private func handleHandoffActivity(_ activity: NSUserActivity) {
+        guard let action = HandoffManager.shared.parseActivity(activity) else {
+            return
+        }
+
+        switch action {
+        case .openScenario(let scenarioId):
+            if let scenario = Scenario.scenario(for: scenarioId) {
+                spotlightScenario = scenario
+            }
+
+        case .reviewSession:
+            showingHistory = true
+        }
     }
 
     // MARK: - Spotlight Handling
