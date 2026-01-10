@@ -268,6 +268,8 @@ struct ReviewView: View {
                         .font(.system(size: 16))
                         .foregroundColor(.qcTextTertiary)
                 }
+                .accessibilityLabel("Score information")
+                .accessibilityHint("Double tap to learn what each score means")
             }
 
             // Score interpretation with coach personality

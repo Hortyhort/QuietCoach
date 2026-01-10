@@ -213,6 +213,9 @@ struct StructureCard: View {
                 .padding(16)
             }
             .buttonStyle(.plain)
+            .accessibilityLabel("Structure Guide")
+            .accessibilityHint(isExpanded ? "Double tap to collapse" : "Double tap to expand speaking structure")
+            .accessibilityValue(isExpanded ? "Expanded" : "Collapsed")
 
             // Expanded content
             if isExpanded {

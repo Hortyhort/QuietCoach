@@ -304,7 +304,15 @@ struct StreakCelebrationOverlay: View {
                 scale = 1.0
                 opacity = 1.0
             }
+            // Announce to VoiceOver
+            UIAccessibility.post(
+                notification: .announcement,
+                argument: "Congratulations! \(milestone.title). Tap to continue."
+            )
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Milestone achieved: \(milestone.title)")
+        .accessibilityHint("Tap anywhere to dismiss")
     }
 }
 

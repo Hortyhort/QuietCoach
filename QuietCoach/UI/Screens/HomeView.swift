@@ -237,11 +237,14 @@ struct HomeView: View {
                 .font(.system(size: 14))
                 .foregroundColor(.qcAccent)
                 .frame(width: 24)
+                .accessibilityHidden(true)
 
             Text(text)
                 .font(.qcSubheadline)
                 .foregroundColor(.qcTextSecondary)
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Tip: \(text)")
     }
 
     // MARK: - Recent Sessions Section
@@ -261,6 +264,8 @@ struct HomeView: View {
                     }
                     .font(.qcButtonSmall)
                     .foregroundColor(.qcAccent)
+                    .accessibilityLabel("See all sessions")
+                    .accessibilityHint("Double tap to view your complete history")
                 }
             }
 
