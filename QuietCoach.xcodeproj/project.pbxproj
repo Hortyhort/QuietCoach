@@ -21,6 +21,7 @@
 		1A0002160000000000000001 /* RecordingFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0002060000000000000001 /* RecordingFlowTests.swift */; };
 		1A0002170000000000000001 /* SubscriptionFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0002070000000000000001 /* SubscriptionFlowTests.swift */; };
 		1A0002180000000000000001 /* OnboardingFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0002080000000000000001 /* OnboardingFlowTests.swift */; };
+		1A0002190000000000000001 /* AudioMetricsAnalyzerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0002090000000000000001 /* AudioMetricsAnalyzerTests.swift */; };
 
 		/* Domain */
 		1A0000030000000000000001 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000040000000000000001 /* Scenario.swift */; };
@@ -292,6 +293,7 @@
 		1A0002060000000000000001 /* RecordingFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingFlowTests.swift; sourceTree = "<group>"; };
 		1A0002070000000000000001 /* SubscriptionFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionFlowTests.swift; sourceTree = "<group>"; };
 		1A0002080000000000000001 /* OnboardingFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlowTests.swift; sourceTree = "<group>"; };
+		1A0002090000000000000001 /* AudioMetricsAnalyzerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMetricsAnalyzerTests.swift; sourceTree = "<group>"; };
 		1A0002500000000000000001 /* QuietCoachTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuietCoachTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -355,6 +357,7 @@
 				1A0002060000000000000001 /* RecordingFlowTests.swift */,
 				1A0002070000000000000001 /* SubscriptionFlowTests.swift */,
 				1A0002080000000000000001 /* OnboardingFlowTests.swift */,
+				1A0002090000000000000001 /* AudioMetricsAnalyzerTests.swift */,
 			);
 			path = QuietCoachTests;
 			sourceTree = "<group>";
@@ -866,6 +869,7 @@
 				1A0002160000000000000001 /* RecordingFlowTests.swift in Sources */,
 				1A0002170000000000000001 /* SubscriptionFlowTests.swift in Sources */,
 				1A0002180000000000000001 /* OnboardingFlowTests.swift in Sources */,
+				1A0002190000000000000001 /* AudioMetricsAnalyzerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

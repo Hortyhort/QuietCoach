@@ -16,7 +16,7 @@ concurrency:
 
 env:
   SCHEME: QuietCoach
-  SIMULATOR: 'platform=iOS Simulator,name=iPhone 15 Pro,OS=17.2'
+  SIMULATOR: 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2'
 
 jobs:
   # Build and Test
