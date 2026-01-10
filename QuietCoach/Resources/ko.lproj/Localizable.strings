@@ -1,0 +1,216 @@
+/*
+  Localizable.strings
+  QuietCoach
+
+  Korean localization
+*/
+
+// MARK: - Common
+"common.app_name" = "QuietCoach";
+"common.ok" = "확인";
+"common.cancel" = "취소";
+"common.done" = "완료";
+"common.next" = "다음";
+"common.back" = "뒤로";
+"common.try_again" = "다시 시도";
+"common.close" = "닫기";
+"common.save" = "저장";
+"common.delete" = "삭제";
+"common.share" = "공유";
+"common.settings" = "설정";
+
+// MARK: - Onboarding
+"onboarding.welcome_title" = "말하기 연습";
+"onboarding.welcome_subtitle" = "중요한 대화를 위한 자신감을 키우세요";
+"onboarding.get_started" = "시작하기";
+"onboarding.skip_intro" = "소개 건너뛰기";
+"onboarding.permission_title" = "마이크 접근 권한";
+"onboarding.permission_description" = "QuietCoach는 연습 세션을 녹음하기 위해 마이크 접근이 필요합니다. 모든 오디오는 기기에만 저장됩니다.";
+"onboarding.grant_access" = "접근 허용";
+
+// Elevated onboarding
+"onboarding.everyone_has_conversations" = "누구나 두려운";
+"onboarding.they_dread" = "대화가 있습니다.";
+"onboarding.continue" = "계속";
+"onboarding.what_if_you_could" = "미리 연습할 수";
+"onboarding.practice_them_first" = "있다면 어떨까요?";
+"onboarding.show_me" = "보여주세요";
+"onboarding.pick_one_thats" = "마음에 걸리는";
+"onboarding.on_your_mind" = "하나를 선택하세요";
+"onboarding.lets_practice" = "연습해 봅시다";
+"onboarding.take_thirty_seconds" = "30초만 투자하세요.";
+"onboarding.say_what_you_need" = "하고 싶은 말을 하세요.";
+"onboarding.tap_to_finish" = "탭하여 완료";
+"onboarding.see_you_did_it" = "보셨죠? 해냈어요.";
+"onboarding.thats_the_whole_app" = "이게 전부입니다.";
+
+// Simple onboarding
+"onboarding.practice_words_title" = "중요해지기 전에\n말을 연습하세요.";
+"onboarding.practice_words_subtitle" = "Quiet Coach는 어려운 대화를 비공개로 리허설하고 즉각적인 피드백을 받을 수 있게 도와줍니다.";
+"onboarding.voice_stays_yours" = "당신의 목소리는 당신의 것입니다.";
+"onboarding.voice_stays_yours_description" = "모든 오디오는 기기에서 처리됩니다. 업로드되지 않습니다. 선택하지 않으면 저장되지 않습니다.";
+"onboarding.one_permission" = "권한 하나.\n그게 전부입니다.";
+"onboarding.one_permission_description" = "Quiet Coach는 리허설을 듣기 위해 마이크 접근이 필요합니다. 항상 당신이 제어합니다.";
+
+// MARK: - Home
+"home.title" = "연습";
+"home.recent_sessions" = "최근 세션";
+"home.no_sessions" = "아직 세션이 없습니다";
+"home.start_practice" = "연습 시작";
+"home.scenarios_title" = "시나리오 선택";
+"home.pro_label" = "PRO";
+"home.choose_scenario" = "시나리오 선택";
+"home.recent" = "최근";
+"home.see_all" = "모두 보기";
+
+// Mac/Spatial
+"home.welcome" = "Quiet Coach에 오신 것을 환영합니다";
+"home.select_scenario_sidebar" = "사이드바에서 시나리오를 선택하여 어려운 대화 연습을 시작하세요.";
+"home.choose_scenario_sidebar" = "연습을 시작하려면 사이드바에서 시나리오를 선택하세요";
+"home.practice_description" = "이 시나리오에서 자신을 표현하는 연습을 하세요. 목소리를 녹음하고 명확성, 속도, 자신감에 대한 피드백을 받으세요.";
+"home.tips_for_scenario" = "이 시나리오를 위한 팁:";
+"home.start_recording" = "녹음 시작";
+"home.practice_private_space" = "자신만의 공간에서 어려운 대화를 연습하세요";
+"home.exit_space" = "공간 나가기";
+"home.tips" = "팁";
+
+// MARK: - Recording
+"recording.tap_to_start" = "탭하여 시작";
+"recording.recording" = "녹음 중";
+"recording.tap_to_stop" = "탭하여 중지";
+"recording.analyzing" = "분석 중...";
+"recording.duration" = "%d초";
+
+// Rehearsal
+"recording.cancel_rehearsal" = "리허설 취소";
+"recording.keep_recording" = "녹음 계속하기";
+"recording.will_be_deleted" = "녹음이 삭제됩니다.";
+"recording.rehearse" = "리허설";
+
+// States
+"recording.idle" = "대기 중";
+"recording.paused" = "일시정지";
+"recording.finished" = "완료";
+
+// MARK: - Feedback
+"feedback.title" = "피드백";
+"feedback.overall_score" = "종합 점수";
+"feedback.clarity" = "명확성";
+"feedback.pacing" = "속도";
+"feedback.tone" = "톤";
+"feedback.confidence" = "자신감";
+"feedback.insights" = "인사이트";
+"feedback.try_again" = "다시 연습하기";
+"feedback.share_result" = "결과 공유";
+"feedback.tier.excellent" = "훌륭함";
+"feedback.tier.good" = "좋음";
+"feedback.tier.developing" = "발전 중";
+"feedback.tier.needs_work" = "개선 필요";
+
+// Review
+"feedback.review" = "리뷰";
+"feedback.your_scores" = "내 점수";
+"feedback.coaching_notes" = "코칭 노트";
+"feedback.how_scores_work" = "점수 작동 방식";
+"feedback.share_progress" = "진행 상황 공유";
+
+// Coach
+"feedback.try_again_focus" = "다시 시도 포커스";
+"feedback.structure_guide" = "구조 가이드";
+"feedback.practiced" = "연습 완료";
+
+// MARK: - Score Explanations
+"score.clarity.description" = "휴지 패턴과 침묵을 기반으로 합니다. 명확한 화자는 의도적으로 멈춥니다.";
+"score.pacing.description" = "리듬(분당 구절 수)을 기반으로 합니다. 너무 빠르거나 느리면 점수에 영향을 줍니다.";
+"score.tone.description" = "음량 안정성을 기반으로 합니다. 일정한 음량은 차분하고 통제된 느낌을 줍니다.";
+"score.confidence.description" = "음량 수준과 일관성을 기반으로 합니다. 안정적인 전달은 확신 있어 보입니다.";
+
+// MARK: - Settings
+"settings.title" = "설정";
+"settings.account" = "계정";
+"settings.subscription" = "구독";
+"settings.restore_purchases" = "구매 복원";
+"settings.preferences" = "환경설정";
+"settings.haptic_feedback" = "햅틱 피드백";
+"settings.sound_effects" = "효과음";
+"settings.about" = "정보";
+"settings.version" = "버전";
+"settings.privacy_policy" = "개인정보 처리방침";
+"settings.terms_of_service" = "서비스 이용약관";
+"settings.send_feedback" = "피드백 보내기";
+
+// Sections
+"settings.sharing" = "공유";
+"settings.show_watermark" = "공유 카드에 워터마크 표시";
+"settings.data" = "데이터";
+"settings.sessions" = "세션";
+"settings.storage_used" = "사용된 저장공간";
+"settings.delete_all_data" = "모든 데이터 삭제";
+"settings.delete_all" = "모두 삭제";
+"settings.delete_confirmation" = "모든 리허설 세션과 오디오 파일이 삭제됩니다. 이 작업은 취소할 수 없습니다.";
+"settings.support" = "지원";
+"settings.privacy_footer" = "모든 오디오는 기기에서 처리됩니다. 업로드되지 않습니다. 리허설은 비공개입니다.";
+
+// Pro
+"settings.quiet_coach_pro" = "Quiet Coach Pro";
+"settings.active" = "활성";
+"settings.upgrade_to_pro" = "Pro로 업그레이드";
+
+// MARK: - Subscription
+"subscription.upgrade_title" = "Pro로 업그레이드";
+"subscription.features" = "Pro 기능";
+"subscription.subscribe" = "구독하기";
+"subscription.restoring" = "복원 중...";
+"subscription.price_per_month" = "%@ / 월";
+
+// Pro upgrade
+"subscription.quiet_coach_pro" = "Quiet Coach Pro";
+"subscription.unlock_potential" = "잠재력을 최대로 발휘하세요";
+"subscription.unable_to_load" = "구독 옵션을 불러올 수 없습니다";
+"subscription.loading" = "로딩 중...";
+"subscription.save_percent" = "58% 할인";
+
+// MARK: - Errors
+"error.microphone_denied" = "연습 세션을 녹음하려면 마이크 접근이 필요합니다.";
+"error.recording_failed" = "녹음에 실패했습니다. 다시 시도해 주세요.";
+"error.analysis_failed" = "녹음을 분석할 수 없습니다. 오디오 전용 피드백이 제공됩니다.";
+"error.save_failed" = "세션을 저장할 수 없습니다. 다시 시도해 주세요.";
+"error.network" = "인터넷 연결을 확인하고 다시 시도해 주세요.";
+
+// MARK: - Accessibility
+"accessibility.record_button" = "녹음";
+"accessibility.stop_button" = "녹음 중지";
+"accessibility.play_button" = "녹음 재생";
+"accessibility.pause_button" = "일시정지";
+"accessibility.score_value" = "%@ 점수: 100점 만점에 %d점";
+
+// MARK: - Duration
+"duration.minutes_seconds" = "%d:%02d";
+
+// MARK: - Privacy
+"privacy.title" = "개인정보 설정";
+"privacy.analytics" = "분석";
+"privacy.analytics_description" = "익명 사용 데이터를 공유하여 QuietCoach 개선에 도움을 주세요";
+"privacy.crash_reporting" = "충돌 보고";
+"privacy.crash_reporting_description" = "버그 수정을 위해 충돌 보고서를 자동으로 전송";
+"privacy.performance" = "성능 모니터링";
+"privacy.performance_description" = "앱 속도 개선을 위해 익명 성능 데이터 공유";
+"privacy.enable_all" = "모두 활성화";
+"privacy.disable_all" = "모두 비활성화";
+"privacy.policy_title" = "개인정보 처리방침";
+"privacy.consent_title" = "개인정보는 중요합니다";
+"privacy.consent_description" = "QuietCoach는 개인정보를 존중합니다. 모든 오디오 녹음은 기기에 저장됩니다. 공유할 데이터를 선택하세요:";
+"privacy.continue" = "계속";
+
+// MARK: - Network
+"network.offline" = "오프라인 상태입니다";
+"network.offline_description" = "일부 기능이 제한될 수 있습니다";
+"network.reconnecting" = "재연결 중...";
+"network.connected" = "연결됨";
+
+// MARK: - Subscription Status
+"subscription.status.active" = "Pro 활성";
+"subscription.status.expired" = "구독 만료됨";
+"subscription.status.unknown" = "확인 중...";
+"subscription.offline_warning" = "구독 상태가 최신이 아닐 수 있습니다";
+"subscription.verify_later" = "온라인 상태가 되면 구독을 확인합니다";

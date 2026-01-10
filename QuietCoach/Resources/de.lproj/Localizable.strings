@@ -1,0 +1,216 @@
+/*
+  Localizable.strings
+  QuietCoach
+
+  German localization
+*/
+
+// MARK: - Common
+"common.app_name" = "QuietCoach";
+"common.ok" = "OK";
+"common.cancel" = "Abbrechen";
+"common.done" = "Fertig";
+"common.next" = "Weiter";
+"common.back" = "Zurueck";
+"common.try_again" = "Erneut versuchen";
+"common.close" = "Schliessen";
+"common.save" = "Speichern";
+"common.delete" = "Loeschen";
+"common.share" = "Teilen";
+"common.settings" = "Einstellungen";
+
+// MARK: - Onboarding
+"onboarding.welcome_title" = "Sprechen ueben";
+"onboarding.welcome_subtitle" = "Selbstvertrauen aufbauen fuer Gespraeche, die zaehlen";
+"onboarding.get_started" = "Loslegen";
+"onboarding.skip_intro" = "Intro ueberspringen";
+"onboarding.permission_title" = "Mikrofonzugriff";
+"onboarding.permission_description" = "QuietCoach benoetigt Mikrofonzugriff, um Ihre Uebungssitzungen aufzunehmen. Alle Audiodaten bleiben auf Ihrem Geraet.";
+"onboarding.grant_access" = "Zugriff erlauben";
+
+// Elevated onboarding
+"onboarding.everyone_has_conversations" = "Jeder hat Gespraeche,";
+"onboarding.they_dread" = "vor denen er sich fuerchtet.";
+"onboarding.continue" = "Weiter";
+"onboarding.what_if_you_could" = "Was waere, wenn Sie sie";
+"onboarding.practice_them_first" = "vorher ueben koennten?";
+"onboarding.show_me" = "Zeig mir wie";
+"onboarding.pick_one_thats" = "Waehlen Sie eines, das Ihnen";
+"onboarding.on_your_mind" = "im Kopf herumgeht";
+"onboarding.lets_practice" = "Lass uns ueben";
+"onboarding.take_thirty_seconds" = "Nehmen Sie sich 30 Sekunden.";
+"onboarding.say_what_you_need" = "Sagen Sie, was Sie sagen muessen.";
+"onboarding.tap_to_finish" = "Tippen zum Beenden";
+"onboarding.see_you_did_it" = "Sehen Sie? Sie haben es geschafft.";
+"onboarding.thats_the_whole_app" = "Das ist die ganze App.";
+
+// Simple onboarding
+"onboarding.practice_words_title" = "Ueben Sie die Worte,\nbevor es zaehlt.";
+"onboarding.practice_words_subtitle" = "Quiet Coach hilft Ihnen, schwierige Gespraeche zu proben - privat und mit sofortigem Feedback.";
+"onboarding.voice_stays_yours" = "Ihre Stimme bleibt Ihre.";
+"onboarding.voice_stays_yours_description" = "Alle Audiodaten werden auf Ihrem Geraet verarbeitet. Nichts wird hochgeladen. Nichts wird gespeichert, es sei denn, Sie entscheiden sich dafuer.";
+"onboarding.one_permission" = "Eine Berechtigung.\nDas ist alles.";
+"onboarding.one_permission_description" = "Quiet Coach benoetigt Mikrofonzugriff, um Ihre Probe zu hoeren. Sie haben immer die Kontrolle.";
+
+// MARK: - Home
+"home.title" = "Ueben";
+"home.recent_sessions" = "Letzte Sitzungen";
+"home.no_sessions" = "Noch keine Sitzungen";
+"home.start_practice" = "Uebung starten";
+"home.scenarios_title" = "Waehlen Sie ein Szenario";
+"home.pro_label" = "PRO";
+"home.choose_scenario" = "Waehlen Sie ein Szenario";
+"home.recent" = "Zuletzt";
+"home.see_all" = "Alle anzeigen";
+
+// Mac/Spatial
+"home.welcome" = "Willkommen bei Quiet Coach";
+"home.select_scenario_sidebar" = "Waehlen Sie ein Szenario aus der Seitenleiste, um schwierige Gespraeche zu ueben.";
+"home.choose_scenario_sidebar" = "Waehlen Sie ein Szenario aus der Seitenleiste, um zu ueben";
+"home.practice_description" = "Ueben Sie, sich in diesem Szenario auszudruecken. Nehmen Sie Ihre Stimme auf und erhalten Sie Feedback zu Klarheit, Tempo und Selbstvertrauen.";
+"home.tips_for_scenario" = "Tipps fuer dieses Szenario:";
+"home.start_recording" = "Aufnahme starten";
+"home.practice_private_space" = "Ueben Sie schwierige Gespraeche in Ihrem eigenen privaten Raum";
+"home.exit_space" = "Raum verlassen";
+"home.tips" = "Tipps";
+
+// MARK: - Recording
+"recording.tap_to_start" = "Tippen zum Starten";
+"recording.recording" = "Aufnahme laeuft";
+"recording.tap_to_stop" = "Tippen zum Stoppen";
+"recording.analyzing" = "Analyse laeuft...";
+"recording.duration" = "%d Sekunden";
+
+// Rehearsal
+"recording.cancel_rehearsal" = "Probe abbrechen";
+"recording.keep_recording" = "Weiter aufnehmen";
+"recording.will_be_deleted" = "Ihre Aufnahme wird geloescht.";
+"recording.rehearse" = "Proben";
+
+// States
+"recording.idle" = "Bereit";
+"recording.paused" = "Pausiert";
+"recording.finished" = "Beendet";
+
+// MARK: - Feedback
+"feedback.title" = "Ihr Feedback";
+"feedback.overall_score" = "Gesamtbewertung";
+"feedback.clarity" = "Klarheit";
+"feedback.pacing" = "Tempo";
+"feedback.tone" = "Tonfall";
+"feedback.confidence" = "Selbstvertrauen";
+"feedback.insights" = "Erkenntnisse";
+"feedback.try_again" = "Erneut ueben";
+"feedback.share_result" = "Ergebnis teilen";
+"feedback.tier.excellent" = "Ausgezeichnet";
+"feedback.tier.good" = "Gut";
+"feedback.tier.developing" = "In Entwicklung";
+"feedback.tier.needs_work" = "Verbesserungsbedarf";
+
+// Review
+"feedback.review" = "Ueberpruefung";
+"feedback.your_scores" = "Ihre Bewertungen";
+"feedback.coaching_notes" = "Coaching-Notizen";
+"feedback.how_scores_work" = "Wie Bewertungen funktionieren";
+"feedback.share_progress" = "Teilen Sie Ihren Fortschritt";
+
+// Coach
+"feedback.try_again_focus" = "Fokus beim naechsten Versuch";
+"feedback.structure_guide" = "Strukturanleitung";
+"feedback.practiced" = "Geubt";
+
+// MARK: - Score Explanations
+"score.clarity.description" = "Basierend auf Pausenmustern und Stille. Klare Sprecher pausieren bewusst.";
+"score.pacing.description" = "Basierend auf dem Rhythmus - Phrasen pro Minute. Zu schnell oder zu langsam beeinflusst Ihre Bewertung.";
+"score.tone.description" = "Basierend auf Lautstaerkestabilitaet. Gleichmaessige Lautstaerke klingt ruhig und kontrolliert.";
+"score.confidence.description" = "Basierend auf Lautstaerke und Konsistenz. Gleichmaessiger Vortrag wirkt selbstsicher.";
+
+// MARK: - Settings
+"settings.title" = "Einstellungen";
+"settings.account" = "Konto";
+"settings.subscription" = "Abonnement";
+"settings.restore_purchases" = "Kaeufe wiederherstellen";
+"settings.preferences" = "Einstellungen";
+"settings.haptic_feedback" = "Haptisches Feedback";
+"settings.sound_effects" = "Soundeffekte";
+"settings.about" = "Ueber";
+"settings.version" = "Version";
+"settings.privacy_policy" = "Datenschutzerklaerung";
+"settings.terms_of_service" = "Nutzungsbedingungen";
+"settings.send_feedback" = "Feedback senden";
+
+// Sections
+"settings.sharing" = "Teilen";
+"settings.show_watermark" = "Wasserzeichen auf Teilkarten anzeigen";
+"settings.data" = "Daten";
+"settings.sessions" = "Sitzungen";
+"settings.storage_used" = "Verwendeter Speicher";
+"settings.delete_all_data" = "Alle Daten loeschen";
+"settings.delete_all" = "Alles loeschen";
+"settings.delete_confirmation" = "Dies loescht alle Ihre Uebungssitzungen und Audiodateien. Dies kann nicht rueckgaengig gemacht werden.";
+"settings.support" = "Support";
+"settings.privacy_footer" = "Alle Audiodaten werden auf Ihrem Geraet verarbeitet. Nichts wird hochgeladen. Ihre Proben sind privat.";
+
+// Pro
+"settings.quiet_coach_pro" = "Quiet Coach Pro";
+"settings.active" = "Aktiv";
+"settings.upgrade_to_pro" = "Auf Pro upgraden";
+
+// MARK: - Subscription
+"subscription.upgrade_title" = "Auf Pro upgraden";
+"subscription.features" = "Pro-Funktionen";
+"subscription.subscribe" = "Abonnieren";
+"subscription.restoring" = "Wird wiederhergestellt...";
+"subscription.price_per_month" = "%@ / Monat";
+
+// Pro upgrade
+"subscription.quiet_coach_pro" = "Quiet Coach Pro";
+"subscription.unlock_potential" = "Entfalten Sie Ihr volles Potenzial";
+"subscription.unable_to_load" = "Abonnementoptionen konnten nicht geladen werden";
+"subscription.loading" = "Wird geladen...";
+"subscription.save_percent" = "58% sparen";
+
+// MARK: - Errors
+"error.microphone_denied" = "Mikrofonzugriff ist erforderlich, um Ihre Uebungssitzungen aufzunehmen.";
+"error.recording_failed" = "Aufnahme fehlgeschlagen. Bitte versuchen Sie es erneut.";
+"error.analysis_failed" = "Ihre Aufnahme konnte nicht analysiert werden. Es wird nur Audio-Feedback bereitgestellt.";
+"error.save_failed" = "Ihre Sitzung konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.";
+"error.network" = "Bitte ueberpruefen Sie Ihre Internetverbindung und versuchen Sie es erneut.";
+
+// MARK: - Accessibility
+"accessibility.record_button" = "Aufnehmen";
+"accessibility.stop_button" = "Aufnahme stoppen";
+"accessibility.play_button" = "Aufnahme abspielen";
+"accessibility.pause_button" = "Pause";
+"accessibility.score_value" = "%@ Bewertung: %d von 100";
+
+// MARK: - Duration
+"duration.minutes_seconds" = "%d:%02d";
+
+// MARK: - Privacy
+"privacy.title" = "Datenschutzeinstellungen";
+"privacy.analytics" = "Analyse";
+"privacy.analytics_description" = "Helfen Sie QuietCoach zu verbessern, indem Sie anonyme Nutzungsdaten teilen";
+"privacy.crash_reporting" = "Absturzberichte";
+"privacy.crash_reporting_description" = "Absturzberichte automatisch senden, um Fehler zu beheben";
+"privacy.performance" = "Leistungsueberwachung";
+"privacy.performance_description" = "Anonyme Leistungsdaten teilen, um die App-Geschwindigkeit zu verbessern";
+"privacy.enable_all" = "Alle aktivieren";
+"privacy.disable_all" = "Alle deaktivieren";
+"privacy.policy_title" = "Datenschutzerklaerung";
+"privacy.consent_title" = "Ihre Privatsphaere ist wichtig";
+"privacy.consent_description" = "QuietCoach respektiert Ihre Privatsphaere. Alle Audioaufnahmen bleiben auf Ihrem Geraet. Waehlen Sie, welche Daten Sie teilen moechten:";
+"privacy.continue" = "Weiter";
+
+// MARK: - Network
+"network.offline" = "Sie sind offline";
+"network.offline_description" = "Einige Funktionen sind moeglicherweise eingeschraenkt";
+"network.reconnecting" = "Verbindung wird wiederhergestellt...";
+"network.connected" = "Verbunden";
+
+// MARK: - Subscription Status
+"subscription.status.active" = "Pro aktiv";
+"subscription.status.expired" = "Abonnement abgelaufen";
+"subscription.status.unknown" = "Wird ueberprueft...";
+"subscription.offline_warning" = "Abonnementstatus ist moeglicherweise veraltet";
+"subscription.verify_later" = "Wir ueberpruefen Ihr Abonnement, wenn Sie wieder online sind";

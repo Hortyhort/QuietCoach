@@ -1,0 +1,216 @@
+/*
+  Localizable.strings
+  QuietCoach
+
+  Simplified Chinese localization
+*/
+
+// MARK: - Common
+"common.app_name" = "QuietCoach";
+"common.ok" = "确定";
+"common.cancel" = "取消";
+"common.done" = "完成";
+"common.next" = "下一步";
+"common.back" = "返回";
+"common.try_again" = "重试";
+"common.close" = "关闭";
+"common.save" = "保存";
+"common.delete" = "删除";
+"common.share" = "分享";
+"common.settings" = "设置";
+
+// MARK: - Onboarding
+"onboarding.welcome_title" = "练习表达";
+"onboarding.welcome_subtitle" = "为重要对话建立自信";
+"onboarding.get_started" = "开始使用";
+"onboarding.skip_intro" = "跳过介绍";
+"onboarding.permission_title" = "麦克风权限";
+"onboarding.permission_description" = "QuietCoach 需要麦克风权限来录制您的练习。所有音频都保留在您的设备上。";
+"onboarding.grant_access" = "授予权限";
+
+// Elevated onboarding
+"onboarding.everyone_has_conversations" = "每个人都有";
+"onboarding.they_dread" = "令人畏惧的对话。";
+"onboarding.continue" = "继续";
+"onboarding.what_if_you_could" = "如果你能";
+"onboarding.practice_them_first" = "先练习一下呢？";
+"onboarding.show_me" = "演示给我看";
+"onboarding.pick_one_thats" = "选一个";
+"onboarding.on_your_mind" = "你一直在想的";
+"onboarding.lets_practice" = "开始练习";
+"onboarding.take_thirty_seconds" = "花30秒。";
+"onboarding.say_what_you_need" = "说出你想说的。";
+"onboarding.tap_to_finish" = "点击完成";
+"onboarding.see_you_did_it" = "看，你做到了。";
+"onboarding.thats_the_whole_app" = "这就是整个应用。";
+
+// Simple onboarding
+"onboarding.practice_words_title" = "在关键时刻之前\n先练习表达。";
+"onboarding.practice_words_subtitle" = "Quiet Coach 帮助您私下演练困难的对话，并获得即时反馈。";
+"onboarding.voice_stays_yours" = "您的声音属于您。";
+"onboarding.voice_stays_yours_description" = "所有音频都在您的设备上处理。不会上传任何内容。除非您选择，否则不会存储。";
+"onboarding.one_permission" = "只需一个权限。\n就这样。";
+"onboarding.one_permission_description" = "Quiet Coach 需要麦克风权限来听取您的演练。您始终掌控一切。";
+
+// MARK: - Home
+"home.title" = "练习";
+"home.recent_sessions" = "最近的练习";
+"home.no_sessions" = "暂无练习记录";
+"home.start_practice" = "开始练习";
+"home.scenarios_title" = "选择场景";
+"home.pro_label" = "专业版";
+"home.choose_scenario" = "选择一个场景";
+"home.recent" = "最近";
+"home.see_all" = "查看全部";
+
+// Mac/Spatial
+"home.welcome" = "欢迎使用 Quiet Coach";
+"home.select_scenario_sidebar" = "从侧边栏选择一个场景，开始练习困难的对话。";
+"home.choose_scenario_sidebar" = "从侧边栏选择一个场景开始练习";
+"home.practice_description" = "在这个场景中练习表达自己。录制您的声音，获取关于清晰度、节奏和自信心的反馈。";
+"home.tips_for_scenario" = "此场景的提示：";
+"home.start_recording" = "开始录音";
+"home.practice_private_space" = "在您的私人空间练习困难的对话";
+"home.exit_space" = "退出空间";
+"home.tips" = "提示";
+
+// MARK: - Recording
+"recording.tap_to_start" = "点击开始";
+"recording.recording" = "录音中";
+"recording.tap_to_stop" = "点击停止";
+"recording.analyzing" = "分析中...";
+"recording.duration" = "%d 秒";
+
+// Rehearsal
+"recording.cancel_rehearsal" = "取消演练";
+"recording.keep_recording" = "继续录音";
+"recording.will_be_deleted" = "您的录音将被删除。";
+"recording.rehearse" = "演练";
+
+// States
+"recording.idle" = "空闲";
+"recording.paused" = "已暂停";
+"recording.finished" = "已完成";
+
+// MARK: - Feedback
+"feedback.title" = "您的反馈";
+"feedback.overall_score" = "总分";
+"feedback.clarity" = "清晰度";
+"feedback.pacing" = "节奏";
+"feedback.tone" = "语调";
+"feedback.confidence" = "自信心";
+"feedback.insights" = "洞察";
+"feedback.try_again" = "再次练习";
+"feedback.share_result" = "分享结果";
+"feedback.tier.excellent" = "优秀";
+"feedback.tier.good" = "良好";
+"feedback.tier.developing" = "进步中";
+"feedback.tier.needs_work" = "需要改进";
+
+// Review
+"feedback.review" = "回顾";
+"feedback.your_scores" = "您的得分";
+"feedback.coaching_notes" = "教练笔记";
+"feedback.how_scores_work" = "评分说明";
+"feedback.share_progress" = "分享您的进步";
+
+// Coach
+"feedback.try_again_focus" = "再试一次的重点";
+"feedback.structure_guide" = "结构指南";
+"feedback.practiced" = "已练习";
+
+// MARK: - Score Explanations
+"score.clarity.description" = "基于停顿模式和沉默。表达清晰的人会有意识地停顿。";
+"score.pacing.description" = "基于节奏——每分钟的短语数。太快或太慢都会影响分数。";
+"score.tone.description" = "基于音量稳定性。稳定的音量听起来平静且有控制力。";
+"score.confidence.description" = "基于音量水平和一致性。稳定的表达听起来更自信。";
+
+// MARK: - Settings
+"settings.title" = "设置";
+"settings.account" = "账户";
+"settings.subscription" = "订阅";
+"settings.restore_purchases" = "恢复购买";
+"settings.preferences" = "偏好设置";
+"settings.haptic_feedback" = "触觉反馈";
+"settings.sound_effects" = "音效";
+"settings.about" = "关于";
+"settings.version" = "版本";
+"settings.privacy_policy" = "隐私政策";
+"settings.terms_of_service" = "服务条款";
+"settings.send_feedback" = "发送反馈";
+
+// Sections
+"settings.sharing" = "分享";
+"settings.show_watermark" = "在分享卡片上显示水印";
+"settings.data" = "数据";
+"settings.sessions" = "练习记录";
+"settings.storage_used" = "已用存储空间";
+"settings.delete_all_data" = "删除所有数据";
+"settings.delete_all" = "全部删除";
+"settings.delete_confirmation" = "这将删除您所有的演练记录和音频文件。此操作无法撤销。";
+"settings.support" = "支持";
+"settings.privacy_footer" = "所有音频都在您的设备上处理。不会上传任何内容。您的演练是私密的。";
+
+// Pro
+"settings.quiet_coach_pro" = "Quiet Coach 专业版";
+"settings.active" = "已激活";
+"settings.upgrade_to_pro" = "升级到专业版";
+
+// MARK: - Subscription
+"subscription.upgrade_title" = "升级到专业版";
+"subscription.features" = "专业版功能";
+"subscription.subscribe" = "订阅";
+"subscription.restoring" = "恢复中...";
+"subscription.price_per_month" = "%@ / 月";
+
+// Pro upgrade
+"subscription.quiet_coach_pro" = "Quiet Coach 专业版";
+"subscription.unlock_potential" = "释放您的全部潜力";
+"subscription.unable_to_load" = "无法加载订阅选项";
+"subscription.loading" = "加载中...";
+"subscription.save_percent" = "节省58%";
+
+// MARK: - Errors
+"error.microphone_denied" = "需要麦克风权限才能录制您的练习。";
+"error.recording_failed" = "录音失败。请重试。";
+"error.analysis_failed" = "无法分析您的录音。将提供纯音频反馈。";
+"error.save_failed" = "无法保存您的练习。请重试。";
+"error.network" = "请检查您的网络连接后重试。";
+
+// MARK: - Accessibility
+"accessibility.record_button" = "录音";
+"accessibility.stop_button" = "停止录音";
+"accessibility.play_button" = "播放录音";
+"accessibility.pause_button" = "暂停";
+"accessibility.score_value" = "%@ 得分：%d 分（满分100分）";
+
+// MARK: - Duration
+"duration.minutes_seconds" = "%d:%02d";
+
+// MARK: - Privacy
+"privacy.title" = "隐私设置";
+"privacy.analytics" = "数据分析";
+"privacy.analytics_description" = "通过分享匿名使用数据帮助改进 QuietCoach";
+"privacy.crash_reporting" = "崩溃报告";
+"privacy.crash_reporting_description" = "自动发送崩溃报告以帮助修复问题";
+"privacy.performance" = "性能监控";
+"privacy.performance_description" = "分享匿名性能数据以提升应用速度";
+"privacy.enable_all" = "全部启用";
+"privacy.disable_all" = "全部禁用";
+"privacy.policy_title" = "隐私政策";
+"privacy.consent_title" = "您的隐私很重要";
+"privacy.consent_description" = "QuietCoach 尊重您的隐私。所有音频录音都保留在您的设备上。选择要分享的数据：";
+"privacy.continue" = "继续";
+
+// MARK: - Network
+"network.offline" = "您已离线";
+"network.offline_description" = "部分功能可能受限";
+"network.reconnecting" = "正在重新连接...";
+"network.connected" = "已连接";
+
+// MARK: - Subscription Status
+"subscription.status.active" = "专业版已激活";
+"subscription.status.expired" = "订阅已过期";
+"subscription.status.unknown" = "验证中...";
+"subscription.offline_warning" = "订阅状态可能不是最新的";
+"subscription.verify_later" = "我们将在您重新上线后验证您的订阅";
