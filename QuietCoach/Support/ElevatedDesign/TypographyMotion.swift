@@ -77,11 +77,12 @@ struct LiquidScoreText: View {
 
     var body: some View {
         Text("\(displayedScore)")
-            .font(.system(size: 64, weight: .bold, design: .rounded))
+            .font(.qcHeroScore)
             .foregroundStyle(scoreColor)
             .scaleEffect(scale)
             .contentTransition(.numericText(value: Double(displayedScore)))
             .shadow(color: scoreColor.opacity(0.5), radius: 20)
+            .qcDynamicTypeScaled(maximum: .xxxLarge)
             .onAppear {
                 animateScore()
             }

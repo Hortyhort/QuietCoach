@@ -84,4 +84,132 @@ extension Font {
         .system(size: size, weight: weight, design: .rounded)
         .monospacedDigit()
     }
+
+    // MARK: - Dynamic Type Scaled Fonts
+
+    /// Hero score display - scales from largeTitle with limits
+    static let qcHeroScore = Font.system(.largeTitle, design: .rounded, weight: .bold)
+
+    /// Timer display - scales from title with monospaced digits
+    static let qcTimerDisplay = Font.system(.title, design: .monospaced, weight: .medium)
+
+    /// Large numeric display - scales from title2
+    static let qcLargeNumeric = Font.system(.title2, design: .rounded, weight: .bold)
+
+    /// Medium numeric display - scales from title3
+    static let qcMediumNumeric = Font.system(.title3, design: .rounded, weight: .semibold)
+
+    /// Small numeric display - scales from headline
+    static let qcSmallNumeric = Font.system(.headline, design: .rounded, weight: .medium)
+
+    /// Icon-sized text - scales from callout
+    static let qcIconLabel = Font.system(.callout, weight: .medium)
+}
+
+// MARK: - Dynamic Type View Modifiers
+
+extension View {
+    /// Limits Dynamic Type scaling for UI elements that would break at extreme sizes
+    /// Use this for timers, scores, and constrained layouts
+    func qcDynamicTypeScaled(
+        minimum: DynamicTypeSize = .xSmall,
+        maximum: DynamicTypeSize = .accessibility2
+    ) -> some View {
+        self.dynamicTypeSize(minimum...maximum)
+    }
+
+    /// For elements that should only scale slightly (scores, badges)
+    func qcCompactDynamicType() -> some View {
+        self.dynamicTypeSize(.xSmall...DynamicTypeSize.large)
+    }
+
+    /// For hero text that can scale more freely
+    func qcHeroDynamicType() -> some View {
+        self.dynamicTypeSize(.xSmall...DynamicTypeSize.accessibility3)
+    }
+
+    /// Applies proper scaling with appropriate limits based on content type
+    func qcScaledFont(_ style: QCFontStyle) -> some View {
+        self
+            .font(style.font)
+            .dynamicTypeSize(style.sizeRange)
+    }
+}
+
+/// Font styles with appropriate Dynamic Type limits
+enum QCFontStyle {
+    case heroScore       // Large scores - limited scaling to prevent overflow
+    case timer           // Timers - moderate scaling
+    case cardTitle       // Card titles - standard scaling
+    case body            // Body text - full accessibility scaling
+    case caption         // Captions - standard scaling
+    case button          // Buttons - moderate scaling
+    case badge           // Badges - compact scaling
+
+    var font: Font {
+        switch self {
+        case .heroScore: return .qcHeroScore
+        case .timer: return .qcTimerDisplay
+        case .cardTitle: return .qcTitle3
+        case .body: return .qcBody
+        case .caption: return .qcCaption
+        case .button: return .qcButton
+        case .badge: return .qcSmallNumeric
+        }
+    }
+
+    var sizeRange: ClosedRange<DynamicTypeSize> {
+        switch self {
+        case .heroScore: return .small...DynamicTypeSize.xxxLarge
+        case .timer: return .small...DynamicTypeSize.xxLarge
+        case .cardTitle: return .xSmall...DynamicTypeSize.accessibility2
+        case .body: return .xSmall...DynamicTypeSize.accessibility5
+        case .caption: return .xSmall...DynamicTypeSize.accessibility3
+        case .button: return .small...DynamicTypeSize.accessibility1
+        case .badge: return .small...DynamicTypeSize.large
+        }
+    }
+}
+
+// MARK: - Scaled Metric for Custom Layouts
+
+/// Custom scaled metrics for layouts that need to respond to Dynamic Type
+enum QCScaleFactors {
+    /// Scale factor based on current Dynamic Type size
+    static func scaleFactor(for size: DynamicTypeSize) -> CGFloat {
+        switch size {
+        case .xSmall: return 0.8
+        case .small: return 0.9
+        case .medium: return 1.0
+        case .large: return 1.1
+        case .xLarge: return 1.2
+        case .xxLarge: return 1.3
+        case .xxxLarge: return 1.4
+        case .accessibility1: return 1.5
+        case .accessibility2: return 1.7
+        case .accessibility3: return 1.9
+        case .accessibility4: return 2.1
+        case .accessibility5: return 2.3
+        @unknown default: return 1.0
+        }
+    }
+}
+
+/// View modifier that scales dimensions based on Dynamic Type
+struct DynamicTypeSizeModifier: ViewModifier {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    let baseSize: CGFloat
+    let maxScale: CGFloat
+
+    func body(content: Content) -> some View {
+        let scale = min(QCScaleFactors.scaleFactor(for: dynamicTypeSize), maxScale)
+        content.frame(width: baseSize * scale, height: baseSize * scale)
+    }
+}
+
+extension View {
+    /// Scales a view's frame based on Dynamic Type settings
+    func qcScaledFrame(base: CGFloat, maxScale: CGFloat = 1.5) -> some View {
+        modifier(DynamicTypeSizeModifier(baseSize: base, maxScale: maxScale))
+    }
 }

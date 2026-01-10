@@ -44,7 +44,7 @@ struct ScoreCard: View {
             // Label with icon
             HStack(spacing: 6) {
                 Image(systemName: scoreType.icon)
-                    .font(.system(size: 12, weight: .medium))
+                    .font(.qcIconLabel)
 
                 Text(scoreType.rawValue)
                     .font(.qcCaption)
@@ -57,6 +57,7 @@ struct ScoreCard: View {
         .qcSmallRadius()
         .opacity(isRevealed ? 1 : 0)
         .scaleEffect(isRevealed ? 1 : 0.8)
+        .qcDynamicTypeScaled(maximum: .accessibility1)
         .onAppear {
             revealScore()
         }
@@ -71,7 +72,7 @@ struct ScoreCard: View {
     private func deltaView(_ delta: Int) -> some View {
         HStack(spacing: 2) {
             Image(systemName: delta > 0 ? "arrow.up" : "arrow.down")
-                .font(.system(size: 10, weight: .bold))
+                .font(.caption2.weight(.bold))
 
             Text("\(abs(delta))")
                 .font(.qcCaption)
@@ -227,7 +228,8 @@ struct OverallScoreBadge: View {
                     .foregroundColor(.qcTextTertiary)
             }
         }
-        .frame(width: size, height: size)
+        .qcScaledFrame(base: size, maxScale: 1.5)
+        .qcDynamicTypeScaled(maximum: .accessibility1)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("Overall score: \(score) out of 100")
     }
