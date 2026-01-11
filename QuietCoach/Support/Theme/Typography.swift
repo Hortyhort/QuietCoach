@@ -2,6 +2,7 @@
 // QuietCoach
 //
 // Typographic system. All fonts scale with Dynamic Type.
+// Updated for Liquid Glass brand system.
 
 import SwiftUI
 
@@ -9,7 +10,22 @@ import SwiftUI
 
 extension Font {
 
-    // MARK: - Display
+    // MARK: - Brand Display (Liquid Glass)
+
+    /// Display font — SF Pro Rounded, Medium weight per brand spec
+    /// Use for headlines on glass surfaces
+    static let qcDisplay = Font.system(.largeTitle, design: .rounded, weight: .medium)
+
+    /// Large display — SF Pro Rounded, Medium weight
+    static let qcDisplayLarge = Font.system(.largeTitle, design: .rounded, weight: .medium)
+
+    /// Medium display — SF Pro Rounded, Medium weight
+    static let qcDisplayMedium = Font.system(.title, design: .rounded, weight: .medium)
+
+    /// Small display — SF Pro Rounded, Medium weight
+    static let qcDisplaySmall = Font.system(.title2, design: .rounded, weight: .medium)
+
+    // MARK: - Display (Legacy)
 
     /// Large title for hero moments — scales with .largeTitle
     static let qcLargeTitle = Font.largeTitle.weight(.bold)
@@ -126,6 +142,28 @@ extension View {
     /// For hero text that can scale more freely
     func qcHeroDynamicType() -> some View {
         self.dynamicTypeSize(.xSmall...DynamicTypeSize.accessibility3)
+    }
+
+    // MARK: - Glass-Optimized Text
+
+    /// Applies glass-optimized text styling with +0.5pt tracking
+    /// Per brand spec: text on glass needs increased tracking for readability
+    func qcGlassTextStyle() -> some View {
+        self.tracking(0.5)
+    }
+
+    /// Display text on glass with rounded font and tracking
+    func qcGlassDisplayStyle() -> some View {
+        self
+            .font(.qcDisplay)
+            .tracking(0.5)
+    }
+
+    /// Body text on glass with tracking
+    func qcGlassBodyStyle() -> some View {
+        self
+            .font(.qcBodyMedium)
+            .tracking(0.5)
     }
 
     /// Applies proper scaling with appropriate limits based on content type

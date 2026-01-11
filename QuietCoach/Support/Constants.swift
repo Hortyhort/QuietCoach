@@ -147,11 +147,14 @@ enum Constants {
         /// Standard vertical spacing between sections
         static let sectionSpacing: CGFloat = 24
 
-        /// Corner radius for cards and containers
-        static let cornerRadius: CGFloat = 16
+        /// Large corner radius for cards and containers (24-32pt range)
+        static let cornerRadius: CGFloat = 24
 
-        /// Corner radius for smaller elements
-        static let smallCornerRadius: CGFloat = 12
+        /// Medium corner radius for buttons and inputs (14-18pt range)
+        static let mediumCornerRadius: CGFloat = 16
+
+        /// Small corner radius for badges and pills (8-12pt range)
+        static let smallCornerRadius: CGFloat = 10
 
         /// Minimum touch target size (Apple HIG)
         static let minTouchTarget: CGFloat = 44

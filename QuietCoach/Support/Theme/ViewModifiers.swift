@@ -22,23 +22,130 @@ extension View {
 // MARK: - Corner Radius
 
 extension View {
-    /// Standard card corner radius with continuous corners
+    /// Large card corner radius with continuous corners (24pt)
     func qcCardRadius() -> some View {
         self.clipShape(RoundedRectangle(cornerRadius: Constants.Layout.cornerRadius, style: .continuous))
     }
 
-    /// Smaller corner radius
+    /// Medium corner radius for buttons and inputs (16pt)
+    func qcMediumRadius() -> some View {
+        self.clipShape(RoundedRectangle(cornerRadius: Constants.Layout.mediumCornerRadius, style: .continuous))
+    }
+
+    /// Small corner radius for badges and pills (10pt)
     func qcSmallRadius() -> some View {
         self.clipShape(RoundedRectangle(cornerRadius: Constants.Layout.smallCornerRadius, style: .continuous))
+    }
+}
+
+// MARK: - Glass Tier System
+
+/// Glass tier for contextual depth hierarchy per Liquid Glass brand system
+enum GlassTier {
+    /// Ambient — subtle background atmosphere (4-8% opacity, 80pt blur)
+    case ambient
+    /// Surface — standard cards and containers (12-18% opacity, 40pt blur)
+    case surface
+    /// Interactive — buttons and controls (20-30% opacity, 20pt blur)
+    case interactive
+    /// Focal — modals and overlays (40-60% opacity, 8pt blur)
+    case focal
+
+    var opacity: Double {
+        switch self {
+        case .ambient: return 0.06
+        case .surface: return 0.15
+        case .interactive: return 0.25
+        case .focal: return 0.50
+        }
+    }
+
+    var blurRadius: CGFloat {
+        switch self {
+        case .ambient: return 80
+        case .surface: return 40
+        case .interactive: return 20
+        case .focal: return 8
+        }
+    }
+}
+
+/// Glass tint for semantic meaning
+enum GlassTint {
+    /// Clear — neutral glass
+    case clear
+    /// Warm — coaching moments, amber tint
+    case warm
+    /// Cool — recording and analysis, blue tint
+    case cool
+
+    var color: Color {
+        switch self {
+        case .clear: return .qcGlassClear
+        case .warm: return .qcGlassWarm
+        case .cool: return .qcGlassCool
+        }
+    }
+}
+
+/// Modifier that applies tiered glass effect
+struct GlassModifier: ViewModifier {
+    let tier: GlassTier
+    let tint: GlassTint
+    let cornerRadius: CGFloat
+
+    func body(content: Content) -> some View {
+        content
+            .background {
+                ZStack {
+                    // Base material layer
+                    RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                        .fill(.ultraThinMaterial)
+
+                    // Tint overlay
+                    RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                        .fill(tint.color.opacity(tier.opacity))
+
+                    // Subtle edge highlight (0.5pt stroke at 8% white per brand spec)
+                    RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                        .stroke(
+                            LinearGradient(
+                                colors: [
+                                    Color.white.opacity(0.15),
+                                    Color.white.opacity(0.05)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ),
+                            lineWidth: 0.5
+                        )
+                }
+            }
+    }
+}
+
+extension View {
+    /// Tiered glass background with configurable tint
+    /// - Parameters:
+    ///   - tier: Glass opacity/blur tier (ambient, surface, interactive, focal)
+    ///   - tint: Semantic tint (clear, warm, cool)
+    ///   - cornerRadius: Corner radius for the glass shape
+    func qcGlass(
+        tier: GlassTier = .surface,
+        tint: GlassTint = .clear,
+        cornerRadius: CGFloat = Constants.Layout.cornerRadius
+    ) -> some View {
+        self.modifier(GlassModifier(tier: tier, tint: tint, cornerRadius: cornerRadius))
     }
 }
 
 // MARK: - Visual Effects
 
 extension View {
-    /// Glass background effect for visionOS-style cards
+    /// Glass background effect — uses surface tier glass
+    /// For more control, use qcGlass(tier:tint:cornerRadius:)
     func qcGlassBackground() -> some View {
-        self.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: Constants.Layout.cornerRadius, style: .continuous))
+        self.qcGlass(tier: .surface)
     }
 
     /// Glow effect for highlighted elements

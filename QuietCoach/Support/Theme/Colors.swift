@@ -2,6 +2,7 @@
 // QuietCoach
 //
 // The color palette. Dark mode first. Calm and intentional.
+// Updated for Liquid Glass brand system.
 
 import SwiftUI
 
@@ -33,34 +34,52 @@ extension Color {
 
     // MARK: - Accent
 
-    /// Primary accent — warm, calm gold
-    /// Not too bright, not too muted
-    static let qcAccent = Color(red: 0.98, green: 0.82, blue: 0.47)
+    /// Primary accent — soft violet for AI moments and primary actions
+    /// #9D8CFF
+    static let qcAccent = Color(red: 0.616, green: 0.549, blue: 1.0)
 
     /// Accent dimmed for backgrounds
-    static let qcAccentDimmed = Color(red: 0.98, green: 0.82, blue: 0.47).opacity(0.15)
+    static let qcAccentDimmed = Color.qcAccent.opacity(0.15)
+
+    // MARK: - Glass Tints
+
+    /// Clear glass tint — neutral, 6% white
+    static let qcGlassClear = Color.white.opacity(0.06)
+
+    /// Warm glass tint — amber 4%, for coaching moments
+    static let qcGlassWarm = Color(red: 0.910, green: 0.659, blue: 0.333).opacity(0.04)
+
+    /// Cool glass tint — blue 4%, for recording and analysis
+    static let qcGlassCool = Color(red: 0.3, green: 0.5, blue: 0.9).opacity(0.04)
 
     // MARK: - Semantic Colors
 
-    /// Recording state — warm red, but not alarming
-    static let qcRecording = Color(red: 0.92, green: 0.34, blue: 0.34)
+    /// Active/recording state — soft coral
+    /// #E87D6C
+    static let qcActive = Color(red: 0.910, green: 0.490, blue: 0.424)
+
+    /// Recording state — deprecated, use qcActive
+    @available(*, deprecated, renamed: "qcActive")
+    static let qcRecording = qcActive
 
     /// Paused state — calm amber
     static let qcPaused = Color(red: 0.95, green: 0.68, blue: 0.32)
 
-    /// Success state — soft green
-    static let qcSuccess = Color(red: 0.34, green: 0.75, blue: 0.49)
+    /// Success state — muted teal
+    /// #6AC4A8
+    static let qcSuccess = Color(red: 0.416, green: 0.769, blue: 0.659)
 
-    /// Warning state — attention without alarm
-    static let qcWarning = Color(red: 0.95, green: 0.68, blue: 0.32)
+    /// Warning state — warm amber
+    /// #E8A855
+    static let qcWarning = Color(red: 0.910, green: 0.659, blue: 0.333)
 
-    /// Error state — clear but not aggressive
-    static let qcError = Color(red: 0.92, green: 0.34, blue: 0.34)
+    /// Error state — soft coral (matches active for consistency)
+    static let qcError = Color(red: 0.910, green: 0.490, blue: 0.424)
 
     // MARK: - Pro Badge
 
-    /// Pro badge color — subtle gold
-    static let qcPro = Color(red: 1.0, green: 0.75, blue: 0.27)
+    /// Pro badge color — warm amber
+    static let qcPro = Color(red: 0.910, green: 0.659, blue: 0.333)
 
     // MARK: - Waveform
 

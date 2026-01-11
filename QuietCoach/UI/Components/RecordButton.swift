@@ -67,7 +67,7 @@ struct RecordButton: View {
     private var pulseRing: some View {
         if state == .recording {
             Circle()
-                .stroke(Color.qcRecording.opacity(0.3), lineWidth: 3)
+                .stroke(Color.qcActive.opacity(0.3), lineWidth: 3)
                 .frame(width: size + 20, height: size + 20)
                 .scaleEffect(pulseScale)
                 .opacity(2 - pulseScale)
@@ -118,7 +118,7 @@ struct RecordButton: View {
     private var backgroundColor: Color {
         switch state {
         case .idle: return .qcSurface
-        case .recording: return .qcRecording.opacity(0.2)
+        case .recording: return .qcActive.opacity(0.2)
         case .paused: return .qcPaused.opacity(0.2)
         case .finished: return .qcSurface
         }
@@ -127,7 +127,7 @@ struct RecordButton: View {
     private var foregroundColor: Color {
         switch state {
         case .idle: return .qcAccent
-        case .recording: return .qcRecording
+        case .recording: return .qcActive
         case .paused: return .qcPaused
         case .finished: return .qcAccent
         }
