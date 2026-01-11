@@ -114,6 +114,7 @@
 		1A0003040000000000000001 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0003050000000000000001 /* HistoryView.swift */; };
 		1A0003080000000000000001 /* SessionComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0003090000000000000001 /* SessionComparisonView.swift */; };
 		1A0000F70000000000000001 /* ElevatedOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000F60000000000000001 /* ElevatedOnboarding.swift */; };
+		1AUIBRAND000000000000001 /* UIBrandingTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AUIBRAND000000000000002 /* UIBrandingTestView.swift */; };
 
 		/* UI - Components */
 		1A0000700000000000000001 /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000710000000000000001 /* WaveformView.swift */; };
@@ -262,6 +263,7 @@
 		1A0003050000000000000001 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		1A0003090000000000000001 /* SessionComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionComparisonView.swift; sourceTree = "<group>"; };
 		1A0000F60000000000000001 /* ElevatedOnboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevatedOnboarding.swift; sourceTree = "<group>"; };
+		1AUIBRAND000000000000002 /* UIBrandingTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBrandingTestView.swift; sourceTree = "<group>"; };
 
 		/* UI - Components */
 		1A0000710000000000000001 /* WaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformView.swift; sourceTree = "<group>"; };
@@ -521,6 +523,7 @@
 				1A0000F60000000000000001 /* ElevatedOnboarding.swift */,
 				1A0003050000000000000001 /* HistoryView.swift */,
 				1A0003090000000000000001 /* SessionComparisonView.swift */,
+				1AUIBRAND000000000000002 /* UIBrandingTestView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -862,6 +865,7 @@
 				1A0000820000000000000001 /* ProUpgradeView.swift in Sources */,
 				1A0003040000000000000001 /* HistoryView.swift in Sources */,
 				1A0003080000000000000001 /* SessionComparisonView.swift in Sources */,
+				1AUIBRAND000000000000001 /* UIBrandingTestView.swift in Sources */,
 				1A0000840000000000000001 /* PrimaryButton.swift in Sources */,
 				1A0003020000000000000001 /* StreakBadgeView.swift in Sources */,
 				1A0003060000000000000001 /* StructureGuideSheet.swift in Sources */,
