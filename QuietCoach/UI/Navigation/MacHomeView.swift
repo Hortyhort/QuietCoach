@@ -197,7 +197,7 @@ struct MacHomeView: View {
             }
             .padding()
             .background(Color.qcSurface)
-            .cornerRadius(12)
+            .cornerRadius(Constants.Layout.mediumCornerRadius)
             .padding(.horizontal)
 
             Spacer()
@@ -252,7 +252,7 @@ struct MacHomeView: View {
                 }
                 .padding()
                 .background(Color.qcSurface)
-                .cornerRadius(12)
+                .cornerRadius(Constants.Layout.mediumCornerRadius)
             }
 
             Spacer()

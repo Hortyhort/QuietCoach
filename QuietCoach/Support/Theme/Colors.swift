@@ -73,13 +73,13 @@ extension Color {
     /// #E8A855
     static let qcWarning = Color(red: 0.910, green: 0.659, blue: 0.333)
 
-    /// Error state — soft coral (matches active for consistency)
-    static let qcError = Color(red: 0.910, green: 0.490, blue: 0.424)
+    /// Error state — soft coral (references qcActive for consistency)
+    static var qcError: Color { .qcActive }
 
     // MARK: - Pro Badge
 
-    /// Pro badge color — warm amber
-    static let qcPro = Color(red: 0.910, green: 0.659, blue: 0.333)
+    /// Pro badge color — warm amber (references qcWarning)
+    static var qcPro: Color { .qcWarning }
 
     // MARK: - Waveform
 

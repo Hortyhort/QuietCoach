@@ -647,10 +647,10 @@ struct ConfettiView: View {
                     x: CGFloat.random(in: 0...size.width),
                     y: -20
                 ),
-                color: [.qcMoodCelebration, .qcMoodSuccess, .qcMoodReady, .yellow, .orange, .pink].randomElement()!,
+                color: [.qcMoodCelebration, .qcMoodSuccess, .qcMoodReady, .yellow, .orange, .pink].randomElement() ?? .qcMoodCelebration,
                 size: CGFloat.random(in: 6...12),
                 rotation: Double.random(in: 0...360),
-                shape: [AnyShape(Circle()), AnyShape(Rectangle()), AnyShape(Capsule())].randomElement()!,
+                shape: [AnyShape(Circle()), AnyShape(Rectangle()), AnyShape(Capsule())].randomElement() ?? AnyShape(Circle()),
                 velocity: CGFloat.random(in: 100...300),
                 opacity: 1.0
             )

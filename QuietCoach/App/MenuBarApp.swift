@@ -149,7 +149,9 @@ struct MenuBarContentView: View {
     private var footerView: some View {
         HStack {
             Button("Open App") {
-                NSWorkspace.shared.open(URL(string: "quietcoach://")!)
+                if let url = URL(string: "quietcoach://") {
+                    NSWorkspace.shared.open(url)
+                }
             }
             .buttonStyle(.link)
 

@@ -53,10 +53,10 @@ struct PrimaryButton: View {
             .frame(maxWidth: .infinity)
             .frame(height: 50)
             .background(backgroundColor)
-            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: Constants.Layout.mediumCornerRadius, style: .continuous))
             .overlay {
                 if style == .outline {
-                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    RoundedRectangle(cornerRadius: Constants.Layout.mediumCornerRadius, style: .continuous)
                         .stroke(Color.qcAccent, lineWidth: 2)
                 }
             }

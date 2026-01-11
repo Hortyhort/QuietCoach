@@ -39,18 +39,18 @@ enum AppMood: Equatable {
 // MARK: - Mood Color Extensions
 
 extension Color {
-    /// Ready state — soft violet, matches qcAccent (#9D8CFF)
-    static let qcMoodReady = Color(red: 0.616, green: 0.549, blue: 1.0)
+    /// Ready state — soft violet, references qcAccent
+    static var qcMoodReady: Color { .qcAccent }
 
-    /// Engaged/recording — soft coral, matches qcActive (#E87D6C)
-    static let qcMoodEngaged = Color(red: 0.910, green: 0.490, blue: 0.424)
+    /// Engaged/recording — soft coral, references qcActive
+    static var qcMoodEngaged: Color { .qcActive }
 
-    /// Thinking/processing — deeper violet
+    /// Thinking/processing — deeper violet (unique to mood system)
     static let qcMoodThinking = Color(red: 0.55, green: 0.50, blue: 0.85)
 
-    /// Success state — muted teal, matches qcSuccess (#6AC4A8)
-    static let qcMoodSuccess = Color(red: 0.416, green: 0.769, blue: 0.659)
+    /// Success state — muted teal, references qcSuccess
+    static var qcMoodSuccess: Color { .qcSuccess }
 
-    /// Celebration — warm amber, matches qcWarning (#E8A855)
-    static let qcMoodCelebration = Color(red: 0.910, green: 0.659, blue: 0.333)
+    /// Celebration — warm amber, references qcWarning
+    static var qcMoodCelebration: Color { .qcWarning }
 }

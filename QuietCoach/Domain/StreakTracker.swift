@@ -144,8 +144,9 @@ final class StreakTracker: @unchecked Sendable {
 
         // Count consecutive days
         for day in practiceDays {
+            let previousDay = calendar.date(byAdding: .day, value: -1, to: checkDate) ?? checkDate
             if calendar.isDate(day, inSameDayAs: checkDate) ||
-               calendar.isDate(day, inSameDayAs: calendar.date(byAdding: .day, value: -1, to: checkDate)!) {
+               calendar.isDate(day, inSameDayAs: previousDay) {
                 streak += 1
                 checkDate = day
             } else {

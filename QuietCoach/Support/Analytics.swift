@@ -387,6 +387,7 @@ final class TelemetryDeckProvider: AnalyticsProvider, @unchecked Sendable {
     private let appID: String
 
     /// Base URL for TelemetryDeck API
+    // swiftlint:disable:next force_unwrapping
     private let baseURL = URL(string: "https://nom.telemetrydeck.com/v2/")!
 
     /// Anonymous user identifier (consistent per install, not trackable)

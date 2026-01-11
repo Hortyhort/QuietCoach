@@ -88,7 +88,7 @@ struct RecordButton: View {
                 .fill(foregroundColor)
                 .frame(width: innerSize, height: innerSize)
         case .recording:
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
+            RoundedRectangle(cornerRadius: Constants.Layout.smallCornerRadius, style: .continuous)
                 .fill(foregroundColor)
                 .frame(width: innerSize, height: innerSize)
         case .paused:

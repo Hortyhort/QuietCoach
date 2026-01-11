@@ -180,7 +180,7 @@ struct SpatialScenarioCard: View {
             .frame(width: 200, height: 150, alignment: .topLeading)
             .padding(20)
             .background(.regularMaterial)
-            .cornerRadius(20)
+            .cornerRadius(Constants.Layout.cornerRadius)
             .hoverEffect(.lift)
         }
         .buttonStyle(.plain)
