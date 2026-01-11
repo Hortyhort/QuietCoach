@@ -309,7 +309,7 @@ struct LoadingStateView: View {
     ScrollView {
         VStack(spacing: 40) {
             EmptyStateView(config: .noSessions) {
-                print("Start practicing")
+                // Preview action
             }
             .frame(height: 300)
 

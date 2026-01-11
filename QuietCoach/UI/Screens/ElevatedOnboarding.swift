@@ -795,6 +795,6 @@ struct OnboardingRecordButton: View {
 
 #Preview {
     ElevatedOnboardingView {
-        print("Onboarding complete")
+        // Preview completion
     }
 }

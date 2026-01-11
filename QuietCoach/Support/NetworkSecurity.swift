@@ -57,18 +57,31 @@ final class NetworkSecurityManager: NSObject {
     // MARK: - Default Configurations
 
     /// Default pin configurations for QuietCoach services
+    ///
+    /// - Important: Before enabling network features in production:
+    ///   1. Generate SHA-256 hashes of your server's public key certificates
+    ///   2. Replace placeholder hashes below with actual certificate hashes
+    ///   3. Set `enforceMode: true` after testing
+    ///   4. Include at least 2 hashes (primary + backup) for certificate rotation
+    ///
+    /// To generate certificate hash:
+    /// ```
+    /// openssl s_client -connect api.quietcoach.app:443 | openssl x509 -pubkey -noout | \
+    ///   openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | base64
+    /// ```
     static let defaultConfigurations: [CertificatePinConfiguration] = [
         // QuietCoach API (for future use)
         CertificatePinConfiguration(
             host: "api.quietcoach.app",
             pinnedPublicKeyHashes: [
-                // Primary certificate hash (to be updated with actual production cert)
+                // TODO: Replace with actual production certificate hashes before enabling network features
+                // Primary certificate hash
                 "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
-                // Backup certificate hash
+                // Backup certificate hash (for rotation)
                 "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB="
             ],
             includeSubdomains: true,
-            enforceMode: false // Disabled until production certificates are configured
+            enforceMode: false // Set to true after configuring real certificate hashes
         ),
 
         // Apple services (CloudKit) - Using Apple's built-in trust

@@ -65,6 +65,7 @@
 		1A0000FD0000000000000001 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000FC0000000000000001 /* Analytics.swift */; };
 		1A0009000000000000000001 /* CloudSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0009010000000000000001 /* CloudSyncManager.swift */; };
 		1A0009020000000000000001 /* NetworkSecurity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0009030000000000000001 /* NetworkSecurity.swift */; };
+		1ASECMGR000000000000001 /* SecurityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ASECMGR000000000000002 /* SecurityManager.swift */; };
 		1A0000FF0000000000000001 /* CrashReporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000FE0000000000000001 /* CrashReporting.swift */; };
 		1A0001010000000000000001 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0001000000000000000001 /* Localization.swift */; };
 		1A0001030000000000000001 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A0001100000000000000001 /* Localizable.strings */; };
@@ -221,6 +222,7 @@
 		1A0000FC0000000000000001 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		1A0009010000000000000001 /* CloudSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncManager.swift; sourceTree = "<group>"; };
 		1A0009030000000000000001 /* NetworkSecurity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSecurity.swift; sourceTree = "<group>"; };
+		1ASECMGR000000000000002 /* SecurityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityManager.swift; sourceTree = "<group>"; };
 		1A0000FE0000000000000001 /* CrashReporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReporting.swift; sourceTree = "<group>"; };
 		1A0001000000000000000001 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		1A0001020000000000000001 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -569,6 +571,7 @@
 				1A0000FC0000000000000001 /* Analytics.swift */,
 				1A0009010000000000000001 /* CloudSyncManager.swift */,
 				1A0009030000000000000001 /* NetworkSecurity.swift */,
+				1ASECMGR000000000000002 /* SecurityManager.swift */,
 				1A0000FE0000000000000001 /* CrashReporting.swift */,
 				1A0001000000000000000001 /* Localization.swift */,
 				1A0001040000000000000001 /* PrivacySettings.swift */,
@@ -879,6 +882,7 @@
 				1A0000FD0000000000000001 /* Analytics.swift in Sources */,
 				1A0009000000000000000001 /* CloudSyncManager.swift in Sources */,
 				1A0009020000000000000001 /* NetworkSecurity.swift in Sources */,
+				1ASECMGR000000000000001 /* SecurityManager.swift in Sources */,
 				1A0000FF0000000000000001 /* CrashReporting.swift in Sources */,
 				1A0001010000000000000001 /* Localization.swift in Sources */,
 				1A0001050000000000000001 /* PrivacySettings.swift in Sources */,

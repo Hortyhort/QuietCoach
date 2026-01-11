@@ -199,11 +199,11 @@ final class NotificationManager {
             trigger: trigger
         )
 
-        notificationCenter.add(request) { error in
+        notificationCenter.add(request) { [weak self] error in
             if let error {
-                print("Test notification failed: \(error)")
+                self?.logger.error("Test notification failed: \(error.localizedDescription)")
             } else {
-                print("Test notification scheduled for 5 seconds")
+                self?.logger.debug("Test notification scheduled for 5 seconds")
             }
         }
     }

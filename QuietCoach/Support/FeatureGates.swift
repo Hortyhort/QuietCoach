@@ -3,9 +3,11 @@
 //
 // Clean separation of free vs pro features.
 // Integrated with StoreKit 2 SubscriptionManager.
+// Includes device security verification.
 
 import Foundation
 import SwiftUI
+import OSLog
 
 @Observable
 @MainActor
@@ -17,25 +19,58 @@ final class FeatureGates {
 
     // MARK: - Observable State
 
-    /// Whether the user has Pro access
+    /// Whether the user has Pro access (verified)
     private(set) var isPro: Bool = false
 
     /// Whether Pro status has been verified (for loading states)
     private(set) var isLoaded: Bool = false
 
+    /// Whether device passed security checks
+    private(set) var isDeviceSecure: Bool = true
+
     // MARK: - Dependencies
 
     private let subscriptionManager = SubscriptionManager()
+    private let logger = Logger(subsystem: "com.quietcoach", category: "FeatureGates")
 
     // MARK: - Initialization
 
     private init() {
+        // Verify device security first
+        performSecurityCheck()
+
         // Load cached status first for instant UI
         loadCachedStatus()
 
         // Then verify with StoreKit 2
         Task {
             await verifySubscriptionStatus()
+        }
+    }
+
+    // MARK: - Security
+
+    /// Perform device security check
+    private func performSecurityCheck() {
+        let status = SecurityManager.shared.checkDeviceSecurity()
+        isDeviceSecure = status.shouldAllowProFeatures
+
+        if !isDeviceSecure {
+            logger.warning("Device security check failed - Pro features restricted")
+            // Force isPro to false on compromised devices
+            isPro = false
+        }
+    }
+
+    /// Refresh security status (call on app foreground)
+    func refreshSecurityStatus() {
+        SecurityManager.shared.invalidateCache()
+        performSecurityCheck()
+
+        // If device became insecure, revoke Pro
+        if !isDeviceSecure && isPro {
+            isPro = false
+            logger.warning("Pro access revoked due to security status change")
         }
     }
 
@@ -83,7 +118,15 @@ final class FeatureGates {
     }
 
     /// Update Pro status (called by SubscriptionManager)
+    /// Security check enforced - Pro denied on compromised devices
     func updateProStatus(_ newStatus: Bool) {
+        // Enforce security: deny Pro on compromised devices
+        if newStatus && !isDeviceSecure {
+            logger.warning("Pro status update denied - device security check failed")
+            isPro = false
+            return
+        }
+
         isPro = newStatus
         UserDefaults.standard.set(newStatus, forKey: "quietcoach.isPro")
     }
