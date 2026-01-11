@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiet Coach — Style Tile</title>
+  <style>
+    :root {
+      /* Environment */
+      --qc-background: #000000;
+      --qc-surface: #1C1C1E;
+      --qc-surface-secondary: #2C2C2E;
+      --qc-background-violet: #0F0D14;
+      
+      /* Twilight Violet (Ownable Accent) */
+      --qc-accent: #8B7EC8;
+      --qc-accent-bright: #A599D9;
+      --qc-accent-dim: rgba(139, 126, 200, 0.15);
+      --qc-accent-glow: rgba(139, 126, 200, 0.4);
+      
+      /* Semantic */
+      --qc-active: #E87D6C;
+      --qc-success: #6AC4A8;
+      --qc-warning: #E8A855;
+      --qc-info: #7EB8C8;
+      
+      /* Text */
+      --qc-text-primary: #F5F5F7;
+      --qc-text-secondary: rgba(245, 245, 247, 0.6);
+      --qc-text-tertiary: rgba(245, 245, 247, 0.4);
+      
+      /* Glass */
+      --qc-glass-clear: rgba(255, 255, 255, 0.06);
+      --qc-glass-violet: rgba(139, 126, 200, 0.04);
+      --qc-glass-warm: rgba(232, 168, 85, 0.04);
+      --qc-glass-cool: rgba(126, 184, 200, 0.04);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro', 'Segoe UI', sans-serif;
+      background: var(--qc-background);
+      color: var(--qc-text-primary);
+      padding: 48px;
+      min-height: 100vh;
+    }
+    
+    .style-tile {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    header {
+      margin-bottom: 64px;
+      text-align: center;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    
+    .logo svg {
+      width: 64px;
+      height: 64px;
+    }
+    
+    .logo h1 {
+      font-size: 32px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    
+    .tagline {
+      color: var(--qc-text-secondary);
+      font-size: 18px;
+      font-style: italic;
+    }
+    
+    section {
+      margin-bottom: 64px;
+    }
+    
+    h2 {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--qc-text-tertiary);
+      margin-bottom: 24px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--qc-surface);
+    }
+    
+    /* Colors */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 16px;
+    }
+    
+    .color-swatch {
+      aspect-ratio: 1;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .color-swatch .name {
+      font-size: 11px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    
+    .color-swatch .hex {
+      font-size: 10px;
+      opacity: 0.7;
+      font-family: 'SF Mono', monospace;
+    }
+    
+    /* Typography */
+    .type-samples {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    
+    .type-sample {
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+    }
+    
+    .type-label {
+      width: 100px;
+      font-size: 11px;
+      color: var(--qc-text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .display { font-size: 34px; font-weight: 500; letter-spacing: 0.5px; }
+    .title-1 { font-size: 28px; font-weight: 500; }
+    .title-2 { font-size: 22px; font-weight: 600; }
+    .headline { font-size: 17px; font-weight: 600; }
+    .body-text { font-size: 17px; font-weight: 400; }
+    .caption { font-size: 12px; font-weight: 500; color: var(--qc-text-secondary); }
+    
+    /* Glass Tiers */
+    .glass-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    
+    .glass-card {
+      height: 160px;
+      border-radius: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      border: 0.5px solid rgba(255,255,255,0.15);
+      pointer-events: none;
+    }
+    
+    .glass-ambient {
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(80px);
+    }
+    
+    .glass-surface {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(40px);
+    }
+    
+    .glass-interactive {
+      background: rgba(255,255,255,0.25);
+      backdrop-filter: blur(20px);
+    }
+    
+    .glass-focal {
+      background: rgba(255,255,255,0.50);
+      backdrop-filter: blur(8px);
+    }
+    
+    .glass-card .tier-name {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    
+    .glass-card .tier-spec {
+      font-size: 11px;
+      opacity: 0.7;
+    }
+    
+    /* Voice */
+    .voice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    
+    .voice-card {
+      background: var(--qc-surface);
+      border-radius: 16px;
+      padding: 24px;
+    }
+    
+    .voice-card h3 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--qc-accent);
+    }
+    
+    .voice-card ul {
+      list-style: none;
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--qc-text-secondary);
+    }
+    
+    .voice-card.do ul li::before { content: '✓ '; color: var(--qc-success); }
+    .voice-card.dont ul li::before { content: '✗ '; color: var(--qc-active); }
+    
+    /* Buttons */
+    .button-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      padding: 14px 28px;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .btn-primary {
+      background: var(--qc-accent);
+      color: #000;
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      border: 1.5px solid var(--qc-accent);
+      color: var(--qc-accent);
+    }
+    
+    .btn-glass {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(20px);
+      color: var(--qc-text-primary);
+      border: 0.5px solid rgba(255,255,255,0.2);
+    }
+    
+    footer {
+      text-align: center;
+      padding-top: 48px;
+      border-top: 1px solid var(--qc-surface);
+      color: var(--qc-text-tertiary);
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="style-tile">
+    <header>
+      <div class="logo">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="16" cy="24" rx="12" ry="14" fill="none" stroke="#8B7EC8" stroke-width="2"/>
+          <ellipse cx="32" cy="24" rx="10" ry="12" fill="none" stroke="#8B7EC8" stroke-width="2"/>
+        </svg>
+        <h1>Quiet Coach</h1>
+      </div>
+      <p class="tagline">Find your words before you need them.</p>
+    </header>
+    
+    <section>
+      <h2>Color Palette</h2>
+      <div class="color-grid">
+        <div class="color-swatch" style="background: var(--qc-accent);">
+          <span class="name" style="color:#000">Twilight Violet</span>
+          <span class="hex" style="color:#000">#8B7EC8</span>
+        </div>
+        <div class="color-swatch" style="background: var(--qc-active);">
+          <span class="name" style="color:#000">Soft Coral</span>
+          <span class="hex" style="color:#000">#E87D6C</span>
+        </div>
+        <div class="color-swatch" style="background: var(--qc-success);">
+          <span class="name" style="color:#000">Muted Teal</span>
+          <span class="hex" style="color:#000">#6AC4A8</span>
+        </div>
+        <div class="color-swatch" style="background: var(--qc-warning);">
+          <span class="name" style="color:#000">Warm Amber</span>
+          <span class="hex" style="color:#000">#E8A855</span>
+        </div>
+        <div class="color-swatch" style="background: var(--qc-info);">
+          <span class="name" style="color:#000">Quiet Cyan</span>
+          <span class="hex" style="color:#000">#7EB8C8</span>
+        </div>
+        <div class="color-swatch" style="background: var(--qc-surface); border-color: rgba(255,255,255,0.2);">
+          <span class="name">Surface</span>
+          <span class="hex">#1C1C1E</span>
+        </div>
+        <div class="color-swatch" style="background: var(--qc-background); border-color: rgba(255,255,255,0.2);">
+          <span class="name">Background</span>
+          <span class="hex">#000000</span>
+        </div>
+        <div class="color-swatch" style="background: var(--qc-background-violet); border-color: rgba(255,255,255,0.2);">
+          <span class="name">BG Violet</span>
+          <span class="hex">#0F0D14</span>
+        </div>
+      </div>
+    </section>
+    
+    <section>
+      <h2>Typography</h2>
+      <div class="type-samples">
+        <div class="type-sample">
+          <span class="type-label">Display</span>
+          <span class="display">Find your words</span>
+        </div>
+        <div class="type-sample">
+          <span class="type-label">Title 1</span>
+          <span class="title-1">Practice Speaking</span>
+        </div>
+        <div class="type-sample">
+          <span class="type-label">Title 2</span>
+          <span class="title-2">Your Recent Sessions</span>
+        </div>
+        <div class="type-sample">
+          <span class="type-label">Headline</span>
+          <span class="headline">Set a Boundary</span>
+        </div>
+        <div class="type-sample">
+          <span class="type-label">Body</span>
+          <span class="body-text">Your voice stayed steady in the second half. The pause before your main point worked well.</span>
+        </div>
+        <div class="type-sample">
+          <span class="type-label">Caption</span>
+          <span class="caption">30 seconds · Today at 2:34 PM</span>
+        </div>
+      </div>
+    </section>
+    
+    <section>
+      <h2>Glass Tiers</h2>
+      <div class="glass-grid">
+        <div class="glass-card glass-ambient">
+          <span class="tier-name">Ambient</span>
+          <span class="tier-spec">6% · 80px blur</span>
+        </div>
+        <div class="glass-card glass-surface">
+          <span class="tier-name">Surface</span>
+          <span class="tier-spec">15% · 40px blur</span>
+        </div>
+        <div class="glass-card glass-interactive">
+          <span class="tier-name">Interactive</span>
+          <span class="tier-spec">25% · 20px blur</span>
+        </div>
+        <div class="glass-card glass-focal">
+          <span class="tier-name" style="color:#000">Focal</span>
+          <span class="tier-spec" style="color:#000">50% · 8px blur</span>
+        </div>
+      </div>
+    </section>
+    
+    <section>
+      <h2>Voice</h2>
+      <div class="voice-grid">
+        <div class="voice-card do">
+          <h3>Do</h3>
+          <ul>
+            <li>Your voice carried well.</li>
+            <li>Recording saved.</li>
+            <li>When you're ready.</li>
+            <li>Practice again?</li>
+          </ul>
+        </div>
+        <div class="voice-card dont">
+          <h3>Don't</h3>
+          <ul>
+            <li>You nailed it!</li>
+            <li>Awesome! Let's go!</li>
+            <li>Crush it!</li>
+            <li>Level up your confidence!</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    
+    <section>
+      <h2>Buttons</h2>
+      <div class="button-row">
+        <button class="btn btn-primary">Begin</button>
+        <button class="btn btn-secondary">Practice Again</button>
+        <button class="btn btn-glass">Share</button>
+      </div>
+    </section>
+    
+    <footer>
+      <p>Quiet Coach Brand System v2.0 · Confidential</p>
+    </footer>
+  </div>
+</body>
+</html>

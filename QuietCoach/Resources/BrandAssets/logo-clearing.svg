@@ -1,0 +1,12 @@
+<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+  <title>Quiet Coach - The Clearing</title>
+  <!-- Secondary mark: Frame with offset void -->
+  <defs>
+    <mask id="void">
+      <rect x="4" y="4" width="40" height="40" rx="12" fill="white"/>
+      <circle cx="20" cy="20" r="10" fill="black"/>
+    </mask>
+  </defs>
+  <rect x="4" y="4" width="40" height="40" rx="12"
+        fill="#8B7EC8" mask="url(#void)"/>
+</svg>
