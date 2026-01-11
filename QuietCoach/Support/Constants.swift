@@ -92,6 +92,26 @@ enum Constants {
         static let hapticsEnabled = "settings.hapticsEnabled"
         static let soundsEnabled = "settings.soundsEnabled"
         static let focusSoundsEnabled = "settings.focusSoundsEnabled"
+        static let voiceIsolationEnabled = "settings.voiceIsolationEnabled"
+        static let breathingRitualEnabled = "settings.breathingRitualEnabled"
+    }
+
+    // MARK: - Voice Isolation
+
+    enum VoiceIsolation {
+        /// Whether voice isolation is available on this device/OS
+        static var isAvailable: Bool {
+            if #available(iOS 17.0, *) {
+                return true
+            }
+            return false
+        }
+
+        /// Whether user has enabled voice isolation
+        static var isEnabled: Bool {
+            guard isAvailable else { return false }
+            return UserDefaults.standard.bool(forKey: SettingsKeys.voiceIsolationEnabled)
+        }
     }
 
     enum Haptics {

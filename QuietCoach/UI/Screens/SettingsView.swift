@@ -19,12 +19,15 @@ struct SettingsView: View {
     @AppStorage(Constants.SettingsKeys.hapticsEnabled) private var hapticsEnabled = true
     @AppStorage(Constants.SettingsKeys.soundsEnabled) private var soundsEnabled = true
     @AppStorage(Constants.SettingsKeys.focusSoundsEnabled) private var focusSoundsEnabled = false
+    @AppStorage(Constants.SettingsKeys.voiceIsolationEnabled) private var voiceIsolationEnabled = false
+    @AppStorage(Constants.SettingsKeys.breathingRitualEnabled) private var breathingRitualEnabled = true
     @State private var showingDeleteAllConfirm = false
     @State private var showingProUpgrade = false
     @State private var showingExportSheet = false
     @State private var exportData: Data?
     @State private var notificationManager = NotificationManager.shared
     @State private var showingAchievements = false
+    @State private var showingPrivacyControl = false
 
     // MARK: - Body
 
@@ -39,6 +42,9 @@ struct SettingsView: View {
 
                 // Sound & Haptics section
                 soundHapticsSection
+
+                // Recording section
+                recordingSection
 
                 // Sharing section
                 sharingSection
@@ -97,6 +103,10 @@ struct SettingsView: View {
             }
             .sheet(isPresented: $showingAchievements) {
                 AchievementGalleryView()
+            }
+            .sheet(isPresented: $showingPrivacyControl) {
+                PrivacyControlView()
+                    .environment(repository)
             }
         }
     }
@@ -336,6 +346,62 @@ private extension SettingsView {
         }
     }
 
+    // MARK: - Recording Section
+
+    private var recordingSection: some View {
+        Section {
+            // Breathing ritual toggle
+            Toggle(isOn: $breathingRitualEnabled) {
+                HStack {
+                    Image(systemName: "leaf.fill")
+                        .foregroundColor(.qcAccent)
+                        .accessibilityHidden(true)
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Calm Start")
+                            .font(.qcBody)
+                            .foregroundColor(.qcTextPrimary)
+
+                        Text("Brief breathing exercise before recording")
+                            .font(.qcCaption)
+                            .foregroundColor(.qcTextTertiary)
+                    }
+                }
+            }
+            .tint(.qcAccent)
+
+            // Voice isolation toggle (iOS 17+)
+            if Constants.VoiceIsolation.isAvailable {
+                Toggle(isOn: $voiceIsolationEnabled) {
+                    HStack {
+                        Image(systemName: "person.wave.2.fill")
+                            .foregroundColor(.qcAccent)
+                            .accessibilityHidden(true)
+
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Voice Isolation")
+                                .font(.qcBody)
+                                .foregroundColor(.qcTextPrimary)
+
+                            Text("Reduces background noise during recording")
+                                .font(.qcCaption)
+                                .foregroundColor(.qcTextTertiary)
+                        }
+                    }
+                }
+                .tint(.qcAccent)
+            }
+        } header: {
+            Text("Recording")
+        } footer: {
+            if Constants.VoiceIsolation.isAvailable {
+                Text("Calm Start helps you center before rehearsing. Voice Isolation works best with AirPods.")
+            } else {
+                Text("Calm Start helps you center before rehearsing.")
+            }
+        }
+    }
+
     // MARK: - Sharing Section
 
     private var sharingSection: some View {
@@ -405,31 +471,29 @@ private extension SettingsView {
                     .foregroundColor(.qcTextSecondary)
             }
 
+            // Privacy Control Center - comprehensive data management
             Button {
-                exportData = repository.exportAllData()
-                showingExportSheet = exportData != nil
+                showingPrivacyControl = true
             } label: {
                 HStack {
-                    Text("Export Data")
+                    Image(systemName: "hand.raised.fill")
+                        .foregroundColor(.qcAccent)
+                        .accessibilityHidden(true)
+
+                    Text("Privacy Control")
                         .font(.qcBody)
                         .foregroundColor(.qcTextPrimary)
 
                     Spacer()
 
-                    Image(systemName: "square.and.arrow.up")
-                        .font(.system(size: 14))
-                        .foregroundColor(.qcAccent)
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundColor(.qcTextTertiary)
+                        .accessibilityHidden(true)
                 }
             }
-            .accessibilityLabel("Export session data")
-            .accessibilityHint("Double tap to export all sessions as JSON")
-
-            Button(role: .destructive) {
-                showingDeleteAllConfirm = true
-            } label: {
-                Text("Delete All Data")
-                    .font(.qcBody)
-            }
+            .accessibilityLabel("Privacy Control")
+            .accessibilityHint("Double tap to manage your data, export, or delete everything")
         }
     }
 

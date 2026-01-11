@@ -7,11 +7,72 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		/* App */
+		05446FF626324846977B6382 /* PrivacyControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C8E083092F4805B78360B2 /* PrivacyControlView.swift */; };
 		1A0000010000000000000001 /* QuietCoachApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000020000000000000001 /* QuietCoachApp.swift */; };
+		1A0000030000000000000001 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000040000000000000001 /* Scenario.swift */; };
+		1A0000050000000000000001 /* AudioMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000060000000000000001 /* AudioMetrics.swift */; };
+		1A0000070000000000000001 /* FeedbackScores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000080000000000000001 /* FeedbackScores.swift */; };
+		1A0000090000000000000001 /* CoachNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00000A0000000000000001 /* CoachNote.swift */; };
+		1A00000B0000000000000001 /* RehearsalSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00000C0000000000000001 /* RehearsalSession.swift */; };
+		1A00000D0000000000000001 /* FileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00000E0000000000000001 /* FileStore.swift */; };
+		1A00000F0000000000000001 /* SessionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000100000000000000001 /* SessionRepository.swift */; };
+		1A0000110000000000000001 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000120000000000000001 /* Constants.swift */; };
+		1A0000130000000000000001 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000140000000000000001 /* Haptics.swift */; };
+		1A0000150000000000000001 /* FeatureGates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000160000000000000001 /* FeatureGates.swift */; };
+		1A0000170000000000000001 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000180000000000000001 /* Colors.swift */; };
+		1A0000190000000000000001 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00001A0000000000000001 /* RootView.swift */; };
+		1A00001B0000000000000001 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00001C0000000000000001 /* HomeView.swift */; };
+		1A00001D0000000000000001 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00001E0000000000000001 /* OnboardingView.swift */; };
+		1A00001F0000000000000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A0000200000000000000001 /* Assets.xcassets */; };
+		1A0000400000000000000001 /* RehearsalRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000410000000000000001 /* RehearsalRecorder.swift */; };
+		1A0000420000000000000001 /* AudioMetricsAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000430000000000000001 /* AudioMetricsAnalyzer.swift */; };
+		1A0000440000000000000001 /* AudioPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000450000000000000001 /* AudioPlayerViewModel.swift */; };
+		1A0000500000000000000001 /* FeedbackEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000510000000000000001 /* FeedbackEngine.swift */; };
+		1A0000520000000000000001 /* CoachNotesEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000530000000000000001 /* CoachNotesEngine.swift */; };
+		1A0000600000000000000001 /* RehearseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000610000000000000001 /* RehearseView.swift */; };
+		1A0000620000000000000001 /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000630000000000000001 /* ReviewView.swift */; };
+		1A0000700000000000000001 /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000710000000000000001 /* WaveformView.swift */; };
+		1A0000720000000000000001 /* ScoreCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000730000000000000001 /* ScoreCard.swift */; };
+		1A0000740000000000000001 /* CoachBullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000750000000000000001 /* CoachBullet.swift */; };
+		1A0000760000000000000001 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000770000000000000001 /* RecordButton.swift */; };
+		1A0000780000000000000001 /* ShareCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000790000000000000001 /* ShareCardView.swift */; };
+		1A0000800000000000000001 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000810000000000000001 /* SettingsView.swift */; };
+		1A0000820000000000000001 /* ProUpgradeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000830000000000000001 /* ProUpgradeView.swift */; };
+		1A0000840000000000000001 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000850000000000000001 /* PrimaryButton.swift */; };
 		1A0000910000000000000001 /* AppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000900000000000000001 /* AppIntents.swift */; };
-
-		/* Tests */
+		1A0000920000000000000001 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000930000000000000001 /* SubscriptionManager.swift */; };
+		1A0000940000000000000001 /* TranscriptionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000950000000000000001 /* TranscriptionEngine.swift */; };
+		1A0000960000000000000001 /* AppTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000970000000000000001 /* AppTips.swift */; };
+		1A0000980000000000000001 /* IntelligentCoach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000990000000000000001 /* IntelligentCoach.swift */; };
+		1A0000A10000000000000001 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000A20000000000000001 /* LiveActivityManager.swift */; };
+		1A0000A30000000000000001 /* WidgetDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000A40000000000000001 /* WidgetDataManager.swift */; };
+		1A0000B10000000000000001 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0000B00000000000000001 /* WidgetKit.framework */; };
+		1A0000B30000000000000001 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0000B20000000000000001 /* SwiftUI.framework */; };
+		1A0000B50000000000000001 /* QuietCoachWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000B40000000000000001 /* QuietCoachWidgets.swift */; };
+		1A0000B70000000000000001 /* PracticeStreakWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000B60000000000000001 /* PracticeStreakWidget.swift */; };
+		1A0000B90000000000000001 /* LastSessionWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000B80000000000000001 /* LastSessionWidget.swift */; };
+		1A0000BB0000000000000001 /* QuickPracticeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000BA0000000000000001 /* QuickPracticeWidget.swift */; };
+		1A0000BD0000000000000001 /* RehearsalLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000BC0000000000000001 /* RehearsalLiveActivity.swift */; };
+		1A0000BF0000000000000001 /* QuickRecordControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000BE0000000000000001 /* QuickRecordControl.swift */; };
+		1A0000C10000000000000001 /* QuietCoachWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1A0000C00000000000000001 /* QuietCoachWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1A0000D00000000000000001 /* MacHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000D10000000000000001 /* MacHomeView.swift */; };
+		1A0000D20000000000000001 /* SpatialHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000D30000000000000001 /* SpatialHomeView.swift */; };
+		1A0000D40000000000000001 /* MenuBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000D50000000000000001 /* MenuBarApp.swift */; };
+		1A0000E00000000000000001 /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000E10000000000000001 /* Accessibility.swift */; };
+		1A0000F30000000000000001 /* SoundDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000F20000000000000001 /* SoundDesign.swift */; };
+		1A0000F50000000000000001 /* CoachPersonality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000F40000000000000001 /* CoachPersonality.swift */; };
+		1A0000F70000000000000001 /* ElevatedOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000F60000000000000001 /* ElevatedOnboarding.swift */; };
+		1A0000F90000000000000001 /* SpeechAnalysisEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000F80000000000000001 /* SpeechAnalysisEngine.swift */; };
+		1A0000FB0000000000000001 /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000FA0000000000000001 /* ErrorHandling.swift */; };
+		1A0000FD0000000000000001 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000FC0000000000000001 /* Analytics.swift */; };
+		1A0000FF0000000000000001 /* CrashReporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000FE0000000000000001 /* CrashReporting.swift */; };
+		1A0001010000000000000001 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0001000000000000000001 /* Localization.swift */; };
+		1A0001030000000000000001 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A0001100000000000000001 /* Localizable.strings */; };
+		1A0001050000000000000001 /* PrivacySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0001040000000000000001 /* PrivacySettings.swift */; };
+		1A0001070000000000000001 /* LocalAnalyticsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0001060000000000000001 /* LocalAnalyticsStore.swift */; };
+		1A0001090000000000000001 /* PerformanceMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0001080000000000000001 /* PerformanceMonitor.swift */; };
+		1A00010B0000000000000001 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00010A0000000000000001 /* NetworkMonitor.swift */; };
+		1A00010D0000000000000001 /* ServiceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00010C0000000000000001 /* ServiceProtocols.swift */; };
 		1A0002100000000000000001 /* SpeechAnalysisTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0002000000000000000001 /* SpeechAnalysisTests.swift */; };
 		1A0002110000000000000001 /* FeedbackEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0002010000000000000001 /* FeedbackEngineTests.swift */; };
 		1A0002120000000000000001 /* FeatureGatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0002020000000000000001 /* FeatureGatesTests.swift */; };
@@ -26,123 +87,41 @@
 		1A00021B0000000000000001 /* UIComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00020B0000000000000001 /* UIComponentTests.swift */; };
 		1A00021C0000000000000001 /* IntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00020C0000000000000001 /* IntegrationTests.swift */; };
 		1A00021D0000000000000001 /* NetworkSecurityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00020D0000000000000001 /* NetworkSecurityTests.swift */; };
-
-		/* Domain */
-		1A0000030000000000000001 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000040000000000000001 /* Scenario.swift */; };
-		1A0000050000000000000001 /* AudioMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000060000000000000001 /* AudioMetrics.swift */; };
-		1A0000070000000000000001 /* FeedbackScores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000080000000000000001 /* FeedbackScores.swift */; };
-		1A0000090000000000000001 /* CoachNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00000A0000000000000001 /* CoachNote.swift */; };
 		1A0003000000000000000001 /* StreakTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0003010000000000000001 /* StreakTracker.swift */; };
+		1A0003020000000000000001 /* StreakBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0003030000000000000001 /* StreakBadgeView.swift */; };
+		1A0003040000000000000001 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0003050000000000000001 /* HistoryView.swift */; };
+		1A0003060000000000000001 /* StructureGuideSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0003070000000000000001 /* StructureGuideSheet.swift */; };
+		1A0003080000000000000001 /* SessionComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0003090000000000000001 /* SessionComparisonView.swift */; };
+		1A00030A0000000000000001 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00030B0000000000000001 /* NotificationManager.swift */; };
 		1A00030C0000000000000001 /* AchievementManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00030D0000000000000001 /* AchievementManager.swift */; };
-
-		/* Data */
-		1A00000B0000000000000001 /* RehearsalSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00000C0000000000000001 /* RehearsalSession.swift */; };
-		1A00000D0000000000000001 /* FileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00000E0000000000000001 /* FileStore.swift */; };
-		1A00000F0000000000000001 /* SessionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000100000000000000001 /* SessionRepository.swift */; };
-		1A0000920000000000000001 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000930000000000000001 /* SubscriptionManager.swift */; };
-
-		/* Support */
-		1A0000110000000000000001 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000120000000000000001 /* Constants.swift */; };
-		1A0000130000000000000001 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000140000000000000001 /* Haptics.swift */; };
-		1A0000150000000000000001 /* FeatureGates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000160000000000000001 /* FeatureGates.swift */; };
-		1A0000170000000000000001 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000180000000000000001 /* Colors.swift */; };
+		1A00030E0000000000000001 /* AchievementGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00030F0000000000000001 /* AchievementGallery.swift */; };
 		1A0004060000000000000001 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0004000000000000000001 /* Typography.swift */; };
 		1A0004070000000000000001 /* Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0004010000000000000001 /* Formatting.swift */; };
 		1A0004080000000000000001 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0004020000000000000001 /* ViewModifiers.swift */; };
 		1A0004090000000000000001 /* MeshGradients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0004030000000000000001 /* MeshGradients.swift */; };
 		1A00040A0000000000000001 /* SymbolAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0004040000000000000001 /* SymbolAnimations.swift */; };
-		1A0000960000000000000001 /* AppTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000970000000000000001 /* AppTips.swift */; };
-		1A0000E00000000000000001 /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000E10000000000000001 /* Accessibility.swift */; };
-		1A0000A10000000000000001 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000A20000000000000001 /* LiveActivityManager.swift */; };
-		1A0000A30000000000000001 /* WidgetDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000A40000000000000001 /* WidgetDataManager.swift */; };
+		1A00040B0000000000000001 /* AppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00040C0000000000000001 /* AppContainer.swift */; };
+		1A00040D0000000000000001 /* MockServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00040E0000000000000001 /* MockServices.swift */; };
+		1A0005000000000000000001 /* RecordingTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0005010000000000000001 /* RecordingTypes.swift */; };
+		1A0005020000000000000001 /* RecordingInterruptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0005030000000000000001 /* RecordingInterruptions.swift */; };
+		1A0005060000000000000001 /* SpeechPatterns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0005070000000000000001 /* SpeechPatterns.swift */; };
+		1A0005090000000000000001 /* SpeechAnalysisTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0005050000000000000001 /* SpeechAnalysisTypes.swift */; };
 		1A0006000000000000000001 /* MoodColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0006010000000000000001 /* MoodColors.swift */; };
 		1A0006020000000000000001 /* ConfidencePulse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0006030000000000000001 /* ConfidencePulse.swift */; };
 		1A0006040000000000000001 /* LiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0006050000000000000001 /* LiquidGlass.swift */; };
 		1A0006060000000000000001 /* TypographyMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0006070000000000000001 /* TypographyMotion.swift */; };
 		1A0006080000000000000001 /* MicroInteractions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0006090000000000000001 /* MicroInteractions.swift */; };
 		1A00060A0000000000000001 /* ParticleEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00060B0000000000000001 /* ParticleEffects.swift */; };
-		1A0000FB0000000000000001 /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000FA0000000000000001 /* ErrorHandling.swift */; };
-		1A0000FD0000000000000001 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000FC0000000000000001 /* Analytics.swift */; };
+		1A0008000000000000000001 /* LoadingComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0008010000000000000001 /* LoadingComponents.swift */; };
 		1A0009000000000000000001 /* CloudSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0009010000000000000001 /* CloudSyncManager.swift */; };
 		1A0009020000000000000001 /* NetworkSecurity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0009030000000000000001 /* NetworkSecurity.swift */; };
-		1ASECMGR000000000000001 /* SecurityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ASECMGR000000000000002 /* SecurityManager.swift */; };
-		1A0000FF0000000000000001 /* CrashReporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000FE0000000000000001 /* CrashReporting.swift */; };
-		1A0001010000000000000001 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0001000000000000000001 /* Localization.swift */; };
-		1A0001030000000000000001 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A0001100000000000000001 /* Localizable.strings */; };
-		1A0001050000000000000001 /* PrivacySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0001040000000000000001 /* PrivacySettings.swift */; };
-		1A0001070000000000000001 /* LocalAnalyticsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0001060000000000000001 /* LocalAnalyticsStore.swift */; };
-		1A0001090000000000000001 /* PerformanceMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0001080000000000000001 /* PerformanceMonitor.swift */; };
-		1A00010B0000000000000001 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00010A0000000000000001 /* NetworkMonitor.swift */; };
-		1A00010D0000000000000001 /* ServiceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00010C0000000000000001 /* ServiceProtocols.swift */; };
-		1A00040B0000000000000001 /* AppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00040C0000000000000001 /* AppContainer.swift */; };
-		1A00040D0000000000000001 /* MockServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00040E0000000000000001 /* MockServices.swift */; };
-		1A00030A0000000000000001 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00030B0000000000000001 /* NotificationManager.swift */; };
-		1ASPOTLIGHT00000000000001 /* SpotlightManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ASPOTLIGHT00000000000002 /* SpotlightManager.swift */; };
-		1AHANDOFF000000000000001 /* HandoffManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AHANDOFF000000000000002 /* HandoffManager.swift */; };
-		1AFOCUSFLT00000000000001 /* FocusFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFOCUSFLT00000000000002 /* FocusFilter.swift */; };
-
-		/* Audio */
-		1A0000400000000000000001 /* RehearsalRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000410000000000000001 /* RehearsalRecorder.swift */; };
-		1A0005000000000000000001 /* RecordingTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0005010000000000000001 /* RecordingTypes.swift */; };
-		1A0005020000000000000001 /* RecordingInterruptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0005030000000000000001 /* RecordingInterruptions.swift */; };
-		1A0000420000000000000001 /* AudioMetricsAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000430000000000000001 /* AudioMetricsAnalyzer.swift */; };
-		1A0000440000000000000001 /* AudioPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000450000000000000001 /* AudioPlayerViewModel.swift */; };
-		1A0000940000000000000001 /* TranscriptionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000950000000000000001 /* TranscriptionEngine.swift */; };
-		1A0000F30000000000000001 /* SoundDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000F20000000000000001 /* SoundDesign.swift */; };
-		1A0000F90000000000000001 /* SpeechAnalysisEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000F80000000000000001 /* SpeechAnalysisEngine.swift */; };
-		1A0005090000000000000001 /* SpeechAnalysisTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0005050000000000000001 /* SpeechAnalysisTypes.swift */; };
-		1A0005060000000000000001 /* SpeechPatterns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0005070000000000000001 /* SpeechPatterns.swift */; };
-
-		/* Feedback */
-		1A0000500000000000000001 /* FeedbackEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000510000000000000001 /* FeedbackEngine.swift */; };
-		1A0000520000000000000001 /* CoachNotesEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000530000000000000001 /* CoachNotesEngine.swift */; };
-		1A0000980000000000000001 /* IntelligentCoach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000990000000000000001 /* IntelligentCoach.swift */; };
-		1A0000F50000000000000001 /* CoachPersonality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000F40000000000000001 /* CoachPersonality.swift */; };
-
-		/* UI - Navigation */
-		1A0000190000000000000001 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00001A0000000000000001 /* RootView.swift */; };
-		1A0000D00000000000000001 /* MacHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000D10000000000000001 /* MacHomeView.swift */; };
-		1A0000D20000000000000001 /* SpatialHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000D30000000000000001 /* SpatialHomeView.swift */; };
-		1A0000D40000000000000001 /* MenuBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000D50000000000000001 /* MenuBarApp.swift */; };
-
-		/* UI - Screens */
-		1A00001B0000000000000001 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00001C0000000000000001 /* HomeView.swift */; };
-		1A00001D0000000000000001 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00001E0000000000000001 /* OnboardingView.swift */; };
-		1A0000600000000000000001 /* RehearseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000610000000000000001 /* RehearseView.swift */; };
-		1A0000620000000000000001 /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000630000000000000001 /* ReviewView.swift */; };
-		1A0000800000000000000001 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000810000000000000001 /* SettingsView.swift */; };
-		1A0000820000000000000001 /* ProUpgradeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000830000000000000001 /* ProUpgradeView.swift */; };
-		1A0003040000000000000001 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0003050000000000000001 /* HistoryView.swift */; };
-		1A0003080000000000000001 /* SessionComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0003090000000000000001 /* SessionComparisonView.swift */; };
-		1A0000F70000000000000001 /* ElevatedOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000F60000000000000001 /* ElevatedOnboarding.swift */; };
-		1AUIBRAND000000000000001 /* UIBrandingTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AUIBRAND000000000000002 /* UIBrandingTestView.swift */; };
-
-		/* UI - Components */
-		1A0000700000000000000001 /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000710000000000000001 /* WaveformView.swift */; };
-		1A0008000000000000000001 /* LoadingComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0008010000000000000001 /* LoadingComponents.swift */; };
-		1A0000720000000000000001 /* ScoreCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000730000000000000001 /* ScoreCard.swift */; };
 		1AE0000E0000000000000001 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE0000F0000000000000001 /* EmptyStateView.swift */; };
-		1A0000740000000000000001 /* CoachBullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000750000000000000001 /* CoachBullet.swift */; };
-		1A0000760000000000000001 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000770000000000000001 /* RecordButton.swift */; };
-		1A0000780000000000000001 /* ShareCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000790000000000000001 /* ShareCardView.swift */; };
-		1A0000840000000000000001 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000850000000000000001 /* PrimaryButton.swift */; };
-		1A0003020000000000000001 /* StreakBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0003030000000000000001 /* StreakBadgeView.swift */; };
-		1A0003060000000000000001 /* StructureGuideSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0003070000000000000001 /* StructureGuideSheet.swift */; };
-		1A00030E0000000000000001 /* AchievementGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00030F0000000000000001 /* AchievementGallery.swift */; };
-
-		/* Assets */
-		1A00001F0000000000000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A0000200000000000000001 /* Assets.xcassets */; };
-
-		/* Widget Extension */
-		1A0000B10000000000000001 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0000B00000000000000001 /* WidgetKit.framework */; };
-		1A0000B30000000000000001 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0000B20000000000000001 /* SwiftUI.framework */; };
-		1A0000B50000000000000001 /* QuietCoachWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000B40000000000000001 /* QuietCoachWidgets.swift */; };
-		1A0000B70000000000000001 /* PracticeStreakWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000B60000000000000001 /* PracticeStreakWidget.swift */; };
-		1A0000B90000000000000001 /* LastSessionWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000B80000000000000001 /* LastSessionWidget.swift */; };
-		1A0000BB0000000000000001 /* QuickPracticeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000BA0000000000000001 /* QuickPracticeWidget.swift */; };
-		1A0000BD0000000000000001 /* RehearsalLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000BC0000000000000001 /* RehearsalLiveActivity.swift */; };
-		1A0000BF0000000000000001 /* QuickRecordControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000BE0000000000000001 /* QuickRecordControl.swift */; };
-		1A0000C10000000000000001 /* QuietCoachWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1A0000C00000000000000001 /* QuietCoachWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1AFOCUSFLT00000000000001 /* FocusFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFOCUSFLT00000000000002 /* FocusFilter.swift */; };
+		1AHANDOFF000000000000001 /* HandoffManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AHANDOFF000000000000002 /* HandoffManager.swift */; };
+		1ASECMGR000000000000001 /* SecurityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ASECMGR000000000000002 /* SecurityManager.swift */; };
+		1ASPOTLIGHT00000000000001 /* SpotlightManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ASPOTLIGHT00000000000002 /* SpotlightManager.swift */; };
+		1AUIBRAND000000000000001 /* UIBrandingTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AUIBRAND000000000000002 /* UIBrandingTestView.swift */; };
+		214A0FFE919E83A14ACD0730 /* BreathingRitualView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A17AEBCE0E008C421FD8E10 /* BreathingRitualView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -177,52 +156,64 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		/* Product */
-		1A0000210000000000000001 /* QuietCoach.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuietCoach.app; sourceTree = BUILT_PRODUCTS_DIR; };
-
-		/* App */
 		1A0000020000000000000001 /* QuietCoachApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuietCoachApp.swift; sourceTree = "<group>"; };
-		1A0000900000000000000001 /* AppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntents.swift; sourceTree = "<group>"; };
-
-		/* Domain */
 		1A0000040000000000000001 /* Scenario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
 		1A0000060000000000000001 /* AudioMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMetrics.swift; sourceTree = "<group>"; };
 		1A0000080000000000000001 /* FeedbackScores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackScores.swift; sourceTree = "<group>"; };
 		1A00000A0000000000000001 /* CoachNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachNote.swift; sourceTree = "<group>"; };
-		1A0003010000000000000001 /* StreakTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakTracker.swift; sourceTree = "<group>"; };
-		1A00030D0000000000000001 /* AchievementManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementManager.swift; sourceTree = "<group>"; };
-
-		/* Data */
 		1A00000C0000000000000001 /* RehearsalSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RehearsalSession.swift; sourceTree = "<group>"; };
 		1A00000E0000000000000001 /* FileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileStore.swift; sourceTree = "<group>"; };
 		1A0000100000000000000001 /* SessionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRepository.swift; sourceTree = "<group>"; };
-		1A0000930000000000000001 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
-
-		/* Support */
 		1A0000120000000000000001 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1A0000140000000000000001 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 		1A0000160000000000000001 /* FeatureGates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureGates.swift; sourceTree = "<group>"; };
 		1A0000180000000000000001 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		1A0004000000000000000001 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
-		1A0004010000000000000001 /* Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatting.swift; sourceTree = "<group>"; };
-		1A0004020000000000000001 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
-		1A0004030000000000000001 /* MeshGradients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradients.swift; sourceTree = "<group>"; };
-		1A0004040000000000000001 /* SymbolAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolAnimations.swift; sourceTree = "<group>"; };
+		1A00001A0000000000000001 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		1A00001C0000000000000001 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		1A00001E0000000000000001 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		1A0000200000000000000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1A0000210000000000000001 /* QuietCoach.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuietCoach.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A0000410000000000000001 /* RehearsalRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RehearsalRecorder.swift; sourceTree = "<group>"; };
+		1A0000430000000000000001 /* AudioMetricsAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMetricsAnalyzer.swift; sourceTree = "<group>"; };
+		1A0000450000000000000001 /* AudioPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerViewModel.swift; sourceTree = "<group>"; };
+		1A0000510000000000000001 /* FeedbackEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackEngine.swift; sourceTree = "<group>"; };
+		1A0000530000000000000001 /* CoachNotesEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachNotesEngine.swift; sourceTree = "<group>"; };
+		1A0000610000000000000001 /* RehearseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RehearseView.swift; sourceTree = "<group>"; };
+		1A0000630000000000000001 /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
+		1A0000710000000000000001 /* WaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformView.swift; sourceTree = "<group>"; };
+		1A0000730000000000000001 /* ScoreCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreCard.swift; sourceTree = "<group>"; };
+		1A0000750000000000000001 /* CoachBullet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachBullet.swift; sourceTree = "<group>"; };
+		1A0000770000000000000001 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
+		1A0000790000000000000001 /* ShareCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareCardView.swift; sourceTree = "<group>"; };
+		1A0000810000000000000001 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		1A0000830000000000000001 /* ProUpgradeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProUpgradeView.swift; sourceTree = "<group>"; };
+		1A0000850000000000000001 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
+		1A0000900000000000000001 /* AppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntents.swift; sourceTree = "<group>"; };
+		1A0000930000000000000001 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
+		1A0000950000000000000001 /* TranscriptionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionEngine.swift; sourceTree = "<group>"; };
 		1A0000970000000000000001 /* AppTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTips.swift; sourceTree = "<group>"; };
-		1A0000E10000000000000001 /* Accessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
+		1A0000990000000000000001 /* IntelligentCoach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntelligentCoach.swift; sourceTree = "<group>"; };
 		1A0000A20000000000000001 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
 		1A0000A40000000000000001 /* WidgetDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataManager.swift; sourceTree = "<group>"; };
-		1A0006010000000000000001 /* MoodColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodColors.swift; sourceTree = "<group>"; };
-		1A0006030000000000000001 /* ConfidencePulse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfidencePulse.swift; sourceTree = "<group>"; };
-		1A0006050000000000000001 /* LiquidGlass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlass.swift; sourceTree = "<group>"; };
-		1A0006070000000000000001 /* TypographyMotion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyMotion.swift; sourceTree = "<group>"; };
-		1A0006090000000000000001 /* MicroInteractions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicroInteractions.swift; sourceTree = "<group>"; };
-		1A00060B0000000000000001 /* ParticleEffects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleEffects.swift; sourceTree = "<group>"; };
+		1A0000B00000000000000001 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		1A0000B20000000000000001 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		1A0000B40000000000000001 /* QuietCoachWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuietCoachWidgets.swift; sourceTree = "<group>"; };
+		1A0000B60000000000000001 /* PracticeStreakWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeStreakWidget.swift; sourceTree = "<group>"; };
+		1A0000B80000000000000001 /* LastSessionWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastSessionWidget.swift; sourceTree = "<group>"; };
+		1A0000BA0000000000000001 /* QuickPracticeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPracticeWidget.swift; sourceTree = "<group>"; };
+		1A0000BC0000000000000001 /* RehearsalLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RehearsalLiveActivity.swift; sourceTree = "<group>"; };
+		1A0000BE0000000000000001 /* QuickRecordControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickRecordControl.swift; sourceTree = "<group>"; };
+		1A0000C00000000000000001 /* QuietCoachWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = QuietCoachWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A0000D10000000000000001 /* MacHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacHomeView.swift; sourceTree = "<group>"; };
+		1A0000D30000000000000001 /* SpatialHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialHomeView.swift; sourceTree = "<group>"; };
+		1A0000D50000000000000001 /* MenuBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarApp.swift; sourceTree = "<group>"; };
+		1A0000E10000000000000001 /* Accessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
+		1A0000F20000000000000001 /* SoundDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundDesign.swift; sourceTree = "<group>"; };
+		1A0000F40000000000000001 /* CoachPersonality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachPersonality.swift; sourceTree = "<group>"; };
+		1A0000F60000000000000001 /* ElevatedOnboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevatedOnboarding.swift; sourceTree = "<group>"; };
+		1A0000F80000000000000001 /* SpeechAnalysisEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechAnalysisEngine.swift; sourceTree = "<group>"; };
 		1A0000FA0000000000000001 /* ErrorHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandling.swift; sourceTree = "<group>"; };
 		1A0000FC0000000000000001 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
-		1A0009010000000000000001 /* CloudSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncManager.swift; sourceTree = "<group>"; };
-		1A0009030000000000000001 /* NetworkSecurity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSecurity.swift; sourceTree = "<group>"; };
-		1ASECMGR000000000000002 /* SecurityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityManager.swift; sourceTree = "<group>"; };
 		1A0000FE0000000000000001 /* CrashReporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReporting.swift; sourceTree = "<group>"; };
 		1A0001000000000000000001 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		1A0001020000000000000001 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -240,79 +231,6 @@
 		1A0001080000000000000001 /* PerformanceMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceMonitor.swift; sourceTree = "<group>"; };
 		1A00010A0000000000000001 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		1A00010C0000000000000001 /* ServiceProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocols.swift; sourceTree = "<group>"; };
-		1A00040C0000000000000001 /* AppContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContainer.swift; sourceTree = "<group>"; };
-		1A00040E0000000000000001 /* MockServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockServices.swift; sourceTree = "<group>"; };
-		1A00030B0000000000000001 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
-		1ASPOTLIGHT00000000000002 /* SpotlightManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotlightManager.swift; sourceTree = "<group>"; };
-		1AHANDOFF000000000000002 /* HandoffManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandoffManager.swift; sourceTree = "<group>"; };
-		1AFOCUSFLT00000000000002 /* FocusFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusFilter.swift; sourceTree = "<group>"; };
-
-		/* UI - Navigation */
-		1A00001A0000000000000001 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
-		1A0000D10000000000000001 /* MacHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacHomeView.swift; sourceTree = "<group>"; };
-		1A0000D30000000000000001 /* SpatialHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialHomeView.swift; sourceTree = "<group>"; };
-
-		/* App - Platform */
-		1A0000D50000000000000001 /* MenuBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarApp.swift; sourceTree = "<group>"; };
-
-		/* UI - Screens */
-		1A00001C0000000000000001 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		1A00001E0000000000000001 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		1A0000610000000000000001 /* RehearseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RehearseView.swift; sourceTree = "<group>"; };
-		1A0000630000000000000001 /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
-		1A0000810000000000000001 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		1A0000830000000000000001 /* ProUpgradeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProUpgradeView.swift; sourceTree = "<group>"; };
-		1A0003050000000000000001 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
-		1A0003090000000000000001 /* SessionComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionComparisonView.swift; sourceTree = "<group>"; };
-		1A0000F60000000000000001 /* ElevatedOnboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevatedOnboarding.swift; sourceTree = "<group>"; };
-		1AUIBRAND000000000000002 /* UIBrandingTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBrandingTestView.swift; sourceTree = "<group>"; };
-
-		/* UI - Components */
-		1A0000710000000000000001 /* WaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformView.swift; sourceTree = "<group>"; };
-		1A0008010000000000000001 /* LoadingComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingComponents.swift; sourceTree = "<group>"; };
-		1A0000730000000000000001 /* ScoreCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreCard.swift; sourceTree = "<group>"; };
-		1AE0000F0000000000000001 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
-		1A0000750000000000000001 /* CoachBullet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachBullet.swift; sourceTree = "<group>"; };
-		1A0000770000000000000001 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
-		1A0000790000000000000001 /* ShareCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareCardView.swift; sourceTree = "<group>"; };
-		1A0000850000000000000001 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
-		1A0003030000000000000001 /* StreakBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakBadgeView.swift; sourceTree = "<group>"; };
-		1A0003070000000000000001 /* StructureGuideSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StructureGuideSheet.swift; sourceTree = "<group>"; };
-		1A00030F0000000000000001 /* AchievementGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementGallery.swift; sourceTree = "<group>"; };
-
-		/* Audio */
-		1A0000410000000000000001 /* RehearsalRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RehearsalRecorder.swift; sourceTree = "<group>"; };
-		1A0005010000000000000001 /* RecordingTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingTypes.swift; sourceTree = "<group>"; };
-		1A0005030000000000000001 /* RecordingInterruptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingInterruptions.swift; sourceTree = "<group>"; };
-		1A0000430000000000000001 /* AudioMetricsAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMetricsAnalyzer.swift; sourceTree = "<group>"; };
-		1A0000450000000000000001 /* AudioPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerViewModel.swift; sourceTree = "<group>"; };
-		1A0000950000000000000001 /* TranscriptionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionEngine.swift; sourceTree = "<group>"; };
-		1A0000F20000000000000001 /* SoundDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundDesign.swift; sourceTree = "<group>"; };
-		1A0000F80000000000000001 /* SpeechAnalysisEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechAnalysisEngine.swift; sourceTree = "<group>"; };
-		1A0005050000000000000001 /* SpeechAnalysisTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechAnalysisTypes.swift; sourceTree = "<group>"; };
-		1A0005070000000000000001 /* SpeechPatterns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechPatterns.swift; sourceTree = "<group>"; };
-
-		/* Feedback */
-		1A0000510000000000000001 /* FeedbackEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackEngine.swift; sourceTree = "<group>"; };
-		1A0000530000000000000001 /* CoachNotesEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachNotesEngine.swift; sourceTree = "<group>"; };
-		1A0000990000000000000001 /* IntelligentCoach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntelligentCoach.swift; sourceTree = "<group>"; };
-		1A0000F40000000000000001 /* CoachPersonality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachPersonality.swift; sourceTree = "<group>"; };
-
-		/* Assets */
-		1A0000200000000000000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-
-		/* Widget Extension */
-		1A0000B00000000000000001 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
-		1A0000B20000000000000001 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		1A0000B40000000000000001 /* QuietCoachWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuietCoachWidgets.swift; sourceTree = "<group>"; };
-		1A0000B60000000000000001 /* PracticeStreakWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeStreakWidget.swift; sourceTree = "<group>"; };
-		1A0000B80000000000000001 /* LastSessionWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastSessionWidget.swift; sourceTree = "<group>"; };
-		1A0000BA0000000000000001 /* QuickPracticeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPracticeWidget.swift; sourceTree = "<group>"; };
-		1A0000BC0000000000000001 /* RehearsalLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RehearsalLiveActivity.swift; sourceTree = "<group>"; };
-		1A0000BE0000000000000001 /* QuickRecordControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickRecordControl.swift; sourceTree = "<group>"; };
-		1A0000C00000000000000001 /* QuietCoachWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = QuietCoachWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-
-		/* Tests */
 		1A0002000000000000000001 /* SpeechAnalysisTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechAnalysisTests.swift; sourceTree = "<group>"; };
 		1A0002010000000000000001 /* FeedbackEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackEngineTests.swift; sourceTree = "<group>"; };
 		1A0002020000000000000001 /* FeatureGatesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureGatesTests.swift; sourceTree = "<group>"; };
@@ -328,6 +246,42 @@
 		1A00020C0000000000000001 /* IntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationTests.swift; sourceTree = "<group>"; };
 		1A00020D0000000000000001 /* NetworkSecurityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSecurityTests.swift; sourceTree = "<group>"; };
 		1A0002500000000000000001 /* QuietCoachTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuietCoachTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A0003010000000000000001 /* StreakTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakTracker.swift; sourceTree = "<group>"; };
+		1A0003030000000000000001 /* StreakBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakBadgeView.swift; sourceTree = "<group>"; };
+		1A0003050000000000000001 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		1A0003070000000000000001 /* StructureGuideSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StructureGuideSheet.swift; sourceTree = "<group>"; };
+		1A0003090000000000000001 /* SessionComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionComparisonView.swift; sourceTree = "<group>"; };
+		1A00030B0000000000000001 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		1A00030D0000000000000001 /* AchievementManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementManager.swift; sourceTree = "<group>"; };
+		1A00030F0000000000000001 /* AchievementGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementGallery.swift; sourceTree = "<group>"; };
+		1A0004000000000000000001 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
+		1A0004010000000000000001 /* Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatting.swift; sourceTree = "<group>"; };
+		1A0004020000000000000001 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
+		1A0004030000000000000001 /* MeshGradients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradients.swift; sourceTree = "<group>"; };
+		1A0004040000000000000001 /* SymbolAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolAnimations.swift; sourceTree = "<group>"; };
+		1A00040C0000000000000001 /* AppContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContainer.swift; sourceTree = "<group>"; };
+		1A00040E0000000000000001 /* MockServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockServices.swift; sourceTree = "<group>"; };
+		1A0005010000000000000001 /* RecordingTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingTypes.swift; sourceTree = "<group>"; };
+		1A0005030000000000000001 /* RecordingInterruptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingInterruptions.swift; sourceTree = "<group>"; };
+		1A0005050000000000000001 /* SpeechAnalysisTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechAnalysisTypes.swift; sourceTree = "<group>"; };
+		1A0005070000000000000001 /* SpeechPatterns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechPatterns.swift; sourceTree = "<group>"; };
+		1A0006010000000000000001 /* MoodColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodColors.swift; sourceTree = "<group>"; };
+		1A0006030000000000000001 /* ConfidencePulse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfidencePulse.swift; sourceTree = "<group>"; };
+		1A0006050000000000000001 /* LiquidGlass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlass.swift; sourceTree = "<group>"; };
+		1A0006070000000000000001 /* TypographyMotion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyMotion.swift; sourceTree = "<group>"; };
+		1A0006090000000000000001 /* MicroInteractions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicroInteractions.swift; sourceTree = "<group>"; };
+		1A00060B0000000000000001 /* ParticleEffects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleEffects.swift; sourceTree = "<group>"; };
+		1A0008010000000000000001 /* LoadingComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingComponents.swift; sourceTree = "<group>"; };
+		1A0009010000000000000001 /* CloudSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncManager.swift; sourceTree = "<group>"; };
+		1A0009030000000000000001 /* NetworkSecurity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSecurity.swift; sourceTree = "<group>"; };
+		1AE0000F0000000000000001 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		1AFOCUSFLT00000000000002 /* FocusFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusFilter.swift; sourceTree = "<group>"; };
+		1AHANDOFF000000000000002 /* HandoffManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandoffManager.swift; sourceTree = "<group>"; };
+		1ASECMGR000000000000002 /* SecurityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityManager.swift; sourceTree = "<group>"; };
+		1ASPOTLIGHT00000000000002 /* SpotlightManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotlightManager.swift; sourceTree = "<group>"; };
+		1AUIBRAND000000000000002 /* UIBrandingTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBrandingTestView.swift; sourceTree = "<group>"; };
+		44C8E083092F4805B78360B2 /* PrivacyControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyControlView.swift; sourceTree = "<group>"; };
+		6A17AEBCE0E008C421FD8E10 /* BreathingRitualView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BreathingRitualView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -368,37 +322,6 @@
 			);
 			sourceTree = "<group>";
 		};
-		1A0000250000000000000001 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1A0000210000000000000001 /* QuietCoach.app */,
-				1A0000C00000000000000001 /* QuietCoachWidgetsExtension.appex */,
-				1A0002500000000000000001 /* QuietCoachTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		1A0002200000000000000001 /* QuietCoachTests */ = {
-			isa = PBXGroup;
-			children = (
-				1A0002000000000000000001 /* SpeechAnalysisTests.swift */,
-				1A0002010000000000000001 /* FeedbackEngineTests.swift */,
-				1A0002020000000000000001 /* FeatureGatesTests.swift */,
-				1A0002030000000000000001 /* DependencyInjectionTests.swift */,
-				1A0002040000000000000001 /* NetworkMonitorTests.swift */,
-				1A0002050000000000000001 /* CoachNotesTests.swift */,
-				1A0002060000000000000001 /* RecordingFlowTests.swift */,
-				1A0002070000000000000001 /* SubscriptionFlowTests.swift */,
-				1A0002080000000000000001 /* OnboardingFlowTests.swift */,
-				1A0002090000000000000001 /* AudioMetricsAnalyzerTests.swift */,
-				1A00020A0000000000000001 /* ErrorHandlingTests.swift */,
-				1A00020B0000000000000001 /* UIComponentTests.swift */,
-				1A00020C0000000000000001 /* IntegrationTests.swift */,
-				1A00020D0000000000000001 /* NetworkSecurityTests.swift */,
-			);
-			path = QuietCoachTests;
-			sourceTree = "<group>";
-		};
 		1A0000240000000000000001 /* QuietCoach */ = {
 			isa = PBXGroup;
 			children = (
@@ -412,6 +335,16 @@
 				1A00002D0000000000000001 /* Resources */,
 			);
 			path = QuietCoach;
+			sourceTree = "<group>";
+		};
+		1A0000250000000000000001 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1A0000210000000000000001 /* QuietCoach.app */,
+				1A0000C00000000000000001 /* QuietCoachWidgetsExtension.appex */,
+				1A0002500000000000000001 /* QuietCoachTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		1A0000260000000000000001 /* App */ = {
@@ -462,25 +395,6 @@
 			path = Audio;
 			sourceTree = "<group>";
 		};
-		1A0005040000000000000001 /* Recording */ = {
-			isa = PBXGroup;
-			children = (
-				1A0000410000000000000001 /* RehearsalRecorder.swift */,
-				1A0005010000000000000001 /* RecordingTypes.swift */,
-				1A0005030000000000000001 /* RecordingInterruptions.swift */,
-			);
-			path = Recording;
-			sourceTree = "<group>";
-		};
-		1A0005080000000000000001 /* Analysis */ = {
-			isa = PBXGroup;
-			children = (
-				1A0005050000000000000001 /* SpeechAnalysisTypes.swift */,
-				1A0005070000000000000001 /* SpeechPatterns.swift */,
-			);
-			path = Analysis;
-			sourceTree = "<group>";
-		};
 		1A00002A0000000000000001 /* Feedback */ = {
 			isa = PBXGroup;
 			children = (
@@ -501,58 +415,6 @@
 				1A0000310000000000000001 /* Modifiers */,
 			);
 			path = UI;
-			sourceTree = "<group>";
-		};
-		1A00002E0000000000000001 /* Navigation */ = {
-			isa = PBXGroup;
-			children = (
-				1A00001A0000000000000001 /* RootView.swift */,
-				1A0000D10000000000000001 /* MacHomeView.swift */,
-				1A0000D30000000000000001 /* SpatialHomeView.swift */,
-			);
-			path = Navigation;
-			sourceTree = "<group>";
-		};
-		1A00002F0000000000000001 /* Screens */ = {
-			isa = PBXGroup;
-			children = (
-				1A00001C0000000000000001 /* HomeView.swift */,
-				1A00001E0000000000000001 /* OnboardingView.swift */,
-				1A0000610000000000000001 /* RehearseView.swift */,
-				1A0000630000000000000001 /* ReviewView.swift */,
-				1A0000810000000000000001 /* SettingsView.swift */,
-				1A0000830000000000000001 /* ProUpgradeView.swift */,
-				1A0000F60000000000000001 /* ElevatedOnboarding.swift */,
-				1A0003050000000000000001 /* HistoryView.swift */,
-				1A0003090000000000000001 /* SessionComparisonView.swift */,
-				1AUIBRAND000000000000002 /* UIBrandingTestView.swift */,
-			);
-			path = Screens;
-			sourceTree = "<group>";
-		};
-		1A0000300000000000000001 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				1A0000710000000000000001 /* WaveformView.swift */,
-				1A0008010000000000000001 /* LoadingComponents.swift */,
-				1A0000730000000000000001 /* ScoreCard.swift */,
-				1AE0000F0000000000000001 /* EmptyStateView.swift */,
-				1A0000750000000000000001 /* CoachBullet.swift */,
-				1A0000770000000000000001 /* RecordButton.swift */,
-				1A0000790000000000000001 /* ShareCardView.swift */,
-				1A0000850000000000000001 /* PrimaryButton.swift */,
-				1A0003030000000000000001 /* StreakBadgeView.swift */,
-				1A0003070000000000000001 /* StructureGuideSheet.swift */,
-				1A00030F0000000000000001 /* AchievementGallery.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		1A0000310000000000000001 /* Modifiers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Modifiers;
 			sourceTree = "<group>";
 		};
 		1A00002C0000000000000001 /* Support */ = {
@@ -588,49 +450,6 @@
 			path = Support;
 			sourceTree = "<group>";
 		};
-		1A0000320000000000000001 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		1A0004050000000000000001 /* Theme */ = {
-			isa = PBXGroup;
-			children = (
-				1A0000180000000000000001 /* Colors.swift */,
-				1A0004000000000000000001 /* Typography.swift */,
-				1A0004010000000000000001 /* Formatting.swift */,
-				1A0004020000000000000001 /* ViewModifiers.swift */,
-				1A0004030000000000000001 /* MeshGradients.swift */,
-				1A0004040000000000000001 /* SymbolAnimations.swift */,
-			);
-			path = Theme;
-			sourceTree = "<group>";
-		};
-		1A00060C0000000000000001 /* ElevatedDesign */ = {
-			isa = PBXGroup;
-			children = (
-				1A0006010000000000000001 /* MoodColors.swift */,
-				1A0006030000000000000001 /* ConfidencePulse.swift */,
-				1A0006050000000000000001 /* LiquidGlass.swift */,
-				1A0006070000000000000001 /* TypographyMotion.swift */,
-				1A0006090000000000000001 /* MicroInteractions.swift */,
-				1A00060B0000000000000001 /* ParticleEffects.swift */,
-			);
-			path = ElevatedDesign;
-			sourceTree = "<group>";
-		};
-		1A00040F0000000000000001 /* DI */ = {
-			isa = PBXGroup;
-			children = (
-				1A00010C0000000000000001 /* ServiceProtocols.swift */,
-				1A00040C0000000000000001 /* AppContainer.swift */,
-				1A00040E0000000000000001 /* MockServices.swift */,
-			);
-			path = DI;
-			sourceTree = "<group>";
-		};
 		1A00002D0000000000000001 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -638,6 +457,67 @@
 				1A0001100000000000000001 /* Localizable.strings */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		1A00002E0000000000000001 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				1A00001A0000000000000001 /* RootView.swift */,
+				1A0000D10000000000000001 /* MacHomeView.swift */,
+				1A0000D30000000000000001 /* SpatialHomeView.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		1A00002F0000000000000001 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				1A00001C0000000000000001 /* HomeView.swift */,
+				1A00001E0000000000000001 /* OnboardingView.swift */,
+				1A0000610000000000000001 /* RehearseView.swift */,
+				1A0000630000000000000001 /* ReviewView.swift */,
+				1A0000810000000000000001 /* SettingsView.swift */,
+				1A0000830000000000000001 /* ProUpgradeView.swift */,
+				1A0000F60000000000000001 /* ElevatedOnboarding.swift */,
+				1A0003050000000000000001 /* HistoryView.swift */,
+				1A0003090000000000000001 /* SessionComparisonView.swift */,
+				1AUIBRAND000000000000002 /* UIBrandingTestView.swift */,
+				44C8E083092F4805B78360B2 /* PrivacyControlView.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		1A0000300000000000000001 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				1A0000710000000000000001 /* WaveformView.swift */,
+				1A0008010000000000000001 /* LoadingComponents.swift */,
+				1A0000730000000000000001 /* ScoreCard.swift */,
+				1AE0000F0000000000000001 /* EmptyStateView.swift */,
+				1A0000750000000000000001 /* CoachBullet.swift */,
+				1A0000770000000000000001 /* RecordButton.swift */,
+				1A0000790000000000000001 /* ShareCardView.swift */,
+				1A0000850000000000000001 /* PrimaryButton.swift */,
+				1A0003030000000000000001 /* StreakBadgeView.swift */,
+				1A0003070000000000000001 /* StructureGuideSheet.swift */,
+				1A00030F0000000000000001 /* AchievementGallery.swift */,
+				6A17AEBCE0E008C421FD8E10 /* BreathingRitualView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		1A0000310000000000000001 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
+		1A0000320000000000000001 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		1A0000C60000000000000001 /* QuietCoachWidgets */ = {
@@ -662,27 +542,83 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-/* End PBXGroup section */
-
-/* Begin PBXVariantGroup section */
-		1A0001100000000000000001 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
+		1A0002200000000000000001 /* QuietCoachTests */ = {
+			isa = PBXGroup;
 			children = (
-				1A0001020000000000000001 /* en */,
-				1A0001020000000000000002 /* es */,
-				1A0001020000000000000003 /* ja */,
-				1A0001020000000000000004 /* fr */,
-				1A0001020000000000000005 /* de */,
-				1A0001020000000000000006 /* it */,
-				1A0001020000000000000007 /* pt-BR */,
-				1A0001020000000000000008 /* ko */,
-				1A0001020000000000000009 /* zh-Hans */,
-				1A000102000000000000000A /* zh-Hant */,
+				1A0002000000000000000001 /* SpeechAnalysisTests.swift */,
+				1A0002010000000000000001 /* FeedbackEngineTests.swift */,
+				1A0002020000000000000001 /* FeatureGatesTests.swift */,
+				1A0002030000000000000001 /* DependencyInjectionTests.swift */,
+				1A0002040000000000000001 /* NetworkMonitorTests.swift */,
+				1A0002050000000000000001 /* CoachNotesTests.swift */,
+				1A0002060000000000000001 /* RecordingFlowTests.swift */,
+				1A0002070000000000000001 /* SubscriptionFlowTests.swift */,
+				1A0002080000000000000001 /* OnboardingFlowTests.swift */,
+				1A0002090000000000000001 /* AudioMetricsAnalyzerTests.swift */,
+				1A00020A0000000000000001 /* ErrorHandlingTests.swift */,
+				1A00020B0000000000000001 /* UIComponentTests.swift */,
+				1A00020C0000000000000001 /* IntegrationTests.swift */,
+				1A00020D0000000000000001 /* NetworkSecurityTests.swift */,
 			);
-			name = Localizable.strings;
+			path = QuietCoachTests;
 			sourceTree = "<group>";
 		};
-/* End PBXVariantGroup section */
+		1A0004050000000000000001 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				1A0000180000000000000001 /* Colors.swift */,
+				1A0004000000000000000001 /* Typography.swift */,
+				1A0004010000000000000001 /* Formatting.swift */,
+				1A0004020000000000000001 /* ViewModifiers.swift */,
+				1A0004030000000000000001 /* MeshGradients.swift */,
+				1A0004040000000000000001 /* SymbolAnimations.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		1A00040F0000000000000001 /* DI */ = {
+			isa = PBXGroup;
+			children = (
+				1A00010C0000000000000001 /* ServiceProtocols.swift */,
+				1A00040C0000000000000001 /* AppContainer.swift */,
+				1A00040E0000000000000001 /* MockServices.swift */,
+			);
+			path = DI;
+			sourceTree = "<group>";
+		};
+		1A0005040000000000000001 /* Recording */ = {
+			isa = PBXGroup;
+			children = (
+				1A0000410000000000000001 /* RehearsalRecorder.swift */,
+				1A0005010000000000000001 /* RecordingTypes.swift */,
+				1A0005030000000000000001 /* RecordingInterruptions.swift */,
+			);
+			path = Recording;
+			sourceTree = "<group>";
+		};
+		1A0005080000000000000001 /* Analysis */ = {
+			isa = PBXGroup;
+			children = (
+				1A0005050000000000000001 /* SpeechAnalysisTypes.swift */,
+				1A0005070000000000000001 /* SpeechPatterns.swift */,
+			);
+			path = Analysis;
+			sourceTree = "<group>";
+		};
+		1A00060C0000000000000001 /* ElevatedDesign */ = {
+			isa = PBXGroup;
+			children = (
+				1A0006010000000000000001 /* MoodColors.swift */,
+				1A0006030000000000000001 /* ConfidencePulse.swift */,
+				1A0006050000000000000001 /* LiquidGlass.swift */,
+				1A0006070000000000000001 /* TypographyMotion.swift */,
+				1A0006090000000000000001 /* MicroInteractions.swift */,
+				1A00060B0000000000000001 /* ParticleEffects.swift */,
+			);
+			path = ElevatedDesign;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
 		1A0000330000000000000001 /* QuietCoach */ = {
@@ -902,6 +838,8 @@
 				1A0005060000000000000001 /* SpeechPatterns.swift in Sources */,
 				1A0000F50000000000000001 /* CoachPersonality.swift in Sources */,
 				1A0000F70000000000000001 /* ElevatedOnboarding.swift in Sources */,
+				05446FF626324846977B6382 /* PrivacyControlView.swift in Sources */,
+				214A0FFE919E83A14ACD0730 /* BreathingRitualView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -953,6 +891,26 @@
 			targetProxy = 1A0002700000000000000001 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1A0001100000000000000001 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1A0001020000000000000001 /* en */,
+				1A0001020000000000000002 /* es */,
+				1A0001020000000000000003 /* ja */,
+				1A0001020000000000000004 /* fr */,
+				1A0001020000000000000005 /* de */,
+				1A0001020000000000000006 /* it */,
+				1A0001020000000000000007 /* pt-BR */,
+				1A0001020000000000000008 /* ko */,
+				1A0001020000000000000009 /* zh-Hans */,
+				1A000102000000000000000A /* zh-Hant */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1A0000390000000000000001 /* Debug */ = {
@@ -1233,20 +1191,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1A0000380000000000000001 /* Build configuration list for PBXProject "QuietCoach" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1A0000390000000000000001 /* Debug */,
-				1A00003A0000000000000001 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		1A0000340000000000000001 /* Build configuration list for PBXNativeTarget "QuietCoach" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1A00003B0000000000000001 /* Debug */,
 				1A00003C0000000000000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1A0000380000000000000001 /* Build configuration list for PBXProject "QuietCoach" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A0000390000000000000001 /* Debug */,
+				1A00003A0000000000000001 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -22,6 +22,8 @@ struct RehearseView: View {
     @State private var showingCancelConfirmation = false
     @State private var showingStructureGuide = false
     @State private var isProcessing = false
+    @State private var showingBreathingRitual = false
+    @AppStorage(Constants.SettingsKeys.breathingRitualEnabled) private var breathingRitualEnabled = true
 
     // MARK: - Body
 
@@ -99,10 +101,24 @@ struct RehearseView: View {
         }
         .onAppear {
             recorder.setupAudioSession()
+            // Show breathing ritual if enabled and not already recording
+            if breathingRitualEnabled && recorder.state == .idle {
+                showingBreathingRitual = true
+            }
         }
         .interactiveDismissDisabled(recorder.state == .recording || recorder.state == .paused)
         .sheet(isPresented: $showingStructureGuide) {
             StructureGuideSheet(scenario: scenario)
+        }
+        .fullScreenCover(isPresented: $showingBreathingRitual) {
+            BreathingRitualView(
+                onComplete: {
+                    showingBreathingRitual = false
+                },
+                onSkip: {
+                    showingBreathingRitual = false
+                }
+            )
         }
         .overlay {
             if isProcessing {
@@ -111,6 +127,14 @@ struct RehearseView: View {
             }
         }
         .animation(.easeInOut(duration: 0.3), value: isProcessing)
+    }
+
+    // MARK: - Computed Properties
+
+    /// Previous anchor phrase for this scenario
+    private var previousAnchorPhrase: String? {
+        // Get the most recent session for this scenario
+        repository.sessions(for: scenario.id).first?.anchorLine
     }
 
     // MARK: - Top Section
@@ -136,10 +160,32 @@ struct RehearseView: View {
                 .foregroundColor(.qcTextSecondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 20)
+
+            // Previous anchor phrase reminder (only when idle)
+            if recorder.state == .idle, let anchor = previousAnchorPhrase {
+                anchorReminderView(anchor)
+            }
         }
         .padding(.top, 20)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("Rehearsing: \(scenario.title). \(scenario.promptText)")
+    }
+
+    private func anchorReminderView(_ anchor: String) -> some View {
+        VStack(spacing: 4) {
+            Text("Remember:")
+                .font(.qcCaption)
+                .foregroundColor(.qcTextTertiary)
+
+            Text("\"\(anchor)\"")
+                .font(.qcSubheadline)
+                .italic()
+                .foregroundColor(.qcAccent)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 24)
+        }
+        .padding(.top, 12)
+        .transition(.opacity)
     }
 
     // MARK: - Center Section

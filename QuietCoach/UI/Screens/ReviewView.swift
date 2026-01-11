@@ -21,6 +21,8 @@ struct ReviewView: View {
     @State private var showingScoreInfo = false
     @State private var showScoreAnimation = false
     @State private var showConfidencePulse = true
+    @State private var anchorPhrase: String = ""
+    @FocusState private var isAnchorFocused: Bool
 
     // MARK: - Environment
 
@@ -69,6 +71,9 @@ struct ReviewView: View {
                 if !session.coachNotes.isEmpty {
                     coachNotesSection
                 }
+
+                // Anchor phrase
+                anchorPhraseSection
 
                 // Try Again focus
                 if let focus = session.tryAgainFocus {
@@ -139,6 +144,7 @@ struct ReviewView: View {
         }
         .onAppear {
             player.load(session: session)
+            anchorPhrase = session.anchorLine ?? ""
             // If no scores, skip the pulse animation
             if session.scores == nil {
                 showConfidencePulse = false
@@ -147,6 +153,10 @@ struct ReviewView: View {
         }
         .onDisappear {
             player.cleanup()
+        }
+        .onChange(of: anchorPhrase) { _, newValue in
+            // Save anchor phrase to session
+            session.anchorLine = newValue.isEmpty ? nil : newValue
         }
     }
 
@@ -306,6 +316,42 @@ struct ReviewView: View {
 
             CoachNotesList(notes: session.coachNotes)
         }
+    }
+
+    // MARK: - Anchor Phrase Section
+
+    private var anchorPhraseSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 8) {
+                Image(systemName: "quote.opening")
+                    .font(.system(size: 14))
+                    .foregroundColor(.qcAccent)
+
+                Text("Anchor Phrase")
+                    .font(.qcTitle3)
+                    .foregroundColor(.qcTextPrimary)
+            }
+
+            Text("One phrase you'll say next time")
+                .font(.qcCaption)
+                .foregroundColor(.qcTextTertiary)
+
+            TextField("e.g., \"I need to share something important...\"", text: $anchorPhrase, axis: .vertical)
+                .font(.qcBody)
+                .foregroundColor(.qcTextPrimary)
+                .padding(12)
+                .background(Color.qcSurface)
+                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                .focused($isAnchorFocused)
+                .lineLimit(2...4)
+                .submitLabel(.done)
+                .onSubmit {
+                    isAnchorFocused = false
+                }
+        }
+        .padding(16)
+        .background(Color.qcSurface.opacity(0.5))
+        .qcCardRadius()
     }
 
 }

@@ -73,13 +73,18 @@ final class RehearsalRecorder {
         setupError = nil
 
         do {
+            // Use voice chat mode for voice isolation when enabled (iOS 17+)
+            let mode: AVAudioSession.Mode = Constants.VoiceIsolation.isEnabled ? .voiceChat : .default
+
             try session.setCategory(
                 .playAndRecord,
-                mode: .default,
+                mode: mode,
                 options: [.defaultToSpeaker, .allowBluetoothHFP, .allowBluetoothA2DP]
             )
             try session.setActive(true)
-            logger.info("Audio session configured successfully")
+
+            let modeDescription = Constants.VoiceIsolation.isEnabled ? "voice isolation" : "standard"
+            logger.info("Audio session configured with \(modeDescription) mode")
 
             // Set up notification observers using async sequences
             setupNotificationObservers()
