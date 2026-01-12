@@ -48,7 +48,7 @@ actor SpeechAnalysisEngine {
     // MARK: - Main Analysis
 
     /// Analyze audio file and return comprehensive speech metrics
-    func analyze(audioURL: URL, duration: TimeInterval) async throws -> SpeechAnalysisResult {
+    func analyze(audioURL: URL, duration: TimeInterval, profile: ScoringProfile = .default) async throws -> SpeechAnalysisResult {
         logger.info("Starting speech analysis for: \(audioURL.lastPathComponent)")
 
         // Track analysis performance
@@ -60,9 +60,9 @@ actor SpeechAnalysisEngine {
         await MainActor.run { PerformanceMonitor.shared.trackTranscriptionEnd() }
 
         // 2. Analyze transcription
-        let clarityMetrics = analyzeClarity(transcription: transcription)
-        let pacingMetrics = analyzePacing(transcription: transcription, duration: duration)
-        let confidenceMetrics = analyzeConfidence(transcription: transcription)
+        let clarityMetrics = analyzeClarity(transcription: transcription, profile: profile)
+        let pacingMetrics = analyzePacing(transcription: transcription, duration: duration, profile: profile)
+        let confidenceMetrics = analyzeConfidence(transcription: transcription, profile: profile)
         let toneMetrics = analyzeTone(transcription: transcription)
 
         // Track analysis end
@@ -90,6 +90,7 @@ actor SpeechAnalysisEngine {
         let request = SFSpeechURLRecognitionRequest(url: audioURL)
         request.shouldReportPartialResults = false
         request.addsPunctuation = true
+        request.requiresOnDeviceRecognition = true
 
         return try await withCheckedThrowingContinuation { continuation in
             recognizer.recognitionTask(with: request) { result, error in
@@ -122,7 +123,7 @@ actor SpeechAnalysisEngine {
     // MARK: - Clarity Analysis
 
     /// Analyze clarity: filler words, incomplete sentences, articulation
-    private func analyzeClarity(transcription: TranscriptionResult) -> ClarityAnalysis {
+    private func analyzeClarity(transcription: TranscriptionResult, profile: ScoringProfile) -> ClarityAnalysis {
         let text = transcription.text.lowercased()
         let words = tokenize(text)
 
@@ -150,7 +151,7 @@ actor SpeechAnalysisEngine {
         let avgWordLength = words.isEmpty ? 0 : Double(words.map { $0.count }.reduce(0, +)) / Double(words.count)
 
         // Low-confidence segments (mumbling indicator)
-        let lowConfidenceSegments = transcription.segments.filter { $0.confidence < 0.5 }.count
+        let lowConfidenceSegments = transcription.segments.filter { $0.confidence < profile.nlp.lowConfidenceSegmentThreshold }.count
 
         return ClarityAnalysis(
             fillerWordCount: fillerWords.count,
@@ -166,7 +167,11 @@ actor SpeechAnalysisEngine {
     // MARK: - Pacing Analysis
 
     /// Analyze pacing: words per minute, pause patterns
-    private func analyzePacing(transcription: TranscriptionResult, duration: TimeInterval) -> PacingAnalysis {
+    private func analyzePacing(
+        transcription: TranscriptionResult,
+        duration: TimeInterval,
+        profile: ScoringProfile
+    ) -> PacingAnalysis {
         let words = tokenize(transcription.text)
         let wordCount = words.count
 
@@ -180,7 +185,7 @@ actor SpeechAnalysisEngine {
 
         for i in 1..<segments.count {
             let gap = segments[i].timestamp - (segments[i-1].timestamp + segments[i-1].duration)
-            if gap > 0.3 { // Pause threshold: 300ms
+            if gap > profile.nlp.pauseThresholdSeconds {
                 pauses.append(PauseEvent(
                     timestamp: segments[i-1].timestamp + segments[i-1].duration,
                     duration: gap,
@@ -191,9 +196,9 @@ actor SpeechAnalysisEngine {
         }
 
         // Categorize pauses
-        let shortPauses = pauses.filter { $0.duration < 1.0 }.count
-        let mediumPauses = pauses.filter { $0.duration >= 1.0 && $0.duration < 2.0 }.count
-        let longPauses = pauses.filter { $0.duration >= 2.0 }.count
+        let shortPauses = pauses.filter { $0.duration < profile.nlp.shortPauseUpperBound }.count
+        let mediumPauses = pauses.filter { $0.duration >= profile.nlp.shortPauseUpperBound && $0.duration < profile.nlp.mediumPauseUpperBound }.count
+        let longPauses = pauses.filter { $0.duration >= profile.nlp.mediumPauseUpperBound }.count
 
         // Average sentence length
         let sentences = tokenizeSentences(transcription.text)
@@ -216,7 +221,7 @@ actor SpeechAnalysisEngine {
     // MARK: - Confidence Analysis
 
     /// Analyze confidence: hedging language, uptalk indicators, assertiveness
-    private func analyzeConfidence(transcription: TranscriptionResult) -> ConfidenceAnalysis {
+    private func analyzeConfidence(transcription: TranscriptionResult, profile: ScoringProfile) -> ConfidenceAnalysis {
         let text = transcription.text.lowercased()
         let words = tokenize(text)
 

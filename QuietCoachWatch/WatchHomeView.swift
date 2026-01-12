@@ -1,7 +1,7 @@
 // WatchHomeView.swift
 // QuietCoachWatch
 //
-// Main watch interface. Quick scenarios, recent scores, streak.
+// Main watch interface. Quick scenarios and a fast start.
 
 import SwiftUI
 
@@ -10,8 +10,6 @@ struct WatchHomeView: View {
     // MARK: - State
     
     @State private var selectedScenario: WatchScenario?
-    @State private var currentStreak: Int = 0
-    @State private var lastScore: Int?
     
     // MARK: - Body
     
@@ -19,16 +17,8 @@ struct WatchHomeView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 16) {
-                    // Streak badge
-                    streakSection
-                    
                     // Quick practice scenarios
                     scenarioSection
-                    
-                    // Last session
-                    if let score = lastScore {
-                        lastSessionSection(score: score)
-                    }
                 }
                 .padding(.horizontal)
             }
@@ -37,28 +27,6 @@ struct WatchHomeView: View {
                 WatchRehearseView(scenario: scenario)
             }
         }
-    }
-    
-    // MARK: - Streak Section
-    
-    private var streakSection: some View {
-        HStack {
-            Image(systemName: "flame.fill")
-                .foregroundStyle(.orange)
-            
-            Text("\(currentStreak)")
-                .font(.title2)
-                .fontWeight(.bold)
-            
-            Text("day streak")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-            
-            Spacer()
-        }
-        .padding()
-        .background(Color.orange.opacity(0.2))
-        .cornerRadius(12)
     }
     
     // MARK: - Scenario Section
@@ -100,43 +68,7 @@ struct WatchHomeView: View {
         .cornerRadius(12)
     }
     
-    // MARK: - Last Session
     
-    private func lastSessionSection(score: Int) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Last Session")
-                .font(.headline)
-            
-            HStack {
-                Text("\(score)")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundStyle(scoreColor(score))
-                
-                Spacer()
-                
-                VStack(alignment: .trailing) {
-                    Text("Overall Score")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    Text("Today")
-                        .font(.caption2)
-                        .foregroundStyle(.tertiary)
-                }
-            }
-        }
-        .padding()
-        .background(Color.gray.opacity(0.2))
-        .cornerRadius(12)
-    }
-    
-    private func scoreColor(_ score: Int) -> Color {
-        switch score {
-        case 80...: return .green
-        case 60..<80: return .yellow
-        default: return .orange
-        }
-    }
 }
 
 // MARK: - Watch Scenario

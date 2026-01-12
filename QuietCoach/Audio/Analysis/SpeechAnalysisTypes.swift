@@ -15,12 +15,12 @@ struct SpeechAnalysisResult: Sendable {
     let tone: ToneAnalysis
 
     /// Generate feedback scores from analysis
-    func generateScores() -> FeedbackScores {
+    func generateScores(using profile: ScoringProfile = .default) -> FeedbackScores {
         FeedbackScores(
-            clarity: clarity.score,
-            pacing: pacing.score,
-            tone: tone.score,
-            confidence: confidence.score
+            clarity: clarity.score(using: profile),
+            pacing: pacing.score(using: profile),
+            tone: tone.score(using: profile),
+            confidence: confidence.score(using: profile)
         )
     }
 }
@@ -73,23 +73,27 @@ struct ClarityAnalysis: Sendable {
 
     /// Calculate clarity score (0-100)
     var score: Int {
-        var score = 85 // Base score
+        score(using: .default)
+    }
+
+    func score(using profile: ScoringProfile) -> Int {
+        var score = profile.nlp.clarityBaseScore
 
         // Penalize filler words (-3 per filler, max -30)
-        score -= min(30, fillerWordCount * 3)
+        score -= min(profile.nlp.fillerPenaltyMax, fillerWordCount * profile.nlp.fillerPenaltyPerWord)
 
         // Penalize repeated words (-5 per repeat, max -15)
-        score -= min(15, repeatedWordCount * 5)
+        score -= min(profile.nlp.repeatedPenaltyMax, repeatedWordCount * profile.nlp.repeatedPenaltyPerWord)
 
         // Penalize incomplete sentences (-5 per incomplete, max -15)
-        score -= min(15, incompleteSentenceCount * 5)
+        score -= min(profile.nlp.incompletePenaltyMax, incompleteSentenceCount * profile.nlp.incompletePenaltyPerSentence)
 
         // Penalize low confidence segments (-2 per segment, max -10)
-        score -= min(10, lowConfidenceSegmentCount * 2)
+        score -= min(profile.nlp.lowConfidencePenaltyMax, lowConfidenceSegmentCount * profile.nlp.lowConfidencePenaltyPerSegment)
 
         // Bonus for good word variety (based on avg word length)
-        if averageWordLength > 5.0 {
-            score += 5
+        if averageWordLength > profile.nlp.averageWordLengthBonusThreshold {
+            score += profile.nlp.averageWordLengthBonus
         }
 
         return max(0, min(100, score))
@@ -111,38 +115,47 @@ struct PacingAnalysis: Sendable {
 
     /// Optimal WPM range: 120-160
     var isOptimalPace: Bool {
-        wordsPerMinute >= 120 && wordsPerMinute <= 160
+        isOptimalPace(using: .default)
+    }
+
+    func isOptimalPace(using profile: ScoringProfile) -> Bool {
+        wordsPerMinute >= profile.nlp.pacingOptimalRange.lowerBound &&
+            wordsPerMinute <= profile.nlp.pacingOptimalRange.upperBound
     }
 
     /// Calculate pacing score (0-100)
     var score: Int {
-        var score = 80 // Base score
+        score(using: .default)
+    }
+
+    func score(using profile: ScoringProfile) -> Int {
+        var score = profile.nlp.pacingBaseScore
 
         // Pacing evaluation
-        if wordsPerMinute < 100 {
+        if wordsPerMinute < profile.nlp.pacingSlowWordsPerMinute {
             // Too slow
-            score -= Int((100 - wordsPerMinute) / 5)
-        } else if wordsPerMinute > 180 {
+            score -= Int((profile.nlp.pacingSlowWordsPerMinute - wordsPerMinute) / profile.nlp.pacingPenaltyDivisor)
+        } else if wordsPerMinute > profile.nlp.pacingFastWordsPerMinute {
             // Too fast
-            score -= Int((wordsPerMinute - 180) / 5)
-        } else if isOptimalPace {
+            score -= Int((wordsPerMinute - profile.nlp.pacingFastWordsPerMinute) / profile.nlp.pacingPenaltyDivisor)
+        } else if isOptimalPace(using: profile) {
             // Optimal range bonus
-            score += 10
+            score += profile.nlp.pacingOptimalBonus
         }
 
         // Pause pattern evaluation
         // Good: medium pauses are intentional
         // Bad: too many long pauses (hesitation) or no pauses (rushing)
-        if totalPauseCount == 0 && duration > 30 {
-            score -= 10 // No pauses in longer recording = rushing
+        if totalPauseCount == 0 && duration > profile.nlp.noPausePenaltyDuration {
+            score -= profile.nlp.noPausePenalty // No pauses in longer recording = rushing
         }
-        if longPauses > 3 {
-            score -= (longPauses - 3) * 3 // Too many long pauses
+        if longPauses > profile.nlp.longPausePenaltyThreshold {
+            score -= (longPauses - profile.nlp.longPausePenaltyThreshold) * profile.nlp.longPausePenaltyPerPause
         }
 
         // Bonus for good pause distribution
         if mediumPauses > shortPauses && mediumPauses > longPauses {
-            score += 5 // Intentional pausing pattern
+            score += profile.nlp.mediumPauseBonus // Intentional pausing pattern
         }
 
         return max(0, min(100, score))
@@ -162,25 +175,29 @@ struct ConfidenceAnalysis: Sendable {
 
     /// Calculate confidence score (0-100)
     var score: Int {
-        var score = 80 // Base score
+        score(using: .default)
+    }
+
+    func score(using profile: ScoringProfile) -> Int {
+        var score = profile.nlp.confidenceBaseScore
 
         // Penalize hedging (-4 per hedge, max -24)
-        score -= min(24, hedgingPhraseCount * 4)
+        score -= min(profile.nlp.hedgingPenaltyMax, hedgingPhraseCount * profile.nlp.hedgingPenaltyPerPhrase)
 
         // Penalize weak openers (-5 per opener, max -15)
-        score -= min(15, weakOpenerCount * 5)
+        score -= min(profile.nlp.weakOpenerPenaltyMax, weakOpenerCount * profile.nlp.weakOpenerPenaltyPerPhrase)
 
         // Penalize excessive apologetic language (-5 per phrase, max -15)
-        score -= min(15, apologeticPhraseCount * 5)
+        score -= min(profile.nlp.apologeticPenaltyMax, apologeticPhraseCount * profile.nlp.apologeticPenaltyPerPhrase)
 
         // Bonus for assertive language (+3 per phrase, max +15)
-        score += min(15, assertivePhraseCount * 3)
+        score += min(profile.nlp.assertiveBonusMax, assertivePhraseCount * profile.nlp.assertiveBonusPerPhrase)
 
         // Small penalty for excessive question words (uncertainty)
         if totalWordCount > 0 {
             let questionRatio = Double(questionWordCount) / Double(totalWordCount)
-            if questionRatio > 0.1 {
-                score -= 5
+            if questionRatio > profile.nlp.questionRatioThreshold {
+                score -= profile.nlp.questionRatioPenalty
             }
         }
 
@@ -210,29 +227,33 @@ struct ToneAnalysis: Sendable {
 
     /// Calculate tone score (0-100)
     var score: Int {
-        var score = 75 // Base score
+        score(using: .default)
+    }
+
+    func score(using profile: ScoringProfile) -> Int {
+        var score = profile.nlp.toneBaseScore
 
         // Sentiment contribution (-15 to +15 based on sentiment)
-        score += Int(sentimentScore * 15)
+        score += Int(sentimentScore * profile.nlp.sentimentMultiplier)
 
         // Word balance
         let emotionBalance = positiveWordCount - negativeWordCount
-        if emotionBalance > 2 {
-            score += 5
-        } else if emotionBalance < -2 {
-            score -= 5
+        if emotionBalance > profile.nlp.emotionBalanceThreshold {
+            score += profile.nlp.emotionBalanceBonus
+        } else if emotionBalance < -profile.nlp.emotionBalanceThreshold {
+            score -= profile.nlp.emotionBalanceBonus
         }
 
         // Formality balance (some formality is good, too much is stiff)
-        if formalPhraseCount > 0 && formalPhraseCount <= 3 {
-            score += 5
-        } else if formalPhraseCount > 5 {
-            score -= 5
+        if profile.nlp.formalityBonusRange.contains(formalPhraseCount) {
+            score += profile.nlp.formalityBonus
+        } else if formalPhraseCount > profile.nlp.formalityPenaltyThreshold {
+            score -= profile.nlp.formalityPenalty
         }
 
         // Contractions indicate natural speech (bonus if moderate)
-        if contractionCount > 0 && contractionCount <= 5 {
-            score += 5
+        if profile.nlp.contractionBonusRange.contains(contractionCount) {
+            score += profile.nlp.contractionBonus
         }
 
         return max(0, min(100, score))

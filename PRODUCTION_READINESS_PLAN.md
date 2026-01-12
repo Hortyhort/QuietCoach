@@ -23,7 +23,7 @@
 
 **The Problem**: Core feature is placeholder. Users get random scores.
 
-**The Solution**: On-device speech analysis using Apple frameworks.
+**The Solution**: On-device speech analysis using Apple frameworks. Transcription is opt-in, default off, with a metrics-only fallback when disabled.
 
 ```swift
 // New: SpeechAnalysisEngine.swift
@@ -34,27 +34,31 @@ actor SpeechAnalysisEngine {
 
     /// Analyze recorded audio and return real metrics
     func analyze(audioURL: URL) async throws -> AnalysisResult {
-        // 1. Transcribe with SFSpeechRecognizer
-        let transcription = try await transcribe(audioURL)
+        // 1. Transcribe with SFSpeechRecognizer (opt-in)
+        let transcription = PrivacySettings.shared.transcriptionEnabled
+            ? try await transcribe(audioURL)
+            : nil
 
         // 2. Analyze clarity (filler words, incomplete sentences)
-        let clarity = analyzeClarity(transcription)
+        let clarity = transcription.map(analyzeClarity)
 
         // 3. Analyze pacing (words per minute, pause patterns)
-        let pacing = analyzePacing(transcription, duration: audioDuration)
+        let pacing = transcription.map { analyzePacing($0, duration: audioDuration) }
+            ?? analyzePacingFromAudio(audioURL)
 
         // 4. Analyze confidence (uptalk, hedging language)
-        let confidence = analyzeConfidence(transcription)
+        let confidence = transcription.map(analyzeConfidence)
+            ?? analyzeConfidenceFromAudio(audioURL)
 
         // 5. Analyze tone (sentiment, assertiveness)
-        let tone = analyzeTone(transcription)
+        let tone = transcription.map(analyzeTone)
 
         return AnalysisResult(
             clarity: clarity,
             pacing: pacing,
             confidence: confidence,
             tone: tone,
-            transcription: transcription.text
+            transcription: transcription?.text
         )
     }
 }
@@ -73,12 +77,15 @@ actor SpeechAnalysisEngine {
 | Tone | Sentiment analysis | NLTagger.sentimentScore |
 | Tone | Assertive vs passive language | Custom NLP model |
 
+Transcript-dependent metrics only run when opt-in transcription is enabled. When disabled, fall back to audio-only metrics (pacing, pauses, loudness variance, energy).
+
 **Deliverables**:
 - [ ] SpeechAnalysisEngine with actor isolation
 - [ ] Filler word detection (accuracy > 90%)
 - [ ] Words-per-minute calculation
 - [ ] Pause pattern analysis
 - [ ] Basic sentiment scoring
+- [ ] Metrics-only fallback path when transcription is disabled
 - [ ] Unit tests proving accuracy
 
 ---
@@ -285,7 +292,6 @@ actor AnalyticsEngine {
 
         // Retention
         case appOpened(daysSinceInstall: Int)
-        case streakAchieved(days: Int)
     }
 
     func track(_ event: Event) {

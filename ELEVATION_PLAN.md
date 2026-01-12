@@ -202,7 +202,7 @@ iPhone (recording) → Mac (reviewing) → Watch (reminder)
 
 Scenario: User records on iPhone during commute
 - Mac shows "Continue reviewing?" when they sit down
-- Watch taps at 6pm: "Evening practice? 2-day streak at risk"
+- Watch taps at 6pm: "Evening practice? 60-second warm-up"
 ```
 
 ### Apple Watch — The Confidence Companion
@@ -255,6 +255,8 @@ Onboarding Screen:
     └─────────────────────────────────┘
 ```
 
+Optional on-device transcription is opt-in, default off. When off, coaching runs in a metrics-only mode.
+
 ### Privacy Report
 
 Monthly summary (on-device):
@@ -264,37 +266,17 @@ Monthly summary (on-device):
 
 ---
 
-## VIII. GAMIFICATION — TASTEFUL
+## VIII. RITUALS AND REFLECTION
 
-### Not Points — Progress Artifacts
+### Not Points - Moments
 
-```swift
-enum ConfidenceArtifact {
-    case firstWord        // First recording
-    case weekWarrior      // 7-day streak
-    case centuryMark      // 100 sessions
-    case breakthrough     // 20+ point improvement
-    case polyglot         // Practiced in 3 languages
-    case earlyBird        // 5am practice
-    case nightOwl         // 11pm practice
-    case consistent       // Same time, 30 days
-}
-```
+Store a rehearsal card per session: scenario, date, one win, one change.
+No trophies, no streaks, no public leaderboards.
 
-Visual: Artifacts displayed as minimal, beautiful 3D objects in a "trophy space" (visionOS) or subtle shelf (iOS).
+### Consistency Without Streaks
 
-### Streaks — Reimagined
-
-Not "streak count" but **Consistency Rhythm**:
-
-```
-    M  T  W  T  F  S  S
-    ●  ●  ●  ○  ●  ●  ●
-
-    "You've built a Tuesday-Saturday rhythm.
-     That gap on Thursdays? Perfect for
-     mid-week reset."
-```
+- Gentle daily nudge: "Want to rehearse something today?"
+- Weekly on-device recap: "You rehearsed 3 hard moments. Clarity improved."
 
 ---
 

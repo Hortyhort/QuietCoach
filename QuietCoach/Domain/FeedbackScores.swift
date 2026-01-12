@@ -51,6 +51,28 @@ struct FeedbackScores: Codable, Hashable {
         return scores.min(by: { $0.1 < $1.1 })?.0 ?? .clarity
     }
 
+    /// Weighted strength used for scenario emphasis
+    func weightedStrength(using weights: ScoringProfile.ScoreWeights) -> ScoreType {
+        let weighted: [(ScoreType, Double)] = [
+            (.clarity, Double(clarity) * weights.clarity),
+            (.pacing, Double(pacing) * weights.pacing),
+            (.tone, Double(tone) * weights.tone),
+            (.confidence, Double(confidence) * weights.confidence)
+        ]
+        return weighted.max(by: { $0.1 < $1.1 })?.0 ?? .clarity
+    }
+
+    /// Weighted weakness used for scenario emphasis
+    func weightedWeakness(using weights: ScoringProfile.ScoreWeights) -> ScoreType {
+        let weighted: [(ScoreType, Double)] = [
+            (.clarity, Double(clarity) * weights.clarity),
+            (.pacing, Double(pacing) * weights.pacing),
+            (.tone, Double(tone) * weights.tone),
+            (.confidence, Double(confidence) * weights.confidence)
+        ]
+        return weighted.min(by: { $0.1 < $1.1 })?.0 ?? .clarity
+    }
+
     /// Quality tier based on overall score
     var tier: Tier {
         switch overall {

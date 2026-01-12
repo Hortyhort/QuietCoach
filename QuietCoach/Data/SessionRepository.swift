@@ -208,6 +208,38 @@ final class SessionRepository {
             .max()
     }
 
+    /// Baseline metrics for personalization (rolling average)
+    func baselineMetrics(for scenarioId: String, limit: Int = 5) -> BaselineMetrics? {
+        let recentSessions = sessions(for: scenarioId).prefix(limit)
+        let recentMetrics = recentSessions.compactMap { $0.metrics }
+
+        guard !recentMetrics.isEmpty else { return nil }
+
+        let analyzed = recentMetrics.map { AudioMetricsAnalyzer.analyze($0) }
+
+        let segmentsPerMinute = average(analyzed.map { $0.segmentsPerMinute })
+        let averageLevel = average(analyzed.map { $0.averageLevel })
+        let silenceRatio = average(analyzed.map { $0.silenceRatio })
+        let volumeStability = average(analyzed.map { $0.volumeStability })
+
+        let wordsPerMinute = average(
+            recentSessions.compactMap { session in
+                guard let transcription = session.transcription else { return nil }
+                let wordCount = transcription.split(separator: " ").count
+                guard session.duration > 0 else { return nil }
+                return Double(wordCount) / (session.duration / 60)
+            }
+        )
+
+        return BaselineMetrics(
+            segmentsPerMinute: segmentsPerMinute,
+            averageLevel: averageLevel,
+            silenceRatio: silenceRatio,
+            volumeStability: volumeStability,
+            wordsPerMinute: wordsPerMinute
+        )
+    }
+
     // MARK: - Export
 
     /// Export all session data as JSON
@@ -244,6 +276,16 @@ final class SessionRepository {
     }
 
     // MARK: - Private Helpers
+
+    private func average(_ values: [Float]) -> Float? {
+        guard !values.isEmpty else { return nil }
+        return values.reduce(0, +) / Float(values.count)
+    }
+
+    private func average(_ values: [Double]) -> Double? {
+        guard !values.isEmpty else { return nil }
+        return values.reduce(0, +) / Double(values.count)
+    }
 
     private func saveContext() {
         guard let modelContext else { return }

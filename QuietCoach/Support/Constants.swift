@@ -94,6 +94,7 @@ enum Constants {
         static let focusSoundsEnabled = "settings.focusSoundsEnabled"
         static let voiceIsolationEnabled = "settings.voiceIsolationEnabled"
         static let breathingRitualEnabled = "settings.breathingRitualEnabled"
+        static let coachTone = "settings.coachTone"
     }
 
     // MARK: - Voice Isolation

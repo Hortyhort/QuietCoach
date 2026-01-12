@@ -83,8 +83,10 @@ TextEditor(text: $scriptDraft)
 ```
 
 #### 2.2 On-Device Transcription
+Opt-in only, default off. When disabled, skip transcription and run a metrics-only analysis path.
+
 ```swift
-// Real-time transcription during rehearsal
+// Opt-in on-device transcription during rehearsal
 import Speech
 
 @Observable
@@ -100,7 +102,9 @@ class TranscriptionEngine {
 }
 ```
 
-#### 2.3 Intelligent Coaching (Private Cloud Compute)
+#### 2.3 Intelligent Coaching (Private Cloud Compute, Optional)
+Opt-in only, default off. On-device coaching remains the primary path when cloud is disabled.
+
 ```swift
 // Generate personalized coaching using Apple Intelligence
 struct IntelligentCoach {
@@ -109,7 +113,7 @@ struct IntelligentCoach {
         scenario: Scenario,
         metrics: AudioMetrics
     ) async -> CoachingInsight {
-        // Leverages Private Cloud Compute
+        // Leverages Private Cloud Compute when user opts in
         // User data never stored, cryptographically guaranteed
     }
 }
@@ -313,7 +317,7 @@ struct WatchQuickPracticeView: View {
 - Quick 30-second practice sessions
 - Haptic coaching cues
 - Workout-style session tracking
-- Complications for streak display
+- Complications for quick practice and last-session highlight
 
 ---
 
@@ -517,7 +521,7 @@ func validateCoachingContent(_ text: String) async -> Bool {
 
 | Week | Focus | Deliverables |
 |------|-------|--------------|
-| 5 | On-Device Transcription | Real-time speech-to-text during recording |
+| 5 | On-Device Transcription | On-device speech-to-text (opt-in, default off) |
 | 6 | Writing Tools | Script refinement with Apple Intelligence |
 | 7 | Intelligent Coaching | AI-generated personalized insights |
 | 8 | TipKit Integration | Contextual feature discovery |
@@ -671,6 +675,8 @@ This modernization positions Quiet Coach as a flagship example of Apple platform
 | Apple Intelligence | ✓ | ✓ | — | ✓ |
 | Haptic Feedback | ✓ | — | ✓ | — |
 | Spatial Audio | — | — | — | ✓ |
+
+Transcription is opt-in, default off. When disabled, coaching uses audio-only metrics.
 
 ---
 

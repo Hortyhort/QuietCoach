@@ -12,14 +12,12 @@ struct HomeView: View {
 
     @Environment(SessionRepository.self) private var repository
     @Environment(FeatureGates.self) private var featureGates
+    @Environment(AppRouter.self) private var router
 
     // MARK: - State
 
     @State private var navigationPath = NavigationPath()
     @State private var showingSettings = false
-    @State private var showingHistory = false
-    @State private var streakTracker = StreakTracker.shared
-    @State private var showingStreakCelebration: StreakTracker.Milestone?
 
     // MARK: - Body
 
@@ -67,25 +65,10 @@ struct HomeView: View {
                     .environment(repository)
                     .environment(featureGates)
             }
-            .sheet(isPresented: $showingHistory) {
-                HistoryView()
-                    .environment(repository)
-            }
             .navigationDestination(for: Scenario.self) { scenario in
                 RehearseView(
                     scenario: scenario,
                     onComplete: { session in
-                        // Record practice for streak tracking
-                        let previousStreak = streakTracker.currentStreak
-                        streakTracker.recordPractice()
-
-                        // Check for new milestone
-                        if let milestone = streakTracker.currentMilestone,
-                           milestone.rawValue == streakTracker.currentStreak,
-                           streakTracker.currentStreak > previousStreak {
-                            showingStreakCelebration = milestone
-                        }
-
                         // Navigate to review
                         navigationPath.append(session)
                     },
@@ -118,18 +101,10 @@ struct HomeView: View {
         }
         .preferredColorScheme(.dark)
         .onAppear {
-            // Sync streak from existing sessions
-            streakTracker.syncFromSessions(repository.sessions)
+            handlePendingScenario()
         }
-        .overlay {
-            // Streak milestone celebration
-            if let milestone = showingStreakCelebration {
-                StreakCelebrationOverlay(milestone: milestone) {
-                    withAnimation {
-                        showingStreakCelebration = nil
-                    }
-                }
-            }
+        .onChange(of: router.pendingScenarioId) { _, _ in
+            handlePendingScenario()
         }
         // MARK: - Keyboard Shortcuts (iPad/Mac)
         .background {
@@ -157,7 +132,7 @@ struct HomeView: View {
 
             // Cmd+H: History
             Button("") {
-                showingHistory = true
+                router.presentHistory()
             }
             .keyboardShortcut("h", modifiers: .command)
 
@@ -187,6 +162,19 @@ struct HomeView: View {
         }
     }
 
+    private func handlePendingScenario() {
+        guard let scenarioId = router.consumePendingScenarioId(),
+              let scenario = Scenario.scenario(for: scenarioId) else {
+            return
+        }
+
+        if featureGates.canAccessScenario(scenario) {
+            navigationPath.append(scenario)
+        } else {
+            showingSettings = true
+        }
+    }
+
     // MARK: - Header Section
 
     private var headerSection: some View {
@@ -195,9 +183,6 @@ struct HomeView: View {
                 .font(.qcSubheadline)
                 .foregroundColor(.qcTextSecondary)
                 .frame(maxWidth: .infinity, alignment: .leading)
-
-            // Streak tracking
-            StreakHeaderView(tracker: streakTracker)
         }
     }
 
@@ -276,7 +261,7 @@ struct HomeView: View {
             VStack(alignment: .leading, spacing: 12) {
                 tipRow(icon: "mic.fill", text: "Speak naturally, like you're in the real conversation")
                 tipRow(icon: "clock.fill", text: "30-60 seconds is the sweet spot")
-                tipRow(icon: "arrow.clockwise", text: "Try again to beat your score")
+                tipRow(icon: "arrow.clockwise", text: "Try again to refine one line")
             }
             .padding(16)
             .background(Color.qcSurface)
@@ -314,7 +299,7 @@ struct HomeView: View {
 
                 if repository.sessionCount > 3 {
                     Button("See All") {
-                        showingHistory = true
+                        router.presentHistory()
                     }
                     .font(.qcButtonSmall)
                     .foregroundColor(.qcAccent)
@@ -413,12 +398,6 @@ struct SessionRow: View {
 
                 Spacer()
 
-                if let scores = session.scores {
-                    Text("\(scores.overall)")
-                        .font(.qcScoreSmall)
-                        .foregroundColor(scoreColor(for: scores.overall))
-                }
-
                 Image(systemName: "chevron.right")
                     .font(.system(size: 12, weight: .medium))
                     .foregroundColor(.qcTextTertiary)
@@ -429,17 +408,8 @@ struct SessionRow: View {
         }
         .qcPressEffect()
         .qcScrollTransition()
-        .accessibilityLabel("\(session.scenario?.title ?? "Session"). \(session.formattedDate). Score: \(session.scores?.overall ?? 0)")
+        .accessibilityLabel("\(session.scenario?.title ?? "Session"). \(session.formattedDate)")
         .accessibilityHint("Double tap to review this session")
-    }
-
-    private func scoreColor(for score: Int) -> Color {
-        switch score {
-        case 85...100: return .qcMoodCelebration
-        case 70..<85: return .qcMoodSuccess
-        case 50..<70: return .qcMoodReady
-        default: return .qcMoodEngaged
-        }
     }
 }
 

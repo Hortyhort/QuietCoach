@@ -35,14 +35,6 @@ extension EmptyStateConfig {
         glowColor: .qcMoodReady
     )
 
-    static let noAchievements = EmptyStateConfig(
-        icon: "trophy",
-        title: "Achievements await",
-        subtitle: "Complete rehearsals to unlock badges and celebrate your progress",
-        glowColor: .qcMoodCelebration,
-        animation: .pulse
-    )
-
     static let noFavorites = EmptyStateConfig(
         icon: "heart",
         title: "No favorites yet",
@@ -312,9 +304,6 @@ struct LoadingStateView: View {
                 // Preview action
             }
             .frame(height: 300)
-
-            EmptyStateView(config: .noAchievements)
-                .frame(height: 300)
 
             CompactEmptyStateView(
                 icon: "magnifyingglass",

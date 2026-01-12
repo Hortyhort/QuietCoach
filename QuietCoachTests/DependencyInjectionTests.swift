@@ -244,7 +244,8 @@ final class MockSpeechAnalyzerTests: XCTestCase {
 
         let result = try await analyzer.analyze(
             audioURL: URL(fileURLWithPath: "/tmp/test.m4a"),
-            duration: 60
+            duration: 60,
+            profile: .default
         )
 
         XCTAssertFalse(result.transcription.isEmpty)
@@ -259,7 +260,8 @@ final class MockSpeechAnalyzerTests: XCTestCase {
         do {
             _ = try await analyzer.analyze(
                 audioURL: URL(fileURLWithPath: "/tmp/test.m4a"),
-                duration: 60
+                duration: 60,
+                profile: .default
             )
             XCTFail("Should have thrown an error")
         } catch {

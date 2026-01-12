@@ -44,7 +44,9 @@ struct FeedbackEngine {
     static func generateScores(
         from metrics: AudioMetrics,
         audioURL: URL,
-        scenario: Scenario
+        scenario: Scenario,
+        baseline: BaselineMetrics? = nil,
+        coachTone: CoachTone = CoachToneSettings.current
     ) async throws -> FeedbackResult {
         // Track feedback generation performance
         let feedbackSpan = await MainActor.run {
@@ -57,47 +59,76 @@ struct FeedbackEngine {
             }
         }
 
-        let analyzed = AudioMetricsAnalyzer.analyze(metrics)
+        let profile = ScoringProfile.forScenario(
+            scenario,
+            baseline: baseline,
+            coachTone: coachTone
+        )
+        let analyzed = AudioMetricsAnalyzer.analyze(metrics, profile: profile)
 
-        // Attempt speech analysis for real NLP-based scoring
-        do {
-            let speechAnalysis = try await SpeechAnalysisEngine.shared.analyze(
-                audioURL: audioURL,
-                duration: metrics.duration
-            )
+        let transcriptionEnabled = await MainActor.run { PrivacySettings.shared.transcriptionEnabled }
+        let isAuthorized = await SpeechAnalysisEngine.shared.isAuthorized
+        let canTranscribe: Bool
 
-            logger.info("Speech analysis complete: \(speechAnalysis.transcription.wordCount) words")
-
-            // Blend audio metrics with NLP analysis for comprehensive scoring
-            let scores = blendScores(audioMetrics: analyzed, speechAnalysis: speechAnalysis)
-
-            return FeedbackResult(
-                scores: scores,
-                transcription: speechAnalysis.transcription.text,
-                speechAnalysis: speechAnalysis,
-                usedSpeechAnalysis: true
-            )
-        } catch {
-            logger.warning("Speech analysis failed, using audio-only: \(error.localizedDescription)")
-
-            // Fallback to audio-only scoring
-            let scores = generateScoresFromAudioOnly(analyzed)
-            return FeedbackResult(
-                scores: scores,
-                transcription: nil,
-                speechAnalysis: nil,
-                usedSpeechAnalysis: false
-            )
+        if transcriptionEnabled {
+            if isAuthorized {
+                canTranscribe = true
+            } else {
+                canTranscribe = await SpeechAnalysisEngine.shared.requestAuthorization()
+            }
+        } else {
+            canTranscribe = false
         }
+
+        if canTranscribe {
+            do {
+                let speechAnalysis = try await SpeechAnalysisEngine.shared.analyze(
+                    audioURL: audioURL,
+                    duration: metrics.duration,
+                    profile: profile
+                )
+
+                logger.info("Speech analysis complete: \(speechAnalysis.transcription.wordCount) words")
+
+                // Blend audio metrics with NLP analysis for comprehensive scoring
+                let scores = blendScores(audioMetrics: analyzed, speechAnalysis: speechAnalysis, profile: profile)
+
+                return FeedbackResult(
+                    scores: scores,
+                    transcription: speechAnalysis.transcription.text,
+                    speechAnalysis: speechAnalysis,
+                    usedSpeechAnalysis: true,
+                    profile: profile,
+                    coachTone: coachTone
+                )
+            } catch {
+                logger.warning("Speech analysis failed, using audio-only: \(error.localizedDescription)")
+            }
+        }
+
+        // Fallback to audio-only scoring
+        let scores = generateScoresFromAudioOnly(analyzed)
+        return FeedbackResult(
+            scores: scores,
+            transcription: nil,
+            speechAnalysis: nil,
+            usedSpeechAnalysis: false,
+            profile: profile,
+            coachTone: coachTone
+        )
     }
 
     /// Blend audio metrics with NLP analysis for comprehensive scoring
-    private static func blendScores(audioMetrics: AnalyzedMetrics, speechAnalysis: SpeechAnalysisResult) -> FeedbackScores {
+    private static func blendScores(
+        audioMetrics: AnalyzedMetrics,
+        speechAnalysis: SpeechAnalysisResult,
+        profile: ScoringProfile
+    ) -> FeedbackScores {
         // Use NLP scores as primary, audio metrics as modifiers
-        var clarityScore = speechAnalysis.clarity.score
-        var pacingScore = speechAnalysis.pacing.score
-        var toneScore = speechAnalysis.tone.score
-        var confidenceScore = speechAnalysis.confidence.score
+        var clarityScore = speechAnalysis.clarity.score(using: profile)
+        var pacingScore = speechAnalysis.pacing.score(using: profile)
+        var toneScore = speechAnalysis.tone.score(using: profile)
+        var confidenceScore = speechAnalysis.confidence.score(using: profile)
 
         // Adjust based on audio metrics
         // If audio shows good pause patterns, boost clarity
@@ -106,18 +137,18 @@ struct FeedbackEngine {
         }
 
         // If audio shows high volume stability, boost tone
-        if audioMetrics.volumeStability > 0.7 {
+        if audioMetrics.volumeStability > profile.tuning.toneStabilityBonusThreshold {
             toneScore += 5
         }
 
         // If audio shows good projection, boost confidence
-        if audioMetrics.averageLevel > 0.3 {
+        if audioMetrics.averageLevel > profile.audio.averageLevelStrong {
             confidenceScore += 5
         }
 
         // If audio pacing matches NLP pacing assessment, boost pacing score
-        let audioOptimalPacing = audioMetrics.segmentsPerMinute >= 15 && audioMetrics.segmentsPerMinute <= 30
-        if audioOptimalPacing && speechAnalysis.pacing.isOptimalPace {
+        let audioOptimalPacing = profile.audio.pacingOptimalRange.contains(audioMetrics.segmentsPerMinute)
+        if audioOptimalPacing && speechAnalysis.pacing.isOptimalPace(using: profile) {
             pacingScore += 5
         }
 
@@ -143,8 +174,18 @@ struct FeedbackEngine {
 
     /// Generate feedback scores from audio metrics only
     /// Use this when speech analysis is not available or not needed
-    static func generateScores(from metrics: AudioMetrics, scenario: Scenario) -> FeedbackScores {
-        let analyzed = AudioMetricsAnalyzer.analyze(metrics)
+    static func generateScores(
+        from metrics: AudioMetrics,
+        scenario: Scenario,
+        baseline: BaselineMetrics? = nil,
+        coachTone: CoachTone = CoachToneSettings.current
+    ) -> FeedbackScores {
+        let profile = ScoringProfile.forScenario(
+            scenario,
+            baseline: baseline,
+            coachTone: coachTone
+        )
+        let analyzed = AudioMetricsAnalyzer.analyze(metrics, profile: profile)
         return generateScoresFromAudioOnly(analyzed)
     }
 
@@ -153,31 +194,32 @@ struct FeedbackEngine {
     /// Clarity: Based on pause patterns and silence usage
     /// Clear speakers pause intentionally, don't trail off
     private static func calculateClarity(_ metrics: AnalyzedMetrics) -> Int {
-        var score = 75 // Base score
+        let profile = metrics.profile
+        var score = profile.tuning.baseScore
 
         // Ideal pauses based on duration (roughly 1 every 20 seconds)
         let idealPauses = metrics.idealPauseCount
         let pauseDelta = abs(metrics.pauseCount - idealPauses)
 
         // Penalize for being far from ideal pause count
-        score -= pauseDelta * 5
+        score -= pauseDelta * profile.tuning.clarityPausePenalty
 
         // Penalize for too much silence (trailing off, hesitation)
-        if metrics.silenceRatio > 0.4 {
-            score -= Int((metrics.silenceRatio - 0.4) * 50)
+        if metrics.silenceRatio > profile.tuning.claritySilenceRatioThreshold {
+            score -= Int((metrics.silenceRatio - profile.tuning.claritySilenceRatioThreshold) * profile.tuning.claritySilencePenaltyMultiplier)
         }
 
         // Bonus for sustained engagement
-        if metrics.duration > 30 {
-            score += 5
+        if metrics.duration > profile.tuning.clarityDurationBonusShort {
+            score += profile.tuning.clarityDurationBonusValue
         }
-        if metrics.duration > 60 {
-            score += 5
+        if metrics.duration > profile.tuning.clarityDurationBonusLong {
+            score += profile.tuning.clarityDurationBonusValue
         }
 
         // Bonus for good pause pattern
         if metrics.hasGoodPausePattern {
-            score += 5
+            score += profile.tuning.clarityGoodPauseBonus
         }
 
         return score
@@ -188,30 +230,31 @@ struct FeedbackEngine {
     /// Pacing: Based on rhythm (speaking segments per minute)
     /// Too fast feels rushed, too slow loses engagement
     private static func calculatePacing(_ metrics: AnalyzedMetrics) -> Int {
-        var score = 75 // Base score
+        let profile = metrics.profile
+        var score = profile.tuning.baseScore
 
         let segmentsPerMinute = metrics.segmentsPerMinute
 
         // Optimal range: 15-30 segments per minute
-        if segmentsPerMinute < 10 {
+        if segmentsPerMinute < profile.audio.pacingTooSlowSegmentsPerMinute {
             // Too slow
-            score -= Int((10 - segmentsPerMinute) * 3)
-        } else if segmentsPerMinute > 40 {
+            score -= Int((profile.audio.pacingTooSlowSegmentsPerMinute - segmentsPerMinute) * profile.tuning.pacingSlowPenaltyMultiplier)
+        } else if segmentsPerMinute > profile.audio.pacingTooFastSegmentsPerMinute {
             // Too fast
-            score -= Int((segmentsPerMinute - 40) * 2)
-        } else if segmentsPerMinute >= 15 && segmentsPerMinute <= 30 {
+            score -= Int((segmentsPerMinute - profile.audio.pacingTooFastSegmentsPerMinute) * profile.tuning.pacingFastPenaltyMultiplier)
+        } else if profile.audio.pacingOptimalRange.contains(segmentsPerMinute) {
             // Optimal range bonus
-            score += 10
+            score += profile.tuning.pacingOptimalBonus
         }
 
         // Penalize very short recordings (didn't engage)
-        if metrics.duration < 15 {
-            score -= 15
+        if metrics.duration < profile.tuning.pacingShortRecordingThreshold {
+            score -= profile.tuning.pacingShortRecordingPenalty
         }
 
         // Bonus for sustained delivery
-        if metrics.effectiveDuration > 30 {
-            score += 5
+        if metrics.effectiveDuration > profile.tuning.pacingSustainedDeliveryThreshold {
+            score += profile.tuning.pacingSustainedDeliveryBonus
         }
 
         return score
@@ -222,20 +265,21 @@ struct FeedbackEngine {
     /// Tone: Based on volume consistency and spike control
     /// Consistent volume sounds calm and controlled
     private static func calculateTone(_ metrics: AnalyzedMetrics) -> Int {
-        var score = 75 // Base score
+        let profile = metrics.profile
+        var score = profile.tuning.baseScore
 
         // Reward volume stability (0-1 scale, higher is better)
-        score += Int(metrics.volumeStability * 20)
+        score += Int(metrics.volumeStability * profile.tuning.toneStabilityMultiplier)
 
         // Penalize intensity spikes
         let spikesPerMinute = Float(metrics.spikeCount) / max(0.1, Float(metrics.duration / 60))
-        if spikesPerMinute > 5 {
-            score -= Int((spikesPerMinute - 5) * 3)
+        if spikesPerMinute > profile.audio.spikesPerMinuteMax {
+            score -= Int((spikesPerMinute - profile.audio.spikesPerMinuteMax) * profile.tuning.toneSpikePenaltyMultiplier)
         }
 
         // Small penalty for very inconsistent volume
         if metrics.hasInconsistentVolume {
-            score -= 10
+            score -= profile.tuning.toneInconsistentPenalty
         }
 
         return score
@@ -246,32 +290,33 @@ struct FeedbackEngine {
     /// Confidence: Based on volume level and consistency
     /// Speaking clearly and steadily sounds assured
     private static func calculateConfidence(_ metrics: AnalyzedMetrics) -> Int {
-        var score = 75 // Base score
+        let profile = metrics.profile
+        var score = profile.tuning.baseScore
 
         // Penalize low volume (sounds timid)
-        if metrics.averageLevel < 0.1 {
-            score -= 15
-        } else if metrics.averageLevel > 0.3 {
+        if metrics.averageLevel < profile.audio.averageLevelMinimum {
+            score -= profile.tuning.confidenceLowVolumePenalty
+        } else if metrics.averageLevel > profile.audio.averageLevelStrong {
             // Good projection
-            score += 10
+            score += profile.tuning.confidenceHighVolumeBonus
         }
 
         // Reward stability (consistency = confidence)
-        score += Int(metrics.volumeStability * 15)
+        score += Int(metrics.volumeStability * profile.tuning.confidenceStabilityMultiplier)
 
         // Penalize excessive silence (sounds hesitant)
-        if metrics.silenceRatio > 0.5 {
-            score -= 10
+        if metrics.silenceRatio > profile.audio.silenceRatioMax {
+            score -= profile.tuning.confidenceSilenceRatioPenalty
         }
 
         // Penalize very short recordings
-        if metrics.duration < 10 {
-            score -= 10
+        if metrics.duration < profile.tuning.confidenceShortRecordingThreshold {
+            score -= profile.tuning.confidenceShortRecordingPenalty
         }
 
         // Bonus for filling the space
-        if metrics.effectiveDuration / metrics.duration > 0.7 {
-            score += 5
+        if metrics.effectiveDuration / metrics.duration > Double(profile.tuning.confidenceEffectiveDurationRatio) {
+            score += profile.tuning.confidenceEffectiveDurationBonus
         }
 
         return score
@@ -334,31 +379,38 @@ struct FeedbackResult: Sendable {
     /// Whether speech analysis was successfully used
     let usedSpeechAnalysis: Bool
 
+    /// Profile used to compute scores (for explainability)
+    let profile: ScoringProfile
+
+    /// Coach tone used for weighting and phrasing
+    let coachTone: CoachTone
+
     /// Insights derived from the analysis
     var insights: [String] {
+        let profile = profile
         guard let analysis = speechAnalysis else {
-            return ["Audio analysis only - enable speech recognition for detailed feedback"]
+            return ["Audio analysis only - enable on-device transcription for richer feedback"]
         }
 
         var insights: [String] = []
 
         // Filler word insight
-        if analysis.clarity.fillerWordCount > 3 {
+        if analysis.clarity.fillerWordCount > profile.nlp.insightFillerWordCountThreshold {
             let topFillers = analysis.clarity.fillerWords.prefix(3).joined(separator: ", ")
             insights.append("Reduce filler words like: \(topFillers)")
         }
 
         // Pacing insight
-        if !analysis.pacing.isOptimalPace {
-            if analysis.pacing.wordsPerMinute < 120 {
+        if !analysis.pacing.isOptimalPace(using: profile) {
+            if analysis.pacing.wordsPerMinute < profile.nlp.pacingOptimalRange.lowerBound {
                 insights.append("Try speaking slightly faster for better engagement")
-            } else if analysis.pacing.wordsPerMinute > 160 {
+            } else if analysis.pacing.wordsPerMinute > profile.nlp.pacingOptimalRange.upperBound {
                 insights.append("Slow down a bit to improve clarity")
             }
         }
 
         // Confidence insight
-        if analysis.confidence.hedgingPhraseCount > 2 {
+        if analysis.confidence.hedgingPhraseCount > profile.nlp.insightHedgingPhraseCountThreshold {
             insights.append("Replace hedging phrases with more direct statements")
         }
 

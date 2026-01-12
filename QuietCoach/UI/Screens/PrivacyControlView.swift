@@ -261,7 +261,7 @@ struct PrivacyControlView: View {
         } header: {
             Text("Data Removal")
         } footer: {
-            Text("Permanently erase all sessions, recordings, streak data, and preferences. This is irreversible.")
+            Text("Permanently erase all sessions, recordings, and preferences. This is irreversible.")
         }
         .listRowBackground(Color.qcSurface)
     }
@@ -347,7 +347,7 @@ struct PrivacyControlView: View {
                     exportURL = url
                     showingExportSheet = true
                     isExporting = false
-                    Haptics.streakMilestone()
+                    Haptics.share()
                 }
             } catch {
                 await MainActor.run {
@@ -363,9 +363,6 @@ struct PrivacyControlView: View {
     private func deleteAllData() {
         // Delete all sessions (which also deletes audio files)
         repository.deleteAllSessions()
-
-        // Reset streak data
-        StreakTracker.shared.reset()
 
         // Clear Spotlight index
         Task {

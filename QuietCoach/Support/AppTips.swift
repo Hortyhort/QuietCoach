@@ -83,7 +83,7 @@ struct TranscriptionTip: Tip {
     }
 
     var message: Text? {
-        Text("Tap 'Transcribe' to see a written version of your rehearsal. All processing happens on your device.")
+        Text("Enable transcription in Settings to see a written version of your rehearsal. All processing happens on your device.")
     }
 
     var image: Image? {
@@ -142,11 +142,11 @@ struct StructureCardTip: Tip {
 /// Tip about sharing progress
 struct ShareProgressTip: Tip {
     var title: Text {
-        Text("Celebrate your progress")
+        Text("Share a rehearsal card")
     }
 
     var message: Text? {
-        Text("Share your score card to celebrate milestones or get encouragement from friends.")
+        Text("Share a rehearsal card if you want encouragement or support.")
     }
 
     var image: Image? {
@@ -263,34 +263,6 @@ struct ScoreImprovementTip: Tip {
     }
 }
 
-// MARK: - Streak Tip
-
-/// Tip about maintaining streaks
-struct StreakTip: Tip {
-    var title: Text {
-        Text("Build a habit")
-    }
-
-    var message: Text? {
-        Text("Practice once a day to build your streak. Consistency matters more than perfection.")
-    }
-
-    var image: Image? {
-        Image(systemName: "flame.fill")
-    }
-
-    var rules: [Rule] {
-        #Rule(Self.$daysActive) { $0 >= 1 }
-    }
-
-    @Parameter
-    static var daysActive: Int = 0
-
-    var options: [TipOption] {
-        MaxDisplayCount(2)
-    }
-}
-
 // MARK: - Tip Configuration
 
 /// Configure TipKit for the app
@@ -324,8 +296,6 @@ enum AppTipsConfiguration {
         }
     }
 
-    /// Record that user was active today (for streak tips)
-    static func recordDayActive() {
-        StreakTip.daysActive += 1
-    }
+    /// Record that user was active today (for future personalization)
+    static func recordDayActive() {}
 }

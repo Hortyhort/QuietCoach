@@ -154,14 +154,6 @@ enum AccessibilityAnnouncement {
         )
     }
 
-    /// Announce streak milestone
-    static func streakMilestone(days: Int) {
-        UIAccessibility.post(
-            notification: .announcement,
-            argument: "Congratulations! You've practiced \(days) days in a row"
-        )
-    }
-
     /// Announce analysis progress
     static func analysisProgress(_ progress: String) {
         UIAccessibility.post(

@@ -112,15 +112,15 @@ struct ProUpgradeView: View {
             )
 
             featureRow(
-                icon: "chart.line.uptrend.xyaxis",
-                title: "Progress Tracking",
-                description: "See how your scores improve over time. (Coming soon)"
+                icon: "wand.and.stars",
+                title: "Coach Tone",
+                description: "Choose Gentle, Direct, or Executive coaching styles."
             )
 
             featureRow(
-                icon: "waveform.badge.plus",
-                title: "Deeper Feedback",
-                description: "Word-level analysis with optional transcription. (Coming soon)"
+                icon: "text.quote",
+                title: "Optional Transcription",
+                description: "On-device speech-to-text for richer feedback."
             )
         }
     }

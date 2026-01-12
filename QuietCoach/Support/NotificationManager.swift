@@ -1,7 +1,7 @@
 // NotificationManager.swift
 // QuietCoach
 //
-// Daily reminder notifications for streak protection.
+// Daily reminder notifications for gentle practice nudges.
 // Respectful, optional, user-controlled.
 
 import Foundation
@@ -160,15 +160,7 @@ final class NotificationManager {
     // MARK: - Notification Content
 
     private var notificationTitle: String {
-        let streak = StreakTracker.shared.currentStreak
-
-        if streak == 0 {
-            return "Start your practice streak"
-        } else if streak == 1 {
-            return "Keep your streak alive!"
-        } else {
-            return "\(streak)-day streak going strong"
-        }
+        "Quick rehearsal?"
     }
 
     private var notificationBody: String {

@@ -28,9 +28,11 @@ struct AudioMetricsAnalyzer {
     ///
     /// - Parameters:
     ///   - metrics: Raw RMS and peak windows from the recording
-    ///   - noiseFloor: Threshold below which audio is considered silence (default 0.01)
+    ///   - profile: Centralized scoring thresholds
     /// - Returns: Analyzed patterns ready for scoring
-    static func analyze(_ metrics: AudioMetrics, noiseFloor: Float = 0.01) -> AnalyzedMetrics {
+    static func analyze(_ metrics: AudioMetrics, profile: ScoringProfile = .default) -> AnalyzedMetrics {
+        let noiseFloor = profile.audio.noiseFloor
+
         // Filter out noise
         let effectiveWindows = metrics.rmsWindows.filter { $0 > noiseFloor }
 
@@ -38,12 +40,12 @@ struct AudioMetricsAnalyzer {
         let pauses = countPauses(
             windows: metrics.rmsWindows,
             threshold: noiseFloor,
-            minConsecutiveWindows: 3
+            minConsecutiveWindows: profile.audio.pauseMinConsecutiveWindows
         )
 
         let spikes = countSpikes(
             windows: metrics.rmsWindows,
-            stdDevMultiplier: 2.0
+            stdDevMultiplier: profile.audio.spikeStdDevMultiplier
         )
 
         let segmentsPerMin = calculateSegmentsPerMinute(
@@ -63,6 +65,7 @@ struct AudioMetricsAnalyzer {
             : Float(metrics.rmsWindows.count - effectiveWindows.count) / Float(metrics.rmsWindows.count)
 
         return AnalyzedMetrics(
+            profile: profile,
             pauseCount: pauses,
             spikeCount: spikes,
             segmentsPerMinute: segmentsPerMin,
@@ -222,6 +225,8 @@ struct AudioMetricsAnalyzer {
 // MARK: - Analyzed Metrics
 
 struct AnalyzedMetrics {
+    let profile: ScoringProfile
+
     /// Number of distinct pause events
     let pauseCount: Int
 
@@ -253,46 +258,46 @@ struct AnalyzedMetrics {
 
     /// Whether pacing seems too fast
     var isPacingTooFast: Bool {
-        segmentsPerMinute > 40
+        segmentsPerMinute > profile.audio.pacingTooFastSegmentsPerMinute
     }
 
     /// Whether pacing seems too slow
     var isPacingTooSlow: Bool {
-        segmentsPerMinute < 10
+        segmentsPerMinute < profile.audio.pacingTooSlowSegmentsPerMinute
     }
 
     /// Whether there are too many intensity spikes
     var hasTooManySpikes: Bool {
         guard duration > 0 else { return false }
         let spikesPerMinute = Float(spikeCount) / Float(duration / 60)
-        return spikesPerMinute > 5
+        return spikesPerMinute > profile.audio.spikesPerMinuteMax
     }
 
     /// Whether volume is inconsistent
     var hasInconsistentVolume: Bool {
-        volumeStability < 0.5
+        volumeStability < profile.audio.volumeStabilityMinimum
     }
 
     /// Whether average level is too quiet
     var isTooQuiet: Bool {
-        averageLevel < 0.1
+        averageLevel < profile.audio.averageLevelMinimum
     }
 
     /// Whether there's too much silence
     var hasTooMuchSilence: Bool {
-        silenceRatio > 0.5
+        silenceRatio > profile.audio.silenceRatioMax
     }
 
     /// Ideal pause count based on duration
     var idealPauseCount: Int {
-        // Roughly one pause every 20 seconds
-        max(1, Int(duration / 20))
+        // Roughly one pause every configured interval
+        max(1, Int(duration / profile.audio.idealPauseIntervalSeconds))
     }
 
     /// Whether pause count is optimal
     var hasGoodPausePattern: Bool {
         let ideal = idealPauseCount
-        let tolerance = max(1, ideal / 2)
+        let tolerance = max(1, Int(Float(ideal) * profile.audio.pauseToleranceFactor))
         return abs(pauseCount - ideal) <= tolerance
     }
 }
@@ -304,6 +309,7 @@ extension AnalyzedMetrics {
     /// Create mock analyzed metrics for testing
     static func mock() -> AnalyzedMetrics {
         AnalyzedMetrics(
+            profile: .default,
             pauseCount: 3,
             spikeCount: 2,
             segmentsPerMinute: 22,

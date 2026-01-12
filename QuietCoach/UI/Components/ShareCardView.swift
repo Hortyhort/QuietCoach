@@ -23,7 +23,7 @@ struct ShareCardView: View {
 
                 Spacer()
 
-                // Middle section: Scenario and scores
+                // Middle section: Scenario and highlight
                 middleSection
 
                 Spacer()
@@ -97,9 +97,19 @@ struct ShareCardView: View {
                 }
             }
 
-            // Scores grid
-            if let scores = session.scores {
-                shareScoresGrid(scores)
+            // Highlight
+            VStack(spacing: 10) {
+                Text("Highlight")
+                    .font(.qcCaption)
+                    .foregroundColor(.qcTextTertiary)
+                    .textCase(.uppercase)
+                    .tracking(1.5)
+
+                Text(highlightText)
+                    .font(.qcBody)
+                    .foregroundColor(.qcTextPrimary)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(3)
             }
 
             // Duration
@@ -113,41 +123,14 @@ struct ShareCardView: View {
         }
     }
 
-    // MARK: - Scores Grid
-
-    private func shareScoresGrid(_ scores: FeedbackScores) -> some View {
-        VStack(spacing: 16) {
-            HStack(spacing: 24) {
-                shareScoreItem(type: .clarity, value: scores.clarity)
-                shareScoreItem(type: .pacing, value: scores.pacing)
-            }
-            HStack(spacing: 24) {
-                shareScoreItem(type: .tone, value: scores.tone)
-                shareScoreItem(type: .confidence, value: scores.confidence)
-            }
+    private var highlightText: String {
+        if let winNote = session.coachNotes.first(where: { $0.title == "What worked" }) {
+            return winNote.body
         }
-    }
-
-    private func shareScoreItem(type: FeedbackScores.ScoreType, value: Int) -> some View {
-        VStack(spacing: 4) {
-            Text("\(value)")
-                .font(.qcScore)
-                .foregroundColor(scoreColor(for: value))
-
-            Text(type.rawValue)
-                .font(.qcCaption)
-                .foregroundColor(.qcTextSecondary)
+        if let note = session.coachNotes.first {
+            return note.body
         }
-        .frame(width: 80)
-    }
-
-    private func scoreColor(for value: Int) -> Color {
-        switch value {
-        case 85...100: return .qcSuccess
-        case 70..<85: return .qcAccent
-        case 55..<70: return .qcWarning
-        default: return .qcTextSecondary
-        }
+        return "Rehearsed with calm, focused delivery."
     }
 
     // MARK: - Bottom Section
@@ -215,7 +198,6 @@ struct WatermarkToggleView: View {
                     duration: 127,
                     audioFileName: "test.m4a"
                 )
-                session.scores = FeedbackScores(clarity: 82, pacing: 75, tone: 88, confidence: 70)
                 return session
             }()
         )

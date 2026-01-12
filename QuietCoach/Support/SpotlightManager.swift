@@ -222,22 +222,6 @@ final class SpotlightManager {
         historyItem.expirationDate = Date.distantFuture
         items.append(historyItem)
 
-        // View Streak action
-        let streakAttributes = CSSearchableItemAttributeSet(contentType: .content)
-        streakAttributes.title = "Check Practice Streak"
-        streakAttributes.contentDescription = "See your current practice streak"
-        streakAttributes.keywords = ["streak", "daily", "motivation", "progress"]
-        streakAttributes.thumbnailData = generateThumbnail(systemName: "flame.fill", categoryColor: .orange)
-        streakAttributes.domainIdentifier = Domain.quickActions
-
-        let streakItem = CSSearchableItem(
-            uniqueIdentifier: "action-view-streak",
-            domainIdentifier: "\(domainIdentifier).\(Domain.quickActions)",
-            attributeSet: streakAttributes
-        )
-        streakItem.expirationDate = Date.distantFuture
-        items.append(streakItem)
-
         do {
             try await CSSearchableIndex.default().indexSearchableItems(items)
             logger.info("Indexed \(items.count) quick actions")

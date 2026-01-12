@@ -134,7 +134,7 @@ final class HapticEngine {
 
     // MARK: - Celebration Pattern
 
-    /// Burst pattern for achievements and milestones
+    /// Burst pattern for completion moments
     func playCelebration() {
         guard let engine = engine, Constants.Haptics.enabled else { return }
 
@@ -161,7 +161,7 @@ final class HapticEngine {
             let player = try engine.makePlayer(with: pattern)
             try player.start(atTime: CHHapticTimeImmediate)
         } catch {
-            Haptics.streakMilestone()
+            Haptics.celebration()
         }
     }
 
@@ -272,8 +272,8 @@ enum Haptics {
         impactMedium.impactOccurred(intensity: 0.7)
     }
 
-    /// Streak milestone achieved — celebratory double tap
-    static func streakMilestone() {
+    /// Celebration — a soft success double tap
+    static func celebration() {
         guard Constants.Haptics.enabled else { return }
         notification.prepare()
         notification.notificationOccurred(.success)

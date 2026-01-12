@@ -179,7 +179,7 @@ struct BreathingRitualView: View {
 
             if breathCount >= totalBreaths {
                 phase = .complete
-                Haptics.streakMilestone()
+                Haptics.celebration()
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     onComplete()

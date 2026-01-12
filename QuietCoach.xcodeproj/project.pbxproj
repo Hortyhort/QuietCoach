@@ -13,6 +13,8 @@
 		1A0000050000000000000001 /* AudioMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000060000000000000001 /* AudioMetrics.swift */; };
 		1A0000070000000000000001 /* FeedbackScores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000080000000000000001 /* FeedbackScores.swift */; };
 		1A0000090000000000000001 /* CoachNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00000A0000000000000001 /* CoachNote.swift */; };
+		1A0006230000000000000001 /* CoachTone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0006210000000000000001 /* CoachTone.swift */; };
+		1A0006250000000000000001 /* ScoringProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0006240000000000000001 /* ScoringProfile.swift */; };
 		1A00000B0000000000000001 /* RehearsalSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00000C0000000000000001 /* RehearsalSession.swift */; };
 		1A00000D0000000000000001 /* FileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00000E0000000000000001 /* FileStore.swift */; };
 		1A00000F0000000000000001 /* SessionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000100000000000000001 /* SessionRepository.swift */; };
@@ -21,6 +23,7 @@
 		1A0000150000000000000001 /* FeatureGates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000160000000000000001 /* FeatureGates.swift */; };
 		1A0000170000000000000001 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000180000000000000001 /* Colors.swift */; };
 		1A0000190000000000000001 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00001A0000000000000001 /* RootView.swift */; };
+		1A0006220000000000000001 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0006200000000000000001 /* AppRouter.swift */; };
 		1A00001B0000000000000001 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00001C0000000000000001 /* HomeView.swift */; };
 		1A00001D0000000000000001 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00001E0000000000000001 /* OnboardingView.swift */; };
 		1A00001F0000000000000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A0000200000000000000001 /* Assets.xcassets */; };
@@ -161,6 +164,8 @@
 		1A0000060000000000000001 /* AudioMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMetrics.swift; sourceTree = "<group>"; };
 		1A0000080000000000000001 /* FeedbackScores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackScores.swift; sourceTree = "<group>"; };
 		1A00000A0000000000000001 /* CoachNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachNote.swift; sourceTree = "<group>"; };
+		1A0006210000000000000001 /* CoachTone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachTone.swift; sourceTree = "<group>"; };
+		1A0006240000000000000001 /* ScoringProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringProfile.swift; sourceTree = "<group>"; };
 		1A00000C0000000000000001 /* RehearsalSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RehearsalSession.swift; sourceTree = "<group>"; };
 		1A00000E0000000000000001 /* FileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileStore.swift; sourceTree = "<group>"; };
 		1A0000100000000000000001 /* SessionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRepository.swift; sourceTree = "<group>"; };
@@ -169,6 +174,7 @@
 		1A0000160000000000000001 /* FeatureGates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureGates.swift; sourceTree = "<group>"; };
 		1A0000180000000000000001 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		1A00001A0000000000000001 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		1A0006200000000000000001 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		1A00001C0000000000000001 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		1A00001E0000000000000001 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		1A0000200000000000000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -364,6 +370,8 @@
 				1A0000060000000000000001 /* AudioMetrics.swift */,
 				1A0000080000000000000001 /* FeedbackScores.swift */,
 				1A00000A0000000000000001 /* CoachNote.swift */,
+				1A0006210000000000000001 /* CoachTone.swift */,
+				1A0006240000000000000001 /* ScoringProfile.swift */,
 				1A0003010000000000000001 /* StreakTracker.swift */,
 				1A00030D0000000000000001 /* AchievementManager.swift */,
 			);
@@ -463,6 +471,7 @@
 			isa = PBXGroup;
 			children = (
 				1A00001A0000000000000001 /* RootView.swift */,
+				1A0006200000000000000001 /* AppRouter.swift */,
 				1A0000D10000000000000001 /* MacHomeView.swift */,
 				1A0000D30000000000000001 /* SpatialHomeView.swift */,
 			);
@@ -756,6 +765,8 @@
 				1A0000050000000000000001 /* AudioMetrics.swift in Sources */,
 				1A0000070000000000000001 /* FeedbackScores.swift in Sources */,
 				1A0000090000000000000001 /* CoachNote.swift in Sources */,
+				1A0006230000000000000001 /* CoachTone.swift in Sources */,
+				1A0006250000000000000001 /* ScoringProfile.swift in Sources */,
 				1A0003000000000000000001 /* StreakTracker.swift in Sources */,
 				1A00030C0000000000000001 /* AchievementManager.swift in Sources */,
 				1A00000B0000000000000001 /* RehearsalSession.swift in Sources */,
@@ -776,6 +787,7 @@
 				1A0000A10000000000000001 /* LiveActivityManager.swift in Sources */,
 				1A0000A30000000000000001 /* WidgetDataManager.swift in Sources */,
 				1A0000190000000000000001 /* RootView.swift in Sources */,
+				1A0006220000000000000001 /* AppRouter.swift in Sources */,
 				1A0000D00000000000000001 /* MacHomeView.swift in Sources */,
 				1A0000D20000000000000001 /* SpatialHomeView.swift in Sources */,
 				1A0000D40000000000000001 /* MenuBarApp.swift in Sources */,

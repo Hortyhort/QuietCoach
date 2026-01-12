@@ -61,10 +61,10 @@ struct ScenarioQuery: EntityQuery {
 
 /// "Hey Siri, practice a conversation with Quiet Coach"
 struct StartRehearsalIntent: AppIntent {
-    static let title: LocalizedStringResource = "Start Rehearsal"
+    static let title: LocalizedStringResource = "Start a Rehearsal"
 
     static let description: IntentDescription = IntentDescription(
-        "Begin practicing a conversation scenario",
+        "Start a rehearsal for a conversation scenario",
         categoryName: "Practice"
     )
 
@@ -72,7 +72,7 @@ struct StartRehearsalIntent: AppIntent {
     var scenario: ScenarioEntity?
 
     static var parameterSummary: some ParameterSummary {
-        Summary("Practice \(\.$scenario)")
+        Summary("Start a rehearsal for \(\.$scenario)")
     }
 
     static let openAppWhenRun: Bool = true
@@ -91,20 +91,21 @@ struct StartRehearsalIntent: AppIntent {
 
 // MARK: - Check Progress Intent
 
-/// "Hey Siri, how did my last rehearsal go?"
+/// "Hey Siri, review my rehearsals"
 struct CheckProgressIntent: AppIntent {
-    static let title: LocalizedStringResource = "Check Practice Progress"
+    static let title: LocalizedStringResource = "Review Rehearsals"
 
     static let description: IntentDescription = IntentDescription(
-        "See how your recent practice sessions went",
-        categoryName: "Progress"
+        "Open your recent rehearsals",
+        categoryName: "Review"
     )
 
     static let openAppWhenRun: Bool = true
 
     @MainActor
     func perform() async throws -> some IntentResult & OpensIntent {
-        // Opens the app to the home screen where recent sessions are visible
+        // Open the app and route to history
+        UserDefaults.standard.set("history", forKey: "pendingRoute")
         return .result()
     }
 }
@@ -116,25 +117,25 @@ struct QuietCoachShortcuts: AppShortcutsProvider {
         AppShortcut(
             intent: StartRehearsalIntent(),
             phrases: [
-                "Practice a conversation with \(.applicationName)",
+                "Start a rehearsal with \(.applicationName)",
                 "Help me rehearse with \(.applicationName)",
-                "Start practicing with \(.applicationName)",
+                "Rehearse a conversation with \(.applicationName)",
                 "I need to practice a hard conversation with \(.applicationName)",
-                "Practice \(\.$scenario) with \(.applicationName)"
+                "Start \(\.$scenario) with \(.applicationName)"
             ],
-            shortTitle: "Practice",
+            shortTitle: "Rehearse",
             systemImageName: "waveform"
         )
 
         AppShortcut(
             intent: CheckProgressIntent(),
             phrases: [
-                "How did my rehearsal go with \(.applicationName)",
-                "Check my practice progress with \(.applicationName)",
-                "Show my coaching scores in \(.applicationName)"
+                "Review my rehearsals with \(.applicationName)",
+                "Show recent rehearsals in \(.applicationName)",
+                "Open rehearsal history in \(.applicationName)"
             ],
-            shortTitle: "Progress",
-            systemImageName: "chart.line.uptrend.xyaxis"
+            shortTitle: "Review",
+            systemImageName: "clock.arrow.circlepath"
         )
 
         AppShortcut(

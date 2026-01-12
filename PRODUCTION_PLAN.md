@@ -2,19 +2,43 @@
 
 ## Current Status: ~85% Production Ready
 
+## Ralph Brainstormer Output (Release Lens)
+
+### Objective
+- Refine QuietCoach into an Apple-grade, privacy-first iOS app that helps users rehearse hard conversations in under 3 minutes, with minimal UI, explainable coaching feedback, and a compelling V1 feature set.
+
+### Synthesis (Release Constraints)
+- One primary action per screen; no dashboard energy.
+- 3-line feedback only: win, change, try again rephrase.
+- Always end with a Try Again next step.
+- On-device by default; no accounts; transcripts/NLP are opt-in, default off, with a metrics-only fallback when disabled.
+- V1 includes scenario selection, record + playback, local sessions, share card.
+- Add small premium polish: Coach Tone, 1-minute rehearsal mode.
+- Defer features that add analytical weight.
+
+### Boardroom Risks (Launch Gate)
+- Feedback must be earned; each line tied to measured signals.
+- "3 minutes" should be framed as "start rehearsal in 3 minutes."
+- Share card must be optional and minimal (no transcript).
+- Default interaction must be single-tap, no choice overload.
+
+### Launch Success Criteria
+- Time to first rehearsal under 60 seconds
+- Try Again rate above 35 percent
+- User-reported preparedness improves after rehearsal
+- App Store rating 4.8+
+
 ### Already Completed
 - [x] Core recording, playback, and scoring functionality
-- [x] NLP-powered speech analysis with filler word detection
+- [x] On-device, opt-in speech analysis with filler word detection (default off; metrics-only mode when disabled)
 - [x] Comprehensive error handling framework
-- [x] All 5 widgets (Streak, Last Session, Quick Practice, Live Activity, Control)
 - [x] Integration tests for core flows
 - [x] Translations (English, Spanish, Japanese)
 - [x] Performance monitoring instrumentation
 - [x] App Store metadata and privacy policy
 - [x] TestFlight deployment configuration
 - [x] Accessibility audit and improvements
-- [x] Data export functionality
-- [x] Streak tracking with milestones
+- [x] Export All Data functionality
 
 ---
 
@@ -59,19 +83,23 @@
 - Help users organize their rehearsal
 - Affects: RehearseView.swift, new StructureGuideSheet.swift
 
-### 2.3 Session Comparison View
-**Priority: MEDIUM | Effort: Medium**
-- Side-by-side comparison of two sessions
-- Visual diff of scores and improvements
-- Accessible from History or Review views
-- Affects: new SessionComparisonView.swift
-
-### 2.4 Onboarding Flow Consolidation
+### 2.3 Onboarding Flow Consolidation
 **Priority: MEDIUM | Effort: Low**
 - Determine which onboarding flow to use (Standard vs Elevated)
 - Complete any missing pieces in chosen flow
 - Remove unused flow or feature-flag it
 - Affects: OnboardingView.swift, ElevatedOnboarding.swift
+
+---
+
+## Deferred / VNext
+
+### Session Comparison View
+**Priority: MEDIUM | Effort: Medium**
+- Side-by-side comparison of two sessions
+- Visual diff of scores and improvements
+- Accessible from History or Review views
+- Affects: new SessionComparisonView.swift
 
 ---
 
@@ -87,17 +115,10 @@
 
 ### 3.2 Daily Reminder Notifications
 **Priority: LOW | Effort: Low**
-- Optional local notifications for streak protection
+- Optional local notifications for rehearsal reminders
 - Configurable time preference
 - Respect Do Not Disturb
 - Affects: new NotificationManager.swift, SettingsView.swift
-
-### 3.3 Achievement Badges
-**Priority: LOW | Effort: Medium**
-- Expand beyond streak milestones
-- Badges for: First 90+ score, 10 sessions, All categories tried
-- Badge gallery in Profile/Settings
-- Affects: new AchievementManager.swift
 
 ---
 
@@ -108,7 +129,6 @@
 **Priority: LOW | Effort: High**
 - Quick rehearsal from wrist
 - View recent scores
-- Streak widget on watch face
 - New target: QuietCoachWatch
 
 ### 4.2 macOS Catalyst/Native
@@ -136,10 +156,10 @@
 ### 5.2 Practice Mode Variations
 - Timed challenges
 - Random scenario generator
-- Progress tests
+- Structured drills
 
 ### 5.3 Social Features
-- Share progress cards
+- Share rehearsal cards
 - Community scenarios
 - Coaching marketplace
 
@@ -156,12 +176,10 @@
 4. Session History View
 5. Structure Guide Sheet
 6. Onboarding consolidation
-7. Session Comparison View
 
 ### Week 5-6: Phase 3 (Content & Engagement)
-8. Additional Pro scenarios
-9. Daily reminder notifications
-10. Achievement badges
+7. Additional Pro scenarios
+8. Daily reminder notifications
 
 ### Post-Launch: Phases 4-5
 - watchOS, macOS, visionOS
@@ -197,7 +215,6 @@
 ### Phase 2 New Files Needed
 - `QuietCoach/UI/Screens/HistoryView.swift`
 - `QuietCoach/UI/Components/StructureGuideSheet.swift`
-- `QuietCoach/UI/Screens/SessionComparisonView.swift`
 
 ### Phase 3 New Files Needed
 - `QuietCoach/Support/NotificationManager.swift`

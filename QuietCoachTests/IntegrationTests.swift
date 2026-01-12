@@ -153,7 +153,8 @@ final class FullRecordingFlowIntegrationTests: XCTestCase {
         do {
             _ = try await mockAnalyzer.analyze(
                 audioURL: URL(fileURLWithPath: "/tmp/test.m4a"),
-                duration: 60
+                duration: 60,
+                profile: .default
             )
             XCTFail("Should have thrown error")
         } catch {
@@ -372,41 +373,6 @@ final class FeatureGateIntegrationTests: XCTestCase {
         // Free user has limited visible sessions
         XCTAssertFalse(featureGates.hasUnlimitedHistory)
         XCTAssertEqual(featureGates.maxVisibleSessions, 3)
-    }
-}
-
-// MARK: - Streak Integration Tests
-
-final class StreakIntegrationTests: XCTestCase {
-
-    @MainActor
-    func testStreakIncreasesWithDailyPractice() {
-        // Reset streak for testing
-        StreakTracker.shared.reset()
-
-        let tracker = StreakTracker.shared
-        let initialStreak = tracker.currentStreak
-
-        // Record today's practice
-        tracker.recordPractice()
-
-        // Streak should be at least 1
-        XCTAssertGreaterThanOrEqual(tracker.currentStreak, 1)
-        XCTAssertGreaterThanOrEqual(tracker.currentStreak, initialStreak)
-    }
-
-    @MainActor
-    func testLongestStreakTracked() {
-        // Reset streak for testing
-        StreakTracker.shared.reset()
-
-        let tracker = StreakTracker.shared
-
-        // Record practice
-        tracker.recordPractice()
-
-        // Longest streak should be at least current
-        XCTAssertGreaterThanOrEqual(tracker.longestStreak, tracker.currentStreak)
     }
 }
 

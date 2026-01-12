@@ -59,7 +59,6 @@ enum AnalyticsEvent: Sendable {
 
     // MARK: - Progress
     case sessionMilestone(count: Int)
-    case streakAchieved(days: Int)
     case scoreImproved(category: String, delta: Int)
 
     // MARK: - Errors
@@ -95,7 +94,6 @@ enum AnalyticsEvent: Sendable {
         case .settingsOpened: return "settings_opened"
         case .settingChanged: return "setting_changed"
         case .sessionMilestone: return "session_milestone"
-        case .streakAchieved: return "streak_achieved"
         case .scoreImproved: return "score_improved"
         case .errorOccurred: return "error_occurred"
         case .speechRecognitionFailed: return "speech_recognition_failed"
@@ -162,9 +160,6 @@ enum AnalyticsEvent: Sendable {
         case .sessionMilestone(let count):
             // Only track specific milestones
             return ["count": String(count)]
-
-        case .streakAchieved(let days):
-            return ["days": String(days)]
 
         case .scoreImproved(let category, let delta):
             return ["category": category, "delta_bucket": deltaBucket(delta)]

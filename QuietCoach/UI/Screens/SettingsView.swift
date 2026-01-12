@@ -21,13 +21,14 @@ struct SettingsView: View {
     @AppStorage(Constants.SettingsKeys.focusSoundsEnabled) private var focusSoundsEnabled = false
     @AppStorage(Constants.SettingsKeys.voiceIsolationEnabled) private var voiceIsolationEnabled = false
     @AppStorage(Constants.SettingsKeys.breathingRitualEnabled) private var breathingRitualEnabled = true
+    @AppStorage(Constants.SettingsKeys.coachTone) private var coachToneRaw = CoachTone.default.rawValue
     @State private var showingDeleteAllConfirm = false
     @State private var showingProUpgrade = false
     @State private var showingExportSheet = false
     @State private var exportData: Data?
     @State private var notificationManager = NotificationManager.shared
-    @State private var showingAchievements = false
     @State private var showingPrivacyControl = false
+    @Bindable private var privacySettings = PrivacySettings.shared
 
     // MARK: - Body
 
@@ -46,6 +47,9 @@ struct SettingsView: View {
                 // Recording section
                 recordingSection
 
+                // Coaching section
+                coachingSection
+
                 // Sharing section
                 sharingSection
 
@@ -54,9 +58,6 @@ struct SettingsView: View {
 
                 // Sync section
                 syncSection
-
-                // Achievements section
-                achievementsSection
 
                 // Keyboard shortcuts (iPad/Mac only)
                 #if !os(watchOS)
@@ -86,12 +87,11 @@ struct SettingsView: View {
             .alert("Delete all data?", isPresented: $showingDeleteAllConfirm) {
                 Button("Delete All", role: .destructive) {
                     repository.deleteAllSessions()
-                    StreakTracker.shared.reset()
                     Haptics.destructive()
                 }
                 Button("Cancel", role: .cancel) {}
             } message: {
-                Text("This will delete all your rehearsal sessions, audio files, and streak data. This cannot be undone.")
+                Text("This will delete all your rehearsal sessions and audio files. This cannot be undone.")
             }
             .sheet(isPresented: $showingProUpgrade) {
                 ProUpgradeView()
@@ -100,9 +100,6 @@ struct SettingsView: View {
                 if let data = exportData {
                     ExportDataSheet(data: data)
                 }
-            }
-            .sheet(isPresented: $showingAchievements) {
-                AchievementGalleryView()
             }
             .sheet(isPresented: $showingPrivacyControl) {
                 PrivacyControlView()
@@ -276,7 +273,7 @@ private extension SettingsView {
         } header: {
             Text("Reminders")
         } footer: {
-            Text("Get a gentle reminder to practice and protect your streak.")
+            Text("Get a gentle reminder to rehearse something important.")
         }
     }
 
@@ -391,13 +388,65 @@ private extension SettingsView {
                 }
                 .tint(.qcAccent)
             }
+
+            Toggle(isOn: $privacySettings.transcriptionEnabled) {
+                HStack {
+                    Image(systemName: "text.quote")
+                        .foregroundColor(.qcAccent)
+                        .accessibilityHidden(true)
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("On-Device Transcription")
+                            .font(.qcBody)
+                            .foregroundColor(.qcTextPrimary)
+
+                        Text("Optional speech-to-text for richer coaching")
+                            .font(.qcCaption)
+                            .foregroundColor(.qcTextTertiary)
+                    }
+                }
+            }
+            .tint(.qcAccent)
         } header: {
             Text("Recording")
         } footer: {
             if Constants.VoiceIsolation.isAvailable {
-                Text("Calm Start helps you center before rehearsing. Voice Isolation works best with AirPods.")
+                Text("Calm Start helps you center before rehearsing. Voice Isolation works best with AirPods. Transcription is optional and stays on this device.")
             } else {
-                Text("Calm Start helps you center before rehearsing.")
+                Text("Calm Start helps you center before rehearsing. Transcription is optional and stays on this device.")
+            }
+        }
+    }
+
+    // MARK: - Coaching Section
+
+    private var coachToneSelection: Binding<CoachTone> {
+        Binding(
+            get: { CoachTone(rawValue: coachToneRaw) ?? .default },
+            set: { coachToneRaw = $0.rawValue }
+        )
+    }
+
+    private var coachingSection: some View {
+        let currentTone = CoachTone(rawValue: coachToneRaw) ?? .default
+
+        return Section {
+            Picker("Coach Tone", selection: coachToneSelection) {
+                ForEach(CoachTone.allCases) { tone in
+                    Text(tone.title)
+                        .tag(tone)
+                }
+            }
+            .pickerStyle(.segmented)
+            .disabled(!featureGates.isPro)
+            .opacity(featureGates.isPro ? 1.0 : 0.6)
+        } header: {
+            Text("Coaching")
+        } footer: {
+            if featureGates.isPro {
+                Text(currentTone.description)
+            } else {
+                Text("Upgrade to Pro to customize your coach tone.")
             }
         }
     }
@@ -427,34 +476,6 @@ private extension SettingsView {
                 Spacer()
 
                 Text("\(repository.sessionCount)")
-                    .font(.qcBody)
-                    .foregroundColor(.qcTextSecondary)
-            }
-
-            HStack {
-                Text("Current streak")
-                    .font(.qcBody)
-                    .foregroundColor(.qcTextPrimary)
-
-                Spacer()
-
-                HStack(spacing: 4) {
-                    Image(systemName: "flame.fill")
-                        .foregroundColor(.orange)
-                    Text("\(StreakTracker.shared.currentStreak) days")
-                        .font(.qcBody)
-                        .foregroundColor(.qcTextSecondary)
-                }
-            }
-
-            HStack {
-                Text("Longest streak")
-                    .font(.qcBody)
-                    .foregroundColor(.qcTextPrimary)
-
-                Spacer()
-
-                Text("\(StreakTracker.shared.longestStreak) days")
                     .font(.qcBody)
                     .foregroundColor(.qcTextSecondary)
             }
@@ -502,39 +523,6 @@ private extension SettingsView {
     private var syncSection: some View {
         Section("Sync") {
             SyncSettingsRow()
-        }
-    }
-
-    // MARK: - Achievements Section
-
-    private var achievementsSection: some View {
-        Section("Progress") {
-            Button {
-                showingAchievements = true
-            } label: {
-                HStack {
-                    Image(systemName: "trophy.fill")
-                        .foregroundColor(.qcMoodCelebration)
-                        .accessibilityHidden(true)
-
-                    Text("Achievements")
-                        .font(.qcBody)
-                        .foregroundColor(.qcTextPrimary)
-
-                    Spacer()
-
-                    Text("\(AchievementManager.shared.unlockedAchievements.count)/\(Achievement.allAchievements.count)")
-                        .font(.qcSubheadline)
-                        .foregroundColor(.qcTextSecondary)
-
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundColor(.qcTextTertiary)
-                        .accessibilityHidden(true)
-                }
-            }
-            .accessibilityLabel("Achievements")
-            .accessibilityHint("Double tap to view your achievement badges")
         }
     }
 

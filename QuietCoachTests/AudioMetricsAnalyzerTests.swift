@@ -243,6 +243,7 @@ final class AudioMetricsAnalyzerTests: XCTestCase {
     func testIsPacingTooFast() {
         // Given: Metrics with high segments per minute
         let analyzed = AnalyzedMetrics(
+            profile: .default,
             pauseCount: 0,
             spikeCount: 0,
             segmentsPerMinute: 50, // > 40 threshold
@@ -262,6 +263,7 @@ final class AudioMetricsAnalyzerTests: XCTestCase {
     func testIsPacingTooSlow() {
         // Given: Metrics with low segments per minute
         let analyzed = AnalyzedMetrics(
+            profile: .default,
             pauseCount: 5,
             spikeCount: 0,
             segmentsPerMinute: 5, // < 10 threshold
@@ -281,6 +283,7 @@ final class AudioMetricsAnalyzerTests: XCTestCase {
     func testHasTooManySpikes() {
         // Given: Metrics with many spikes
         let analyzed = AnalyzedMetrics(
+            profile: .default,
             pauseCount: 2,
             spikeCount: 10, // > 5 per minute
             segmentsPerMinute: 20,
@@ -299,6 +302,7 @@ final class AudioMetricsAnalyzerTests: XCTestCase {
     func testHasInconsistentVolume() {
         // Given: Metrics with low stability
         let analyzed = AnalyzedMetrics(
+            profile: .default,
             pauseCount: 2,
             spikeCount: 3,
             segmentsPerMinute: 20,
@@ -317,6 +321,7 @@ final class AudioMetricsAnalyzerTests: XCTestCase {
     func testIsTooQuiet() {
         // Given: Metrics with low average level
         let analyzed = AnalyzedMetrics(
+            profile: .default,
             pauseCount: 2,
             spikeCount: 1,
             segmentsPerMinute: 20,
@@ -335,6 +340,7 @@ final class AudioMetricsAnalyzerTests: XCTestCase {
     func testHasTooMuchSilence() {
         // Given: Metrics with high silence ratio
         let analyzed = AnalyzedMetrics(
+            profile: .default,
             pauseCount: 5,
             spikeCount: 1,
             segmentsPerMinute: 15,
@@ -353,6 +359,7 @@ final class AudioMetricsAnalyzerTests: XCTestCase {
     func testIdealPauseCount() {
         // Given: 60 second recording
         let analyzed = AnalyzedMetrics(
+            profile: .default,
             pauseCount: 3,
             spikeCount: 1,
             segmentsPerMinute: 20,

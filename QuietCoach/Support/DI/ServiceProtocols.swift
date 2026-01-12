@@ -59,7 +59,11 @@ protocol FeatureGatesProtocol: AnyObject {
 protocol SpeechAnalyzerProtocol: Actor {
     func requestAuthorization() async -> Bool
     var isAuthorized: Bool { get }
-    func analyze(audioURL: URL, duration: TimeInterval) async throws -> SpeechAnalysisResult
+    func analyze(
+        audioURL: URL,
+        duration: TimeInterval,
+        profile: ScoringProfile
+    ) async throws -> SpeechAnalysisResult
 }
 
 // MARK: - Analytics Protocol

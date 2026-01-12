@@ -45,6 +45,14 @@ final class PrivacySettings {
         }
     }
 
+    /// Whether on-device transcription is enabled (opt-in)
+    var transcriptionEnabled: Bool {
+        didSet {
+            UserDefaults.standard.set(transcriptionEnabled, forKey: Keys.transcriptionEnabled)
+            logger.info("Transcription \(self.transcriptionEnabled ? "enabled" : "disabled")")
+        }
+    }
+
     /// Whether the user has made an explicit choice about privacy
     var hasUserConsent: Bool {
         UserDefaults.standard.bool(forKey: Keys.hasUserConsent)
@@ -57,6 +65,7 @@ final class PrivacySettings {
         self.analyticsEnabled = UserDefaults.standard.object(forKey: Keys.analyticsEnabled) as? Bool ?? true
         self.crashReportingEnabled = UserDefaults.standard.object(forKey: Keys.crashReportingEnabled) as? Bool ?? true
         self.performanceMonitoringEnabled = UserDefaults.standard.object(forKey: Keys.performanceEnabled) as? Bool ?? true
+        self.transcriptionEnabled = UserDefaults.standard.object(forKey: Keys.transcriptionEnabled) as? Bool ?? false
     }
 
     // MARK: - Consent Management
@@ -100,6 +109,7 @@ final class PrivacySettings {
         static let analyticsEnabled = "privacy.analytics.enabled"
         static let crashReportingEnabled = "privacy.crashReporting.enabled"
         static let performanceEnabled = "privacy.performance.enabled"
+        static let transcriptionEnabled = "privacy.transcription.enabled"
         static let hasUserConsent = "privacy.hasUserConsent"
         static let consentDate = "privacy.consentDate"
     }
@@ -146,6 +156,22 @@ struct PrivacySettingsView: View {
                 Text("Data Collection")
             } footer: {
                 Text("All data is anonymous and never includes your recordings or personal information.")
+            }
+
+            Section {
+                Toggle(isOn: $settings.transcriptionEnabled) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("On-Device Transcription")
+                            .font(.body)
+                        Text("Optional speech-to-text for richer coaching. Stays on this device.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            } header: {
+                Text("Speech Analysis")
+            } footer: {
+                Text("When off, coaching uses audio-only metrics and no transcript is stored.")
             }
 
             Section {

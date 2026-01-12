@@ -18,15 +18,12 @@ struct ReviewView: View {
 
     @State private var player = AudioPlayerViewModel()
     @State private var showingShareSheet = false
-    @State private var showingScoreInfo = false
     @State private var showScoreAnimation = false
-    @State private var showConfidencePulse = true
     @State private var anchorPhrase: String = ""
     @FocusState private var isAnchorFocused: Bool
 
     // MARK: - Environment
-
-    @Environment(SessionRepository.self) private var repository
+    @Bindable private var privacySettings = PrivacySettings.shared
 
     // MARK: - Computed Properties
 
@@ -51,6 +48,10 @@ struct ReviewView: View {
         return (0..<60).map { _ in Float.random(in: 0.2...0.8) }
     }
 
+    private var showsAudioOnlyNote: Bool {
+        !privacySettings.transcriptionEnabled && session.transcription == nil
+    }
+
     // MARK: - Body
 
     var body: some View {
@@ -62,14 +63,13 @@ struct ReviewView: View {
                 // Playback section
                 playbackSection
 
-                // Scores
-                if let scores = session.scores {
-                    scoresSection(scores)
-                }
-
                 // Coach notes
                 if !session.coachNotes.isEmpty {
                     coachNotesSection
+                }
+
+                if showsAudioOnlyNote {
+                    audioOnlyNote
                 }
 
                 // Anchor phrase
@@ -106,7 +106,7 @@ struct ReviewView: View {
                             .foregroundColor(.qcTextSecondary)
                     }
                     .accessibilityLabel("Share")
-                    .accessibilityHint("Share your rehearsal results")
+                    .accessibilityHint("Share your rehearsal card")
 
                     Button("Done") {
                         onDone()
@@ -121,33 +121,10 @@ struct ReviewView: View {
         .sheet(isPresented: $showingShareSheet) {
             ShareCardSheet(session: session)
         }
-        .sheet(isPresented: $showingScoreInfo) {
-            ScoreInfoSheet()
-        }
-        .overlay {
-            // Confidence Pulse animation on first appearance
-            if showConfidencePulse, let scores = session.scores {
-                ConfidencePulseView(score: scores.overall) {
-                    withAnimation(.easeOut(duration: 0.3)) {
-                        showConfidencePulse = false
-                        showScoreAnimation = true
-                    }
-                    // Play celebration sound for high scores, milestone for others
-                    if scores.overall >= 80 {
-                        SoundManager.shared.play(.celebration)
-                    } else {
-                        SoundManager.shared.play(.milestone)
-                    }
-                }
-                .transition(.opacity)
-            }
-        }
         .onAppear {
             player.load(session: session)
             anchorPhrase = session.anchorLine ?? ""
-            // If no scores, skip the pulse animation
-            if session.scores == nil {
-                showConfidencePulse = false
+            withAnimation(.easeInOut(duration: 1.0)) {
                 showScoreAnimation = true
             }
         }
@@ -158,6 +135,21 @@ struct ReviewView: View {
             // Save anchor phrase to session
             session.anchorLine = newValue.isEmpty ? nil : newValue
         }
+    }
+
+    private var audioOnlyNote: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "waveform")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundColor(.qcAccent)
+
+            Text("Audio-only feedback. Enable on-device transcription for richer coaching.")
+                .font(.qcCaption)
+                .foregroundColor(.qcTextTertiary)
+        }
+        .padding(12)
+        .background(Color.qcSurface.opacity(0.6))
+        .qcSmallRadius()
     }
 
     // MARK: - Header Section
@@ -267,50 +259,11 @@ struct ReviewView: View {
 
     // MARK: - Scores Section
 
-    private func scoresSection(_ scores: FeedbackScores) -> some View {
-        VStack(spacing: 16) {
-            // Section header
-            HStack {
-                Text("Your Scores")
-                    .font(.qcTitle3)
-                    .foregroundColor(.qcTextPrimary)
-
-                Spacer()
-
-                Button {
-                    showingScoreInfo = true
-                } label: {
-                    Image(systemName: "info.circle")
-                        .font(.system(size: 16))
-                        .foregroundColor(.qcTextTertiary)
-                }
-                .accessibilityLabel("Score information")
-                .accessibilityHint("Double tap to learn what each score means")
-            }
-
-            // Score interpretation with coach personality
-            HStack(spacing: 8) {
-                Text(CoachPersonality.emoji(for: scores.overall))
-                Text(CoachPersonality.interpret(score: scores.overall))
-                    .font(.qcSubheadline)
-                    .foregroundColor(.qcTextSecondary)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-
-            // Score grid
-            let previousSession = repository.previousSession(for: session.scenarioId, before: session)
-            ScoreGrid(
-                scores: scores,
-                previousScores: previousSession?.scores
-            )
-        }
-    }
-
     // MARK: - Coach Notes Section
 
     private var coachNotesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Coaching Notes")
+            Text("Feedback")
                 .font(.qcTitle3)
                 .foregroundColor(.qcTextPrimary)
 
@@ -356,46 +309,6 @@ struct ReviewView: View {
 
 }
 
-// MARK: - Score Info Sheet
-
-struct ScoreInfoSheet: View {
-    @Environment(\.dismiss) private var dismiss
-
-    var body: some View {
-        NavigationStack {
-            List {
-                ForEach(FeedbackScores.ScoreType.allCases, id: \.self) { scoreType in
-                    Section {
-                        VStack(alignment: .leading, spacing: 8) {
-                            HStack(spacing: 8) {
-                                Image(systemName: scoreType.icon)
-                                    .foregroundColor(.qcAccent)
-                                Text(scoreType.rawValue)
-                                    .font(.qcBodyMedium)
-                            }
-
-                            Text(scoreType.explanation)
-                                .font(.qcSubheadline)
-                                .foregroundColor(.qcTextSecondary)
-                        }
-                        .padding(.vertical, 4)
-                    }
-                }
-            }
-            .navigationTitle("How Scores Work")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") {
-                        dismiss()
-                    }
-                    .foregroundColor(.qcAccent)
-                }
-            }
-        }
-    }
-}
-
 // MARK: - Share Card Sheet
 
 struct ShareCardSheet: View {
@@ -405,7 +318,7 @@ struct ShareCardSheet: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 24) {
-                Text("Share your progress")
+                Text("Share this rehearsal")
                     .font(.qcTitle3)
                     .foregroundColor(.qcTextPrimary)
 
@@ -415,7 +328,7 @@ struct ShareCardSheet: View {
                     .qcCardShadow()
 
                 // Share button
-                if session.scores != nil, let scenario = session.scenario {
+                if let scenario = session.scenario {
                     ShareLink(
                         item: generateShareImage(),
                         preview: SharePreview(
@@ -425,7 +338,7 @@ struct ShareCardSheet: View {
                     ) {
                         HStack(spacing: 8) {
                             Image(systemName: "square.and.arrow.up")
-                            Text("Share")
+                            Text("Share Card")
                         }
                         .font(.qcButton)
                         .foregroundColor(.black)
@@ -455,20 +368,9 @@ struct ShareCardSheet: View {
 
     @MainActor
     private func generateShareImage() -> Image {
-        // Render ShareCardView to image using ImageRenderer
-        let shareCard = ShareCardView(session: session)
-            .frame(width: 350, height: 450)
-            .background(Color.qcBackground)
-
-        let renderer = ImageRenderer(content: shareCard)
-        renderer.scale = UIScreen.main.scale
-
-        if let uiImage = renderer.uiImage {
-            return Image(uiImage: uiImage)
-        }
-
-        // Fallback if rendering fails
-        return Image(systemName: "waveform")
+        let uiImage = ShareCardView(session: session)
+            .renderToImage()
+        return Image(uiImage: uiImage)
     }
 }
 

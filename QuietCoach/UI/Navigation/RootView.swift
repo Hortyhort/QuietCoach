@@ -20,9 +20,7 @@ struct RootView: View {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @AppStorage("hasUpgradedFromAppClip") private var hasUpgradedFromAppClip = false
     @State private var repository = SessionRepository.placeholder
-    @State private var showingAppClipWelcome = false
-    @State private var spotlightScenario: Scenario?
-    @State private var showingHistory = false
+    @State private var router = AppRouter()
     private let featureGates = FeatureGates.shared
 
     // MARK: - Body
@@ -45,16 +43,21 @@ struct RootView: View {
 
             // Check for App Clip upgrade
             checkForAppClipUpgrade()
+
+            // Handle any pending routes from intents or widgets
+            handlePendingRoutes()
         }
-        .sheet(isPresented: $showingAppClipWelcome) {
-            AppClipUpgradeWelcome {
-                hasUpgradedFromAppClip = true
-                showingAppClipWelcome = false
+        .sheet(item: $router.presentedSheet) { destination in
+            switch destination {
+            case .appClipWelcome:
+                AppClipUpgradeWelcome {
+                    hasUpgradedFromAppClip = true
+                    router.presentedSheet = nil
+                }
+            case .history:
+                HistoryView()
+                    .environment(repository)
             }
-        }
-        .sheet(isPresented: $showingHistory) {
-            HistoryView()
-                .environment(repository)
         }
         .onContinueUserActivity(CSSearchableItemActionType) { activity in
             handleSpotlightActivity(activity)
@@ -79,12 +82,10 @@ struct RootView: View {
 
         switch action {
         case .openScenario(let scenarioId):
-            if let scenario = Scenario.scenario(for: scenarioId) {
-                spotlightScenario = scenario
-            }
+            router.enqueueScenario(id: scenarioId)
 
         case .reviewSession:
-            showingHistory = true
+            router.presentHistory()
         }
     }
 
@@ -102,14 +103,11 @@ struct RootView: View {
         switch result {
         case .scenario(let scenarioId):
             // Find and open the scenario
-            if let scenario = Scenario.scenario(for: scenarioId) {
-                spotlightScenario = scenario
-                // Note: The HomeView should observe spotlightScenario to navigate
-            }
+            router.enqueueScenario(id: scenarioId)
 
         case .session:
             // Open history to show the session
-            showingHistory = true
+            router.presentHistory()
 
         case .quickAction(let action):
             handleQuickAction(action)
@@ -123,11 +121,7 @@ struct RootView: View {
             break
 
         case "view-history":
-            showingHistory = true
-
-        case "view-streak":
-            // Could show streak detail, for now just go home
-            break
+            router.presentHistory()
 
         default:
             break
@@ -142,7 +136,7 @@ struct RootView: View {
         if let hasUsedClip = sharedDefaults?.bool(forKey: "hasUsedAppClip"), hasUsedClip {
             // User upgraded from App Clip - show welcome and skip onboarding
             if !hasUpgradedFromAppClip && !hasCompletedOnboarding {
-                showingAppClipWelcome = true
+                router.presentAppClipWelcome()
             }
         }
     }
@@ -155,15 +149,34 @@ struct RootView: View {
         MacHomeView()
             .environment(repository)
             .environment(featureGates)
+            .environment(router)
         #elseif os(visionOS)
         SpatialHomeView()
             .environment(repository)
             .environment(featureGates)
+            .environment(router)
         #else
         HomeView()
             .environment(repository)
             .environment(featureGates)
+            .environment(router)
         #endif
+    }
+}
+
+// MARK: - Pending Routes
+
+private extension RootView {
+    func handlePendingRoutes() {
+        router.refreshPendingRoutes()
+
+        if let scenarioId = WidgetDataManager.shared.consumePendingScenarioId() {
+            router.enqueueScenario(id: scenarioId)
+        } else if WidgetDataManager.shared.consumeLaunchToQuickPractice() {
+            if let scenario = Scenario.freeScenarios.first {
+                router.enqueueScenario(id: scenario.id)
+            }
+        }
     }
 }
 
@@ -205,9 +218,9 @@ struct AppClipUpgradeWelcome: View {
             // Features unlocked
             VStack(alignment: .leading, spacing: 16) {
                 UpgradeFeatureRow(icon: "waveform", text: "AI-powered delivery feedback")
-                UpgradeFeatureRow(icon: "chart.line.uptrend.xyaxis", text: "Track your progress over time")
+                UpgradeFeatureRow(icon: "clock", text: "Unlimited rehearsal history")
                 UpgradeFeatureRow(icon: "rectangle.stack", text: "All conversation scenarios")
-                UpgradeFeatureRow(icon: "flame", text: "Practice streaks & achievements")
+                UpgradeFeatureRow(icon: "wand.and.stars", text: "Coach tone controls")
             }
             .padding(.horizontal, 24)
 

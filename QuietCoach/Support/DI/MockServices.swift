@@ -124,7 +124,11 @@ actor MockSpeechAnalyzer: SpeechAnalyzerProtocol {
         isAuthorized
     }
 
-    func analyze(audioURL: URL, duration: TimeInterval) async throws -> SpeechAnalysisResult {
+    func analyze(
+        audioURL: URL,
+        duration: TimeInterval,
+        profile: ScoringProfile
+    ) async throws -> SpeechAnalysisResult {
         if shouldFail {
             throw SpeechAnalysisError.recognizerUnavailable
         }

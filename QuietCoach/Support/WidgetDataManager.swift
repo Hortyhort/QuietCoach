@@ -29,11 +29,6 @@ final class WidgetDataManager {
     // MARK: - Keys
 
     private enum Keys {
-        // Streak Widget
-        static let streakDays = "widget.streakDays"
-        static let totalSessions = "widget.totalSessions"
-        static let lastPracticeDate = "widget.lastPracticeDate"
-
         // Last Session Widget
         static let lastScenarioTitle = "widget.lastScenarioTitle"
         static let lastOverallScore = "widget.lastOverallScore"
@@ -52,33 +47,6 @@ final class WidgetDataManager {
     // MARK: - Initialization
 
     private init() {}
-
-    // MARK: - Streak Data
-
-    /// Update streak widget data
-    func updateStreakData(streakDays: Int, totalSessions: Int, lastPracticeDate: Date?) {
-        defaults.set(streakDays, forKey: Keys.streakDays)
-        defaults.set(totalSessions, forKey: Keys.totalSessions)
-
-        if let date = lastPracticeDate {
-            defaults.set(date.timeIntervalSince1970, forKey: Keys.lastPracticeDate)
-        } else {
-            defaults.removeObject(forKey: Keys.lastPracticeDate)
-        }
-
-        reloadWidgets(kind: "PracticeStreakWidget")
-        logger.info("Updated streak data: \(streakDays) days, \(totalSessions) sessions")
-    }
-
-    /// Get current streak days
-    var streakDays: Int {
-        defaults.integer(forKey: Keys.streakDays)
-    }
-
-    /// Get total sessions
-    var totalSessions: Int {
-        defaults.integer(forKey: Keys.totalSessions)
-    }
 
     // MARK: - Last Session Data
 
@@ -177,22 +145,13 @@ final class WidgetDataManager {
     func onSessionCompleted(
         scenarioTitle: String,
         overallScore: Int,
-        sessionDate: Date,
-        newStreakDays: Int,
-        newTotalSessions: Int
+        sessionDate: Date
     ) {
         // Update last session
         updateLastSessionData(
             scenarioTitle: scenarioTitle,
             overallScore: overallScore,
             sessionDate: sessionDate
-        )
-
-        // Update streak
-        updateStreakData(
-            streakDays: newStreakDays,
-            totalSessions: newTotalSessions,
-            lastPracticeDate: sessionDate
         )
 
         logger.info("Session completed, widgets updated")

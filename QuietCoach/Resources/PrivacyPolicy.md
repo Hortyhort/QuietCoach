@@ -19,7 +19,9 @@ Quiet Coach is designed with privacy as a core principle. We believe your practi
 ### Speech Recognition
 
 - **Technology:** Apple's on-device Speech framework
+- **Opt-in, default off:** You must enable transcription in Settings
 - **Processing:** All transcription happens locally on your device
+- **Fallback:** When transcription is off, coaching uses audio-only metrics and no transcript is stored
 - **Data sent to Apple:** None — we use on-device recognition only
 
 ### Analytics (Optional)
@@ -45,7 +47,7 @@ If you opt in to crash reporting:
 - Your name, email, or contact information (no account required)
 - Location data
 - Device identifiers for tracking
-- Content of your speech or transcriptions
+- Content of your speech or transcriptions off-device
 - Any data for advertising purposes
 
 ## Third-Party Services
@@ -71,7 +73,7 @@ You have complete control over your data:
 
 - **Access:** View all your sessions in the app
 - **Delete:** Delete individual sessions or all data in Settings
-- **Export:** Share session summaries (without audio) if you choose
+- **Export:** Download a ZIP with your sessions and audio from Settings
 - **Opt-out:** Disable all optional analytics and crash reporting
 
 ## Children's Privacy
@@ -96,7 +98,7 @@ For privacy questions or concerns:
 | Data Type | Collected | Stored | Shared |
 |-----------|-----------|--------|--------|
 | Audio recordings | Yes | Device only | Never |
-| Transcriptions | Temporary | Never saved | Never |
+| Transcriptions | Optional (on-device) | Device only | Never |
 | Usage analytics | Optional | Anonymous | Never sold |
 | Crash reports | Optional | Technical only | Never sold |
 | Personal info | Never | N/A | N/A |

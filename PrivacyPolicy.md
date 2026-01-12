@@ -40,6 +40,14 @@ When you record a rehearsal:
 
 We literally cannot hear your rehearsals because they never reach us.
 
+### Optional On-Device Transcription
+
+Quiet Coach offers an optional transcription feature:
+
+- **Opt-in, default off** — You must enable transcription in Settings
+- **On-device only** — Transcription runs locally using Apple's on-device speech recognition
+- **Audio-only fallback** — When transcription is off, feedback uses audio-only metrics and no transcript is stored
+
 ---
 
 ## Data Storage
@@ -50,6 +58,7 @@ We literally cannot hear your rehearsals because they never reach us.
 |------|----------|-------------|
 | Audio recordings | App sandbox | ✓ Delete anytime |
 | Session history | App sandbox | ✓ Delete anytime |
+| Transcriptions (optional) | App sandbox | ✓ Delete anytime |
 | Feedback scores | App sandbox | ✓ Delete anytime |
 | App preferences | Device settings | ✓ Change anytime |
 | Onboarding status | Device settings | ✓ Reset in Settings |
@@ -69,11 +78,11 @@ We literally cannot hear your rehearsals because they never reach us.
 
 ### Share cards
 
-When you use the share feature, Quiet Coach generates an image showing your scenario and scores. This image:
+When you use the share feature, Quiet Coach generates an image showing your scenario and a highlight. This image:
 
 - Does **not** contain your audio
 - Does **not** contain your identity
-- Contains only the scenario name, scores, and date
+- Contains only the scenario name, highlight, and date
 - Is shared using your device's standard share sheet
 
 You choose what to do with this image. We don't see it.
@@ -132,7 +141,7 @@ You have the right to:
 
 - **Access** — View all your data in the app
 - **Delete** — Remove individual sessions or all data via Settings
-- **Port** — Export is not applicable (data never leaves device)
+- **Export** — Download a ZIP of your sessions and audio from Settings
 - **Opt out** — Not applicable (nothing to opt out of)
 
 Since we don't collect your data, there's nothing to request from us.

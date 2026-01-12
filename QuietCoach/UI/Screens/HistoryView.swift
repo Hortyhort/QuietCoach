@@ -18,9 +18,6 @@ struct HistoryView: View {
     @State private var searchText = ""
     @State private var selectedFilter: FilterOption = .all
     @State private var sortOrder: SortOrder = .newest
-    @State private var isCompareMode = false
-    @State private var selectedForComparison: Set<UUID> = []
-    @State private var showingComparison = false
 
     // MARK: - Filter Options
 
@@ -45,8 +42,6 @@ struct HistoryView: View {
     enum SortOrder: String, CaseIterable {
         case newest = "Newest"
         case oldest = "Oldest"
-        case highestScore = "Highest Score"
-        case lowestScore = "Lowest Score"
     }
 
     // MARK: - Computed Properties
@@ -74,10 +69,6 @@ struct HistoryView: View {
             sessions.sort { $0.createdAt > $1.createdAt }
         case .oldest:
             sessions.sort { $0.createdAt < $1.createdAt }
-        case .highestScore:
-            sessions.sort { ($0.scores?.overall ?? 0) > ($1.scores?.overall ?? 0) }
-        case .lowestScore:
-            sessions.sort { ($0.scores?.overall ?? 0) < ($1.scores?.overall ?? 0) }
         }
 
         return sessions
@@ -126,44 +117,14 @@ struct HistoryView: View {
             .navigationTitle("History")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    if !repository.sessions.isEmpty {
-                        Button(isCompareMode ? "Cancel" : "Compare") {
-                            withAnimation {
-                                isCompareMode.toggle()
-                                if !isCompareMode {
-                                    selectedForComparison.removeAll()
-                                }
-                            }
-                        }
-                        .foregroundColor(isCompareMode ? .qcTextSecondary : .qcAccent)
-                    }
-                }
-
                 ToolbarItem(placement: .topBarTrailing) {
-                    if isCompareMode && canCompare {
-                        Button("Compare") {
-                            showingComparison = true
-                        }
-                        .foregroundColor(.qcAccent)
-                        .fontWeight(.semibold)
-                    } else {
-                        Button("Done") {
-                            dismiss()
-                        }
-                        .foregroundColor(.qcAccent)
+                    Button("Done") {
+                        dismiss()
                     }
+                    .foregroundColor(.qcAccent)
                 }
             }
             .searchable(text: $searchText, prompt: "Search scenarios")
-            .sheet(isPresented: $showingComparison) {
-                if sessionsForComparison.count == 2 {
-                    SessionComparisonView(
-                        sessionA: sessionsForComparison[0],
-                        sessionB: sessionsForComparison[1]
-                    )
-                }
-            }
         }
     }
 
@@ -203,53 +164,14 @@ struct HistoryView: View {
                 .tint(.qcAccent)
             }
 
-            // Stats summary
-            if !filteredSessions.isEmpty {
-                Section {
-                    statsRow
-                }
-            }
-
-            // Compare mode hint
-            if isCompareMode {
-                Section {
-                    HStack(spacing: 8) {
-                        Image(systemName: "info.circle")
-                            .foregroundColor(.qcAccent)
-                        Text("Select 2 sessions to compare")
-                            .font(.qcSubheadline)
-                            .foregroundColor(.qcTextSecondary)
-                        Spacer()
-                        Text("\(selectedForComparison.count)/2")
-                            .font(.qcCaption)
-                            .foregroundColor(.qcAccent)
-                    }
-                }
-            }
-
             // Grouped sessions
             ForEach(groupedSessions, id: \.0) { group, sessions in
                 Section(group) {
                     ForEach(sessions) { session in
-                        if isCompareMode {
-                            CompareSelectableRow(
-                                session: session,
-                                isSelected: selectedForComparison.contains(session.id),
-                                isDisabled: selectedForComparison.count >= 2 && !selectedForComparison.contains(session.id)
-                            ) {
-                                toggleSelection(session)
-                            }
-                            .listRowBackground(
-                                selectedForComparison.contains(session.id)
-                                    ? Color.qcAccent.opacity(0.15)
-                                    : Color.qcSurface
-                            )
-                        } else {
-                            NavigationLink(value: session) {
-                                HistorySessionRow(session: session)
-                            }
-                            .listRowBackground(Color.qcSurface)
+                        NavigationLink(value: session) {
+                            HistorySessionRow(session: session)
                         }
+                        .listRowBackground(Color.qcSurface)
                     }
                     .onDelete { indexSet in
                         deleteSessions(at: indexSet, from: sessions)
@@ -269,63 +191,6 @@ struct HistoryView: View {
         }
     }
 
-    // MARK: - Stats Row
-
-    private var statsRow: some View {
-        HStack(spacing: 24) {
-            statItem(
-                value: "\(filteredSessions.count)",
-                label: "Sessions"
-            )
-
-            if let avgScore = averageScore {
-                statItem(
-                    value: "\(avgScore)",
-                    label: "Avg Score"
-                )
-            }
-
-            if let bestScore = bestScore {
-                statItem(
-                    value: "\(bestScore)",
-                    label: "Best"
-                )
-            }
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 8)
-    }
-
-    private func statItem(value: String, label: String) -> some View {
-        VStack(spacing: 4) {
-            Text(value)
-                .font(.qcTitle2)
-                .foregroundColor(.qcAccent)
-
-            Text(label)
-                .font(.qcCaption)
-                .foregroundColor(.qcTextSecondary)
-        }
-    }
-
-    private var averageScore: Int? {
-        let scores = filteredSessions.compactMap { $0.scores?.overall }
-        guard !scores.isEmpty else { return nil }
-        return scores.reduce(0, +) / scores.count
-    }
-
-    private var bestScore: Int? {
-        filteredSessions.compactMap { $0.scores?.overall }.max()
-    }
-
-    private var sessionsForComparison: [RehearsalSession] {
-        filteredSessions.filter { selectedForComparison.contains($0.id) }
-    }
-
-    private var canCompare: Bool {
-        sessionsForComparison.count == 2
-    }
-
     // MARK: - Empty State
 
     private var emptyState: some View {
@@ -341,48 +206,6 @@ struct HistoryView: View {
         for index in indexSet {
             repository.deleteSession(sessions[index])
         }
-    }
-
-    private func toggleSelection(_ session: RehearsalSession) {
-        if selectedForComparison.contains(session.id) {
-            selectedForComparison.remove(session.id)
-        } else if selectedForComparison.count < 2 {
-            selectedForComparison.insert(session.id)
-        }
-    }
-}
-
-// MARK: - Compare Selectable Row
-
-struct CompareSelectableRow: View {
-    let session: RehearsalSession
-    let isSelected: Bool
-    let isDisabled: Bool
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            HStack(spacing: 12) {
-                // Selection indicator
-                ZStack {
-                    Circle()
-                        .strokeBorder(isSelected ? Color.qcAccent : Color.qcTextTertiary, lineWidth: 2)
-                        .frame(width: 24, height: 24)
-
-                    if isSelected {
-                        Circle()
-                            .fill(Color.qcAccent)
-                            .frame(width: 16, height: 16)
-                    }
-                }
-
-                // Session info
-                HistorySessionRow(session: session)
-            }
-        }
-        .buttonStyle(.plain)
-        .opacity(isDisabled ? 0.4 : 1.0)
-        .disabled(isDisabled)
     }
 }
 
@@ -414,43 +237,38 @@ struct HistorySessionRow: View {
                 }
                 .font(.qcCaption)
                 .foregroundColor(.qcTextTertiary)
+
+                if let highlight = sessionHighlight {
+                    Text(highlight)
+                        .font(.qcCaption)
+                        .foregroundColor(.qcTextSecondary)
+                        .lineLimit(1)
+                }
             }
 
             Spacer()
-
-            // Score badge
-            if let scores = session.scores {
-                ScoreBadge(score: scores.overall)
-            }
         }
         .padding(.vertical, 4)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(session.scenario?.title ?? "Session"). \(session.formattedDate). Score: \(session.scores?.overall ?? 0)")
+        .accessibilityLabel(accessibilitySummary)
     }
-}
 
-// MARK: - Score Badge
-
-struct ScoreBadge: View {
-    let score: Int
-
-    private var color: Color {
-        switch score {
-        case 85...100: return .qcMoodCelebration
-        case 70..<85: return .qcMoodSuccess
-        case 50..<70: return .qcMoodReady
-        default: return .qcMoodEngaged
+    private var sessionHighlight: String? {
+        if let focus = session.tryAgainFocus?.goal {
+            return "Next: \(focus)"
         }
+        if let winNote = session.coachNotes.first(where: { $0.title == "What worked" }) {
+            return winNote.body
+        }
+        return session.coachNotes.first?.body
     }
 
-    var body: some View {
-        Text("\(score)")
-            .font(.qcScoreSmall)
-            .foregroundColor(color)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 4)
-            .background(color.opacity(0.15))
-            .clipShape(Capsule())
+    private var accessibilitySummary: String {
+        var summary = "\(session.scenario?.title ?? "Session"). \(session.formattedDate). Duration \(session.formattedDuration)."
+        if let highlight = sessionHighlight {
+            summary += " \(highlight)"
+        }
+        return summary
     }
 }
 

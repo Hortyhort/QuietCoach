@@ -273,8 +273,8 @@ Xcode: 15.0+
 
 ### Future Features
 - [ ] StoreKit integration for Pro subscription
-- [ ] Progress tracking over time
-- [ ] Word-level transcription (optional)
+- [ ] Weekly recap (no dashboards)
+- [ ] On-device transcription (opt-in, default off; metrics-only fallback)
 - [ ] Additional scenarios
 - [ ] Localization
 

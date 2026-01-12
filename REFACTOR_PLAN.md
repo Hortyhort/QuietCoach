@@ -61,7 +61,7 @@ QuietCoach/
 
 ### 2. SpeechAnalysisEngine.swift (643 → 4 files, ~160 each)
 
-**Current:** Actor with transcription, 4 analysis methods, result structs, and pattern dictionaries.
+**Current:** Actor with optional on-device transcription (opt-in, default off), 4 analysis methods, result structs, and pattern dictionaries.
 
 **Split into:**
 ```
@@ -69,10 +69,10 @@ QuietCoach/
 ├── Audio/
 │   └── Analysis/
 │       ├── SpeechAnalysisEngine.swift  (~180 lines)
-│       │   └── Main actor, transcription, analyze() orchestration
+│       │   └── Main actor, optional transcription (opt-in, default off), analyze() orchestration
 │       │
 │       ├── AnalysisResults.swift       (~200 lines)
-│       │   └── SpeechAnalysisResult, TranscriptionResult,
+│       │   └── SpeechAnalysisResult, TranscriptionResult (optional),
 │       │       ClarityAnalysis, PacingAnalysis, 
 │       │       ConfidenceAnalysis, ToneAnalysis, PauseEvent
 │       │
@@ -211,9 +211,7 @@ QuietCoach/
 │   ├── Scenario.swift
 │   ├── AudioMetrics.swift
 │   ├── FeedbackScores.swift
-│   ├── CoachNote.swift
-│   ├── StreakTracker.swift
-│   └── AchievementManager.swift
+│   └── CoachNote.swift
 │
 ├── Data/
 │   ├── RehearsalSession.swift
@@ -343,4 +341,3 @@ After refactoring:
 
 Total new files: 22 (replacing 5 bloated files)
 Average file size: ~120 lines
-

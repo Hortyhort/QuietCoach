@@ -351,22 +351,39 @@ struct RehearseView: View {
     private func processRecordingAsync(metrics: AudioMetrics, fileName: String) async {
         let audioURL = FileStore.shared.audioFileURL(for: fileName)
 
+        let baseline = repository.baselineMetrics(for: scenario.id)
+        let coachTone = CoachToneSettings.current
+
         // Try async analysis with full NLP, fallback to sync if it fails
         let result: FeedbackResult
         do {
             result = try await FeedbackEngine.generateScores(
                 from: metrics,
                 audioURL: audioURL,
-                scenario: scenario
+                scenario: scenario,
+                baseline: baseline,
+                coachTone: coachTone
             )
         } catch {
             // Fallback to audio-only analysis
-            let scores = FeedbackEngine.generateScores(from: metrics, scenario: scenario)
+            let scores = FeedbackEngine.generateScores(
+                from: metrics,
+                scenario: scenario,
+                baseline: baseline,
+                coachTone: coachTone
+            )
+            let profile = ScoringProfile.forScenario(
+                scenario,
+                baseline: baseline,
+                coachTone: coachTone
+            )
             result = FeedbackResult(
                 scores: scores,
                 transcription: nil,
                 speechAnalysis: nil,
-                usedSpeechAnalysis: false
+                usedSpeechAnalysis: false,
+                profile: profile,
+                coachTone: coachTone
             )
         }
 
@@ -379,16 +396,33 @@ struct RehearseView: View {
                 metrics: metrics,
                 scores: result.scores,
                 scenario: scenario,
-                speechAnalysis: analysis
+                speechAnalysis: analysis,
+                profile: result.profile,
+                baseline: baseline,
+                coachTone: result.coachTone
             )
             focus = CoachNotesEngine.generateTryAgainFocus(
                 scores: result.scores,
                 scenario: scenario,
-                insights: result.insights
+                insights: result.insights,
+                profile: result.profile,
+                coachTone: result.coachTone
             )
         } else {
-            notes = CoachNotesEngine.generateNotes(metrics: metrics, scores: result.scores, scenario: scenario)
-            focus = CoachNotesEngine.generateTryAgainFocus(scores: result.scores, scenario: scenario)
+            notes = CoachNotesEngine.generateNotes(
+                metrics: metrics,
+                scores: result.scores,
+                scenario: scenario,
+                profile: result.profile,
+                baseline: baseline,
+                coachTone: result.coachTone
+            )
+            focus = CoachNotesEngine.generateTryAgainFocus(
+                scores: result.scores,
+                scenario: scenario,
+                profile: result.profile,
+                coachTone: result.coachTone
+            )
         }
 
         // Save session with transcription if available

@@ -1,8 +1,8 @@
 // QuietCoachWidgets.swift
 // QuietCoachWidgets
 //
-// Widget bundle for Quiet Coach. Includes streak tracking,
-// last session summary, and quick practice launch.
+// Widget bundle for Quiet Coach. Includes last session
+// summary, quick practice, and recording controls.
 
 import WidgetKit
 import SwiftUI
@@ -10,7 +10,6 @@ import SwiftUI
 @main
 struct QuietCoachWidgets: WidgetBundle {
     var body: some Widget {
-        PracticeStreakWidget()
         LastSessionWidget()
         QuickPracticeWidget()
         #if os(iOS)
