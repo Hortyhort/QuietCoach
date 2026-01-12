@@ -114,20 +114,20 @@ struct HistoryView: View {
                 }
             }
             .background(Color.qcBackground)
-            .navigationTitle("History")
+            .navigationTitle(L10n.History.title)
             .navigationBarTitleDisplayMode(.large)
             .onAppear {
                 repository.fetchAllSessions()
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") {
+                    Button(L10n.Common.done) {
                         dismiss()
                     }
                     .foregroundColor(.qcAccent)
                 }
             }
-            .searchable(text: $searchText, prompt: "Search scenarios")
+            .searchable(text: $searchText, prompt: L10n.History.searchPrompt)
         }
     }
 
@@ -158,7 +158,7 @@ struct HistoryView: View {
 
             // Sort picker
             Section {
-                Picker("Sort by", selection: $sortOrder) {
+                Picker(L10n.History.sortBy, selection: $sortOrder) {
                     ForEach(SortOrder.allCases, id: \.self) { order in
                         Text(order.rawValue).tag(order)
                     }

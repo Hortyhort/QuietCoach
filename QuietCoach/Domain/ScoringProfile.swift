@@ -12,6 +12,7 @@ struct ScoringProfile: Sendable, Equatable {
         var noiseFloor: Float
         var pauseMinConsecutiveWindows: Int
         var spikeStdDevMultiplier: Float
+        var minimumDurationMinutes: Float
         var pacingTooSlowSegmentsPerMinute: Float
         var pacingTooFastSegmentsPerMinute: Float
         var pacingOptimalRange: ClosedRange<Float>
@@ -82,6 +83,7 @@ struct ScoringProfile: Sendable, Equatable {
 
     struct ScoreTuning: Sendable, Equatable {
         var baseScore: Int
+        var audioBlendBonus: Int
 
         var clarityPausePenalty: Int
         var claritySilenceRatioThreshold: Float
@@ -131,6 +133,7 @@ struct ScoringProfile: Sendable, Equatable {
             noiseFloor: 0.01,
             pauseMinConsecutiveWindows: 3,
             spikeStdDevMultiplier: 2.0,
+            minimumDurationMinutes: 0.1,
             pacingTooSlowSegmentsPerMinute: 10,
             pacingTooFastSegmentsPerMinute: 40,
             pacingOptimalRange: 15...30,
@@ -195,6 +198,7 @@ struct ScoringProfile: Sendable, Equatable {
         ),
         tuning: ScoreTuning(
             baseScore: 75,
+            audioBlendBonus: 5,
             clarityPausePenalty: 5,
             claritySilenceRatioThreshold: 0.4,
             claritySilencePenaltyMultiplier: 50,

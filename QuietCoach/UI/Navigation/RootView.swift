@@ -8,12 +8,18 @@ import SwiftUI
 import SwiftData
 import StoreKit
 import CoreSpotlight
+#if os(iOS)
+import UIKit
+#elseif os(macOS)
+import AppKit
+#endif
 
 struct RootView: View {
 
     // MARK: - Environment
 
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.scenePhase) private var scenePhase
 
     // MARK: - State
 
@@ -47,6 +53,19 @@ struct RootView: View {
             // Handle any pending routes from intents or widgets
             handlePendingRoutes()
         }
+        .onChange(of: scenePhase) { _, newPhase in
+            guard newPhase == .active else { return }
+            handlePendingRoutes()
+        }
+#if os(iOS)
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+            handlePendingRoutes()
+        }
+#elseif os(macOS)
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            handlePendingRoutes()
+        }
+#endif
         .sheet(item: $router.presentedSheet) { destination in
             switch destination {
             case .appClipWelcome:
@@ -84,8 +103,8 @@ struct RootView: View {
         case .openScenario(let scenarioId):
             router.enqueueScenario(id: scenarioId)
 
-        case .reviewSession:
-            router.presentHistory()
+        case .reviewSession(let sessionId):
+            router.enqueueSession(id: sessionId)
         }
     }
 
@@ -105,9 +124,8 @@ struct RootView: View {
             // Find and open the scenario
             router.enqueueScenario(id: scenarioId)
 
-        case .session:
-            // Open history to show the session
-            router.presentHistory()
+        case .session(let sessionId):
+            router.enqueueSession(id: sessionId)
 
         case .quickAction(let action):
             handleQuickAction(action)
@@ -117,8 +135,9 @@ struct RootView: View {
     private func handleQuickAction(_ action: String) {
         switch action {
         case "start-practice":
-            // The HomeView is already the practice start point
-            break
+            if let scenario = Scenario.freeScenarios.first {
+                router.enqueueScenario(id: scenario.id)
+            }
 
         case "view-history":
             router.presentHistory()

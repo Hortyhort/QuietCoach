@@ -133,23 +133,23 @@ struct FeedbackEngine {
         // Adjust based on audio metrics
         // If audio shows good pause patterns, boost clarity
         if audioMetrics.hasGoodPausePattern {
-            clarityScore += 5
+            clarityScore += profile.tuning.audioBlendBonus
         }
 
         // If audio shows high volume stability, boost tone
         if audioMetrics.volumeStability > profile.tuning.toneStabilityBonusThreshold {
-            toneScore += 5
+            toneScore += profile.tuning.audioBlendBonus
         }
 
         // If audio shows good projection, boost confidence
         if audioMetrics.averageLevel > profile.audio.averageLevelStrong {
-            confidenceScore += 5
+            confidenceScore += profile.tuning.audioBlendBonus
         }
 
         // If audio pacing matches NLP pacing assessment, boost pacing score
         let audioOptimalPacing = profile.audio.pacingOptimalRange.contains(audioMetrics.segmentsPerMinute)
         if audioOptimalPacing && speechAnalysis.pacing.isOptimalPace(using: profile) {
-            pacingScore += 5
+            pacingScore += profile.tuning.audioBlendBonus
         }
 
         return FeedbackScores(
@@ -272,7 +272,8 @@ struct FeedbackEngine {
         score += Int(metrics.volumeStability * profile.tuning.toneStabilityMultiplier)
 
         // Penalize intensity spikes
-        let spikesPerMinute = Float(metrics.spikeCount) / max(0.1, Float(metrics.duration / 60))
+        let minutes = max(Double(profile.audio.minimumDurationMinutes), metrics.duration / 60)
+        let spikesPerMinute = Float(metrics.spikeCount) / Float(minutes)
         if spikesPerMinute > profile.audio.spikesPerMinuteMax {
             score -= Int((spikesPerMinute - profile.audio.spikesPerMinuteMax) * profile.tuning.toneSpikePenaltyMultiplier)
         }
@@ -392,7 +393,7 @@ struct FeedbackResult: Sendable {
     var insights: [String] {
         let profile = profile
         guard let analysis = speechAnalysis else {
-            return ["Audio analysis only - enable on-device transcription for richer feedback"]
+            return [L10n.Feedback.audioOnlyInsight]
         }
 
         var insights: [String] = []

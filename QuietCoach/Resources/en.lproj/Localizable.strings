@@ -6,7 +6,7 @@
 */
 
 // MARK: - Common
-"common.app_name" = "QuietCoach";
+"common.app_name" = "Quiet Coach";
 "common.ok" = "OK";
 "common.cancel" = "Cancel";
 "common.done" = "Done";
@@ -62,6 +62,11 @@
 "home.choose_scenario" = "Choose a scenario";
 "home.recent" = "Recent";
 "home.see_all" = "See All";
+"home.ready_to_practice" = "Ready to practice?";
+"home.first_time_description" = "Choose a scenario above and rehearse what you want to say. We'll give you instant feedback on your delivery.";
+"home.tip_speak_naturally" = "Speak naturally, like you're in the real conversation";
+"home.tip_sweet_spot" = "30-60 seconds is the sweet spot";
+"home.tip_try_again" = "Try again to refine one line";
 
 // Mac/Spatial
 "home.welcome" = "Welcome to Quiet Coach";
@@ -92,6 +97,11 @@
 "recording.paused" = "Paused";
 "recording.finished" = "Finished";
 
+// MARK: - History
+"history.title" = "History";
+"history.search_prompt" = "Search scenarios";
+"history.sort_by" = "Sort by";
+
 // MARK: - Feedback
 "feedback.title" = "Your Feedback";
 "feedback.overall_score" = "Overall Score";
@@ -118,6 +128,11 @@
 "feedback.try_again_focus" = "Try Again Focus";
 "feedback.structure_guide" = "Structure Guide";
 "feedback.practiced" = "Practiced";
+"feedback.audio_only_note" = "Audio-only feedback. Turn on on-device transcription (opt-in) for richer coaching.";
+"feedback.audio_only_insight" = "Audio-only analysis. On-device transcription is opt-in for richer feedback.";
+"feedback.anchor_phrase_title" = "Anchor Phrase";
+"feedback.anchor_phrase_subtitle" = "One phrase you'll say next time";
+"feedback.anchor_phrase_placeholder" = "e.g., \"I need to share something important...\"";
 
 // MARK: - Score Explanations
 "score.clarity.description" = "Based on pause patterns and silence. Clear speakers pause intentionally.";
@@ -150,6 +165,8 @@
 "settings.delete_confirmation" = "This will delete all your rehearsal sessions and audio files. This cannot be undone.";
 "settings.support" = "Support";
 "settings.privacy_footer" = "All audio is processed on your device. Nothing is uploaded. Your rehearsals are private.";
+"settings.transcription_opt_in_description" = "On-device, opt-in (off by default) for richer coaching";
+"settings.transcription_off_footer" = "When transcription is off, coaching uses audio-only metrics and no transcript is saved.";
 
 // Pro
 "settings.quiet_coach_pro" = "Quiet Coach Pro";
@@ -169,6 +186,14 @@
 "subscription.unable_to_load" = "Unable to load subscription options";
 "subscription.loading" = "Loading...";
 "subscription.save_percent" = "Save 58%";
+
+// MARK: - Routing
+"routing.rehearsal_unavailable_title" = "Rehearsal Unavailable";
+"routing.rehearsal_unavailable_message" = "This rehearsal is no longer available on this device.";
+
+// MARK: - Playback
+"playback.unavailable_title" = "Playback unavailable";
+"playback.try_reloading" = "Try Reloading";
 
 // MARK: - Errors
 "error.microphone_denied" = "Microphone access is required to record your practice sessions.";

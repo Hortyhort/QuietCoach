@@ -210,6 +210,21 @@ final class SessionRepository {
         sessions.filter { $0.scenarioId == scenarioId }
     }
 
+    /// Fetch a specific session by ID
+    func session(with id: UUID) -> RehearsalSession? {
+        if let modelContext {
+            let descriptor = FetchDescriptor<RehearsalSession>(
+                predicate: #Predicate { $0.id == id }
+            )
+            do {
+                return try modelContext.fetch(descriptor).first
+            } catch {
+                logger.error("Failed to fetch session \(id): \(error.localizedDescription)")
+            }
+        }
+        return sessions.first { $0.id == id }
+    }
+
     /// Get the previous session for comparison
     func previousSession(
         for scenarioId: String,

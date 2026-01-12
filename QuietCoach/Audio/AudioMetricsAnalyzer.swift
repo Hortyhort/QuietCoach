@@ -51,7 +51,8 @@ struct AudioMetricsAnalyzer {
         let segmentsPerMin = calculateSegmentsPerMinute(
             windows: metrics.rmsWindows,
             threshold: noiseFloor,
-            duration: metrics.duration
+            duration: metrics.duration,
+            minimumDurationMinutes: profile.audio.minimumDurationMinutes
         )
 
         let stability = calculateVolumeStability(windows: effectiveWindows)
@@ -166,7 +167,8 @@ struct AudioMetricsAnalyzer {
     private static func calculateSegmentsPerMinute(
         windows: [Float],
         threshold: Float,
-        duration: TimeInterval
+        duration: TimeInterval,
+        minimumDurationMinutes: Float
     ) -> Float {
         guard duration > 0 else { return 0 }
 
@@ -185,7 +187,7 @@ struct AudioMetricsAnalyzer {
         }
 
         // Convert to per-minute rate
-        let minutes = max(0.1, duration / 60.0)
+        let minutes = max(Double(minimumDurationMinutes), duration / 60.0)
         return Float(segmentCount) / Float(minutes)
     }
 

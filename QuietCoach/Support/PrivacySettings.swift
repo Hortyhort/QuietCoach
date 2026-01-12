@@ -163,7 +163,7 @@ struct PrivacySettingsView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("On-Device Transcription")
                             .font(.body)
-                        Text("Optional speech-to-text for richer coaching. Stays on this device.")
+                        Text(L10n.Settings.transcriptionOptInDescription)
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
@@ -171,7 +171,7 @@ struct PrivacySettingsView: View {
             } header: {
                 Text("Speech Analysis")
             } footer: {
-                Text("When off, coaching uses audio-only metrics and no transcript is stored.")
+                Text(L10n.Settings.transcriptionOffFooter)
             }
 
             Section {

@@ -13,6 +13,7 @@ struct MacHomeView: View {
 
     @Environment(SessionRepository.self) private var repository
     @Environment(FeatureGates.self) private var featureGates
+    @Environment(AppRouter.self) private var router
 
     // MARK: - State
 
@@ -20,6 +21,8 @@ struct MacHomeView: View {
     @State private var selectedSession: RehearsalSession?
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
     @State private var showingSettings = false
+    @State private var showingMissingSessionAlert = false
+    @State private var missingSessionMessage = ""
 
     // MARK: - Body
 
@@ -45,6 +48,20 @@ struct MacHomeView: View {
                 .environment(repository)
                 .environment(featureGates)
                 .frame(minWidth: 400, minHeight: 500)
+        }
+        .onAppear {
+            handlePendingRoutes()
+        }
+        .onChange(of: router.pendingScenarioId) { _, _ in
+            handlePendingRoutes()
+        }
+        .onChange(of: router.pendingSessionId) { _, _ in
+            handlePendingRoutes()
+        }
+        .alert(L10n.Routing.rehearsalUnavailableTitle, isPresented: $showingMissingSessionAlert) {
+            Button(L10n.Common.ok, role: .cancel) {}
+        } message: {
+            Text(missingSessionMessage)
         }
     }
 
@@ -97,7 +114,7 @@ struct MacHomeView: View {
             }
         }
         .listStyle(.sidebar)
-        .navigationTitle("Quiet Coach")
+        .navigationTitle(L10n.Common.appName)
     }
 
     // MARK: - Content View
@@ -110,9 +127,9 @@ struct MacHomeView: View {
             sessionDetailView(session)
         } else {
             ContentUnavailableView(
-                "Select a Scenario",
+                L10n.Home.chooseScenarioFromSidebar,
                 systemImage: "waveform",
-                description: Text("Choose a scenario from the sidebar to start practicing")
+                description: Text(L10n.Home.selectScenarioFromSidebar)
             )
         }
     }
@@ -176,14 +193,14 @@ struct MacHomeView: View {
             Divider()
 
             // Description
-            Text("Practice expressing yourself in this scenario. Record your voice and get feedback on clarity, pacing, and confidence.")
+            Text(L10n.Home.practiceDescription)
                 .font(.body)
                 .foregroundColor(.secondary)
                 .padding(.horizontal)
 
             // Tips
             VStack(alignment: .leading, spacing: 12) {
-                Text("Tips for this scenario:")
+                Text(L10n.Home.tipsForScenario)
                     .font(.headline)
 
                 ForEach(scenario.tips, id: \.self) { tip in
@@ -205,8 +222,10 @@ struct MacHomeView: View {
             // Start button
             HStack {
                 Spacer()
-                Button(action: {}) {
-                    Label("Start Recording", systemImage: "mic.fill")
+                Button(action: {
+                    columnVisibility = .detailOnly
+                }) {
+                    Label(L10n.Home.startRecording, systemImage: "mic.fill")
                         .font(.headline)
                         .padding(.horizontal, 24)
                         .padding(.vertical, 12)
@@ -294,6 +313,45 @@ struct MacHomeView: View {
             return Scenario.freeScenarios
         }
     }
+
+    // MARK: - Pending Routes
+
+    private func handlePendingRoutes() {
+        if handlePendingSession() {
+            return
+        }
+        handlePendingScenario()
+    }
+
+    private func handlePendingScenario() {
+        guard let scenarioId = router.consumePendingScenarioId(),
+              let scenario = Scenario.scenario(for: scenarioId) else {
+            return
+        }
+
+        if featureGates.canAccessScenario(scenario) {
+            selectedSession = nil
+            selectedScenario = scenario
+        } else {
+            showingSettings = true
+        }
+    }
+
+    private func handlePendingSession() -> Bool {
+        guard let sessionId = router.consumePendingSessionId() else {
+            return false
+        }
+
+        guard let session = repository.session(with: sessionId) else {
+            missingSessionMessage = L10n.Routing.rehearsalUnavailableMessage
+            showingMissingSessionAlert = true
+            return true
+        }
+
+        selectedScenario = nil
+        selectedSession = session
+        return true
+    }
 }
 
 // MARK: - Welcome View
@@ -305,11 +363,11 @@ private struct WelcomeView: View {
                 .font(.system(size: 64))
                 .foregroundColor(.qcAccent)
 
-            Text("Welcome to Quiet Coach")
+            Text(L10n.Home.welcomeToQuietCoach)
                 .font(.largeTitle)
                 .fontWeight(.bold)
 
-            Text("Select a scenario from the sidebar to begin practicing difficult conversations.")
+            Text(L10n.Home.selectScenarioFromSidebar)
                 .font(.title3)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)

@@ -16,12 +16,16 @@ struct SpatialHomeView: View {
     @Environment(FeatureGates.self) private var featureGates
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
+    @Environment(AppRouter.self) private var router
 
     // MARK: - State
 
     @State private var selectedScenario: Scenario?
+    @State private var selectedSession: RehearsalSession?
     @State private var isImmersed = false
     @State private var showingSettings = false
+    @State private var showingMissingSessionAlert = false
+    @State private var missingSessionMessage = ""
 
     // MARK: - Body
 
@@ -40,7 +44,7 @@ struct SpatialHomeView: View {
                 }
             }
             .padding(40)
-            .navigationTitle("Quiet Coach")
+            .navigationTitle(L10n.Common.appName)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -59,11 +63,42 @@ struct SpatialHomeView: View {
                 SpatialRehearseView(scenario: scenario)
                     .environment(repository)
             }
+            .sheet(item: $selectedSession) { session in
+                NavigationStack {
+                    ReviewView(
+                        session: session,
+                        onTryAgain: {
+                            if let scenario = session.scenario {
+                                selectedSession = nil
+                                selectedScenario = scenario
+                            }
+                        },
+                        onDone: {
+                            selectedSession = nil
+                        }
+                    )
+                    .environment(repository)
+                }
+            }
         }
         .ornament(attachmentAnchor: .scene(.bottom)) {
             if isImmersed {
                 immersiveControls
             }
+        }
+        .onAppear {
+            handlePendingRoutes()
+        }
+        .onChange(of: router.pendingScenarioId) { _, _ in
+            handlePendingRoutes()
+        }
+        .onChange(of: router.pendingSessionId) { _, _ in
+            handlePendingRoutes()
+        }
+        .alert(L10n.Routing.rehearsalUnavailableTitle, isPresented: $showingMissingSessionAlert) {
+            Button(L10n.Common.ok, role: .cancel) {}
+        } message: {
+            Text(missingSessionMessage)
         }
     }
 
@@ -76,7 +111,7 @@ struct SpatialHomeView: View {
                 .foregroundStyle(.orange)
                 .symbolEffect(.variableColor.iterative, options: .repeating)
 
-            Text("Practice difficult conversations in your own private space")
+            Text(L10n.Home.practiceInPrivateSpace)
                 .font(.title2)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -87,7 +122,7 @@ struct SpatialHomeView: View {
 
     private var scenarioGrid: some View {
         VStack(alignment: .leading, spacing: 20) {
-            Text("Choose a scenario")
+            Text(L10n.Home.chooseScenario)
                 .font(.title)
 
             LazyVGrid(
@@ -109,13 +144,16 @@ struct SpatialHomeView: View {
 
     private var recentSessionsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Recent Sessions")
+            Text(L10n.Home.recentSessions)
                 .font(.title2)
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 16) {
                     ForEach(repository.recentSessions.prefix(5)) { session in
-                        SpatialSessionCard(session: session)
+                        SpatialSessionCard(session: session) {
+                            selectedScenario = nil
+                            selectedSession = session
+                        }
                     }
                 }
             }
@@ -126,7 +164,7 @@ struct SpatialHomeView: View {
 
     private var immersiveControls: some View {
         HStack(spacing: 20) {
-            Button("Exit Space") {
+            Button(L10n.Home.exitSpace) {
                 Task {
                     await dismissImmersiveSpace()
                     isImmersed = false
@@ -134,7 +172,7 @@ struct SpatialHomeView: View {
             }
             .buttonStyle(.bordered)
 
-            Button("Start Recording") {
+            Button(L10n.Home.startRecording) {
                 // Recording logic
             }
             .buttonStyle(.borderedProminent)
@@ -152,6 +190,45 @@ struct SpatialHomeView: View {
         } else {
             return Scenario.freeScenarios
         }
+    }
+
+    // MARK: - Pending Routes
+
+    private func handlePendingRoutes() {
+        if handlePendingSession() {
+            return
+        }
+        handlePendingScenario()
+    }
+
+    private func handlePendingScenario() {
+        guard let scenarioId = router.consumePendingScenarioId(),
+              let scenario = Scenario.scenario(for: scenarioId) else {
+            return
+        }
+
+        if featureGates.canAccessScenario(scenario) {
+            selectedSession = nil
+            selectedScenario = scenario
+        } else {
+            showingSettings = true
+        }
+    }
+
+    private func handlePendingSession() -> Bool {
+        guard let sessionId = router.consumePendingSessionId() else {
+            return false
+        }
+
+        guard let session = repository.session(with: sessionId) else {
+            missingSessionMessage = L10n.Routing.rehearsalUnavailableMessage
+            showingMissingSessionAlert = true
+            return true
+        }
+
+        selectedScenario = nil
+        selectedSession = session
+        return true
     }
 }
 
@@ -191,33 +268,37 @@ struct SpatialScenarioCard: View {
 
 struct SpatialSessionCard: View {
     let session: RehearsalSession
+    let action: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            if let scenario = session.scenario {
-                HStack {
-                    Image(systemName: scenario.icon)
-                        .foregroundStyle(.orange)
-                    Text(scenario.title)
-                        .font(.subheadline)
+        Button(action: action) {
+            VStack(alignment: .leading, spacing: 8) {
+                if let scenario = session.scenario {
+                    HStack {
+                        Image(systemName: scenario.icon)
+                            .foregroundStyle(.orange)
+                        Text(scenario.title)
+                            .font(.subheadline)
+                    }
                 }
-            }
 
-            if let scores = session.scores {
-                Text("\(scores.overall)")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundStyle(scoreColor(scores.overall))
-            }
+                if let scores = session.scores {
+                    Text("\(scores.overall)")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundStyle(scoreColor(scores.overall))
+                }
 
-            Text(session.formattedDate)
-                .font(.caption)
-                .foregroundColor(.secondary)
+                Text(session.formattedDate)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            .frame(width: 160)
+            .padding()
+            .background(.regularMaterial)
+            .cornerRadius(16)
         }
-        .frame(width: 160)
-        .padding()
-        .background(.regularMaterial)
-        .cornerRadius(16)
+        .buttonStyle(.plain)
     }
 
     private func scoreColor(_ score: Int) -> Color {
@@ -260,10 +341,10 @@ struct SpatialRehearseView: View {
                 tipsSection
             }
             .padding(40)
-            .navigationTitle("Rehearse")
+            .navigationTitle(L10n.Recording.rehearse)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
+                    Button(L10n.Common.cancel) {
                         dismiss()
                     }
                 }
@@ -303,7 +384,7 @@ struct SpatialRehearseView: View {
 
     private var tipsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Tips")
+            Text(L10n.Home.tips)
                 .font(.headline)
 
             ForEach(scenario.tips.prefix(3), id: \.self) { tip in

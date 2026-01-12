@@ -400,7 +400,7 @@ private extension SettingsView {
                             .font(.qcBody)
                             .foregroundColor(.qcTextPrimary)
 
-                        Text("Optional speech-to-text for richer coaching")
+                        Text(L10n.Settings.transcriptionOptInDescription)
                             .font(.qcCaption)
                             .foregroundColor(.qcTextTertiary)
                     }
@@ -411,9 +411,9 @@ private extension SettingsView {
             Text("Recording")
         } footer: {
             if Constants.VoiceIsolation.isAvailable {
-                Text("Calm Start helps you center before rehearsing. Voice Isolation works best with AirPods. Transcription is optional and stays on this device.")
+                Text("Calm Start helps you center before rehearsing. Voice Isolation works best with AirPods. \(L10n.Settings.transcriptionOffFooter)")
             } else {
-                Text("Calm Start helps you center before rehearsing. Transcription is optional and stays on this device.")
+                Text("Calm Start helps you center before rehearsing. \(L10n.Settings.transcriptionOffFooter)")
             }
         }
     }

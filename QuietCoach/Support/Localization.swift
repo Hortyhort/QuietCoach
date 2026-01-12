@@ -79,6 +79,11 @@ enum L10n {
         static let chooseScenario = NSLocalizedString("home.choose_scenario", value: "Choose a scenario", comment: "Choose scenario prompt")
         static let recent = NSLocalizedString("home.recent", value: "Recent", comment: "Recent section header")
         static let seeAll = NSLocalizedString("home.see_all", value: "See All", comment: "See all button")
+        static let readyToPractice = NSLocalizedString("home.ready_to_practice", value: "Ready to practice?", comment: "First-time guidance title")
+        static let firstTimeDescription = NSLocalizedString("home.first_time_description", value: "Choose a scenario above and rehearse what you want to say. We'll give you instant feedback on your delivery.", comment: "First-time guidance description")
+        static let tipSpeakNaturally = NSLocalizedString("home.tip_speak_naturally", value: "Speak naturally, like you're in the real conversation", comment: "First-time guidance tip")
+        static let tipSweetSpot = NSLocalizedString("home.tip_sweet_spot", value: "30-60 seconds is the sweet spot", comment: "First-time guidance tip")
+        static let tipTryAgain = NSLocalizedString("home.tip_try_again", value: "Try again to refine one line", comment: "First-time guidance tip")
 
         // Mac/Spatial
         static let welcomeToQuietCoach = NSLocalizedString("home.welcome", value: "Welcome to Quiet Coach", comment: "Welcome message")
@@ -117,6 +122,14 @@ enum L10n {
         static let finished = NSLocalizedString("recording.finished", value: "Finished", comment: "Finished state")
     }
 
+    // MARK: - History
+
+    enum History {
+        static let title = NSLocalizedString("history.title", value: "History", comment: "History screen title")
+        static let searchPrompt = NSLocalizedString("history.search_prompt", value: "Search scenarios", comment: "History search prompt")
+        static let sortBy = NSLocalizedString("history.sort_by", value: "Sort by", comment: "History sort label")
+    }
+
     // MARK: - Feedback
 
     enum Feedback {
@@ -149,6 +162,11 @@ enum L10n {
         static let tryAgainFocus = NSLocalizedString("feedback.try_again_focus", value: "Try Again Focus", comment: "Try again focus card header")
         static let structureGuide = NSLocalizedString("feedback.structure_guide", value: "Structure Guide", comment: "Structure guide section header")
         static let practiced = NSLocalizedString("feedback.practiced", value: "Practiced", comment: "Practiced label on share card")
+        static let audioOnlyNote = NSLocalizedString("feedback.audio_only_note", value: "Audio-only feedback. Turn on on-device transcription (opt-in) for richer coaching.", comment: "Audio-only feedback note in review")
+        static let audioOnlyInsight = NSLocalizedString("feedback.audio_only_insight", value: "Audio-only analysis. On-device transcription is opt-in for richer feedback.", comment: "Insight shown when transcription is unavailable")
+        static let anchorPhraseTitle = NSLocalizedString("feedback.anchor_phrase_title", value: "Anchor Phrase", comment: "Anchor phrase section title")
+        static let anchorPhraseSubtitle = NSLocalizedString("feedback.anchor_phrase_subtitle", value: "One phrase you'll say next time", comment: "Anchor phrase section subtitle")
+        static let anchorPhrasePlaceholder = NSLocalizedString("feedback.anchor_phrase_placeholder", value: "e.g., \"I need to share something important...\"", comment: "Anchor phrase placeholder")
     }
 
     // MARK: - Scores Explanation
@@ -189,6 +207,8 @@ enum L10n {
         static let deleteConfirmation = NSLocalizedString("settings.delete_confirmation", value: "This will delete all your rehearsal sessions and audio files. This cannot be undone.", comment: "Delete confirmation message")
         static let support = NSLocalizedString("settings.support", value: "Support", comment: "Support section")
         static let privacyFooter = NSLocalizedString("settings.privacy_footer", value: "All audio is processed on your device. Nothing is uploaded. Your rehearsals are private.", comment: "Privacy footer message")
+        static let transcriptionOptInDescription = NSLocalizedString("settings.transcription_opt_in_description", value: "On-device, opt-in (off by default) for richer coaching", comment: "Transcription description")
+        static let transcriptionOffFooter = NSLocalizedString("settings.transcription_off_footer", value: "When transcription is off, coaching uses audio-only metrics and no transcript is saved.", comment: "Transcription off footer")
 
         // Pro
         static let quietCoachPro = NSLocalizedString("settings.quiet_coach_pro", value: "Quiet Coach Pro", comment: "Quiet Coach Pro label")
@@ -215,6 +235,20 @@ enum L10n {
         static let unableToLoad = NSLocalizedString("subscription.unable_to_load", value: "Unable to load subscription options", comment: "Unable to load error")
         static let loading = NSLocalizedString("subscription.loading", value: "Loading...", comment: "Loading status")
         static let savePercent = NSLocalizedString("subscription.save_percent", value: "Save 58%", comment: "Save percentage badge")
+    }
+
+    // MARK: - Routing
+
+    enum Routing {
+        static let rehearsalUnavailableTitle = NSLocalizedString("routing.rehearsal_unavailable_title", value: "Rehearsal Unavailable", comment: "Alert title when session is missing")
+        static let rehearsalUnavailableMessage = NSLocalizedString("routing.rehearsal_unavailable_message", value: "This rehearsal is no longer available on this device.", comment: "Alert message when session is missing")
+    }
+
+    // MARK: - Playback
+
+    enum Playback {
+        static let unavailableTitle = NSLocalizedString("playback.unavailable_title", value: "Playback unavailable", comment: "Playback error title")
+        static let tryReloading = NSLocalizedString("playback.try_reloading", value: "Try Reloading", comment: "Try reloading button")
     }
 
     // MARK: - Errors

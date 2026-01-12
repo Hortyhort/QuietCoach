@@ -93,7 +93,7 @@ struct ReviewView: View {
                 .animation(.easeInOut(duration: 1.0), value: showScoreAnimation)
         }
         .qcScoreRevealFeedback(trigger: showScoreAnimation)
-        .navigationTitle("Review")
+        .navigationTitle(L10n.Feedback.review)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -143,7 +143,7 @@ struct ReviewView: View {
                 .font(.system(size: 12, weight: .semibold))
                 .foregroundColor(.qcAccent)
 
-            Text("Audio-only feedback. Enable on-device transcription for richer coaching.")
+            Text(L10n.Feedback.audioOnlyNote)
                 .font(.qcCaption)
                 .foregroundColor(.qcTextTertiary)
         }
@@ -183,6 +183,21 @@ struct ReviewView: View {
     // MARK: - Playback Section
 
     private var playbackSection: some View {
+        VStack(spacing: 16) {
+            if case .error(let message) = player.state {
+                playbackErrorCard(message: message)
+            } else {
+                playbackControls
+            }
+        }
+        .padding(16)
+        .background(Color.qcSurface)
+        .qcCardRadius()
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Audio playback controls")
+    }
+
+    private var playbackControls: some View {
         VStack(spacing: 16) {
             // Waveform scrubber with real audio data
             GeometryReader { geometry in
@@ -258,11 +273,27 @@ struct ReviewView: View {
                     .accessibilityLabel("Total duration: \(player.formattedDuration)")
             }
         }
-        .padding(16)
-        .background(Color.qcSurface)
-        .qcCardRadius()
-        .accessibilityElement(children: .contain)
-        .accessibilityLabel("Audio playback controls")
+    }
+
+    private func playbackErrorCard(message: String) -> some View {
+        VStack(spacing: 12) {
+            Label(L10n.Playback.unavailableTitle, systemImage: "exclamationmark.triangle")
+                .font(.qcBodyMedium)
+                .foregroundColor(.qcTextPrimary)
+
+            Text(message)
+                .font(.qcCaption)
+                .foregroundColor(.qcTextSecondary)
+                .multilineTextAlignment(.center)
+
+            Button(L10n.Playback.tryReloading) {
+                player.load(session: session)
+            }
+            .font(.qcButtonSmall)
+            .foregroundColor(.qcAccent)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 8)
     }
 
     // MARK: - Scores Section
@@ -271,7 +302,7 @@ struct ReviewView: View {
 
     private var coachNotesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Feedback")
+            Text(L10n.Feedback.coachingNotes)
                 .font(.qcTitle3)
                 .foregroundColor(.qcTextPrimary)
 
@@ -288,16 +319,16 @@ struct ReviewView: View {
                     .font(.system(size: 14))
                     .foregroundColor(.qcAccent)
 
-                Text("Anchor Phrase")
+                Text(L10n.Feedback.anchorPhraseTitle)
                     .font(.qcTitle3)
                     .foregroundColor(.qcTextPrimary)
             }
 
-            Text("One phrase you'll say next time")
+            Text(L10n.Feedback.anchorPhraseSubtitle)
                 .font(.qcCaption)
                 .foregroundColor(.qcTextTertiary)
 
-            TextField("e.g., \"I need to share something important...\"", text: $anchorPhrase, axis: .vertical)
+            TextField(L10n.Feedback.anchorPhrasePlaceholder, text: $anchorPhrase, axis: .vertical)
                 .font(.qcBody)
                 .foregroundColor(.qcTextPrimary)
                 .padding(12)

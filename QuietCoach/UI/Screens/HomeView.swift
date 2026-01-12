@@ -18,6 +18,8 @@ struct HomeView: View {
 
     @State private var navigationPath = NavigationPath()
     @State private var showingSettings = false
+    @State private var showingMissingSessionAlert = false
+    @State private var missingSessionMessage = ""
 
     // MARK: - Body
 
@@ -56,7 +58,7 @@ struct HomeView: View {
                         Image(systemName: "gearshape")
                             .foregroundColor(.qcTextSecondary)
                     }
-                    .accessibilityLabel("Settings")
+                    .accessibilityLabel(L10n.Common.settings)
                     .accessibilityHint("Double tap to open settings")
                 }
             }
@@ -101,10 +103,18 @@ struct HomeView: View {
         }
         .preferredColorScheme(.dark)
         .onAppear {
-            handlePendingScenario()
+            handlePendingRoutes()
         }
         .onChange(of: router.pendingScenarioId) { _, _ in
-            handlePendingScenario()
+            handlePendingRoutes()
+        }
+        .onChange(of: router.pendingSessionId) { _, _ in
+            handlePendingRoutes()
+        }
+        .alert(L10n.Routing.rehearsalUnavailableTitle, isPresented: $showingMissingSessionAlert) {
+            Button(L10n.Common.ok, role: .cancel) {}
+        } message: {
+            Text(missingSessionMessage)
         }
         // MARK: - Keyboard Shortcuts (iPad/Mac)
         .background {
@@ -162,6 +172,13 @@ struct HomeView: View {
         }
     }
 
+    private func handlePendingRoutes() {
+        if handlePendingSession() {
+            return
+        }
+        handlePendingScenario()
+    }
+
     private func handlePendingScenario() {
         guard let scenarioId = router.consumePendingScenarioId(),
               let scenario = Scenario.scenario(for: scenarioId) else {
@@ -169,9 +186,40 @@ struct HomeView: View {
         }
 
         if featureGates.canAccessScenario(scenario) {
-            navigationPath.append(scenario)
+            routeToScenario(scenario)
         } else {
             showingSettings = true
+        }
+    }
+
+    private func handlePendingSession() -> Bool {
+        guard let sessionId = router.consumePendingSessionId() else {
+            return false
+        }
+
+        guard let session = repository.session(with: sessionId) else {
+            missingSessionMessage = L10n.Routing.rehearsalUnavailableMessage
+            showingMissingSessionAlert = true
+            return true
+        }
+
+        routeToSession(session)
+        return true
+    }
+
+    private func routeToScenario(_ scenario: Scenario) {
+        router.presentedSheet = nil
+        navigationPath = NavigationPath()
+        DispatchQueue.main.async {
+            navigationPath.append(scenario)
+        }
+    }
+
+    private func routeToSession(_ session: RehearsalSession) {
+        router.presentedSheet = nil
+        navigationPath = NavigationPath()
+        DispatchQueue.main.async {
+            navigationPath.append(session)
         }
     }
 
@@ -190,7 +238,7 @@ struct HomeView: View {
 
     private var scenariosSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Choose a scenario")
+            Text(L10n.Home.chooseScenario)
                 .font(.qcTitle3)
                 .foregroundColor(.qcTextPrimary)
 
@@ -247,11 +295,11 @@ struct HomeView: View {
                 .qcBreatheEffect(isActive: true)
 
             VStack(spacing: 8) {
-                Text("Ready to practice?")
+                Text(L10n.Home.readyToPractice)
                     .font(.qcTitle3)
                     .foregroundColor(.qcTextPrimary)
 
-                Text("Choose a scenario above and rehearse what you want to say. We'll give you instant feedback on your delivery.")
+                Text(L10n.Home.firstTimeDescription)
                     .font(.qcSubheadline)
                     .foregroundColor(.qcTextSecondary)
                     .multilineTextAlignment(.center)
@@ -259,9 +307,9 @@ struct HomeView: View {
 
             // Tips
             VStack(alignment: .leading, spacing: 12) {
-                tipRow(icon: "mic.fill", text: "Speak naturally, like you're in the real conversation")
-                tipRow(icon: "clock.fill", text: "30-60 seconds is the sweet spot")
-                tipRow(icon: "arrow.clockwise", text: "Try again to refine one line")
+                tipRow(icon: "mic.fill", text: L10n.Home.tipSpeakNaturally)
+                tipRow(icon: "clock.fill", text: L10n.Home.tipSweetSpot)
+                tipRow(icon: "arrow.clockwise", text: L10n.Home.tipTryAgain)
             }
             .padding(16)
             .background(Color.qcSurface)
@@ -291,14 +339,14 @@ struct HomeView: View {
     private var recentSessionsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Text("Recent")
+                Text(L10n.Home.recent)
                     .font(.qcTitle3)
                     .foregroundColor(.qcTextPrimary)
 
                 Spacer()
 
                 if repository.sessionCount > 3 {
-                    Button("See All") {
+                    Button(L10n.Home.seeAll) {
                         router.presentHistory()
                     }
                     .font(.qcButtonSmall)
