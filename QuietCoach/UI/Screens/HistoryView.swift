@@ -116,6 +116,9 @@ struct HistoryView: View {
             .background(Color.qcBackground)
             .navigationTitle("History")
             .navigationBarTitleDisplayMode(.large)
+            .onAppear {
+                repository.fetchAllSessions()
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Done") {

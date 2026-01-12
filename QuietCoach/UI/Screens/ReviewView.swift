@@ -45,7 +45,7 @@ struct ReviewView: View {
             return normalized
         }
         // Fallback for legacy sessions without metrics
-        return (0..<60).map { _ in Float.random(in: 0.2...0.8) }
+        return Self.placeholderWaveform(for: session.id)
     }
 
     private var showsAudioOnlyNote: Bool {
@@ -185,15 +185,23 @@ struct ReviewView: View {
     private var playbackSection: some View {
         VStack(spacing: 16) {
             // Waveform scrubber with real audio data
-            CompactWaveformView(
-                samples: waveformSamples,
-                progress: player.progress
-            )
-            .onTapGesture { location in
-                // Seek on tap
-                let progress = location.x / UIScreen.main.bounds.width
-                player.seekToProgress(progress)
+            GeometryReader { geometry in
+                CompactWaveformView(
+                    samples: waveformSamples,
+                    progress: player.progress
+                )
+                .contentShape(Rectangle())
+                .gesture(
+                    DragGesture(minimumDistance: 0)
+                        .onEnded { value in
+                            let width = max(1, geometry.size.width)
+                            let rawProgress = value.location.x / width
+                            let clamped = min(max(0, rawProgress), 1)
+                            player.seekToProgress(clamped)
+                        }
+                )
             }
+            .frame(height: 32)
 
             // Playback controls
             HStack(spacing: 24) {
@@ -314,6 +322,7 @@ struct ReviewView: View {
 struct ShareCardSheet: View {
     let session: RehearsalSession
     @Environment(\.dismiss) private var dismiss
+    @AppStorage("shareCard.showWatermark") private var showWatermark = true
 
     var body: some View {
         NavigationStack {
@@ -323,7 +332,7 @@ struct ShareCardSheet: View {
                     .foregroundColor(.qcTextPrimary)
 
                 // Preview card
-                ShareCardView(session: session)
+                ShareCardView(session: session, showWatermark: showWatermark)
                     .frame(maxWidth: 300)
                     .qcCardShadow()
 
@@ -368,9 +377,36 @@ struct ShareCardSheet: View {
 
     @MainActor
     private func generateShareImage() -> Image {
-        let uiImage = ShareCardView(session: session)
+        let uiImage = ShareCardView(session: session, showWatermark: showWatermark)
             .renderToImage()
         return Image(uiImage: uiImage)
+    }
+}
+
+// MARK: - Placeholder Waveform
+
+private extension ReviewView {
+    static func placeholderWaveform(for id: UUID) -> [Float] {
+        var generator = SeededGenerator(seed: id.uuidString)
+        return (0..<60).map { _ in Float.random(in: 0.2...0.8, using: &generator) }
+    }
+
+    struct SeededGenerator: RandomNumberGenerator {
+        private var state: UInt64
+
+        init(seed: String) {
+            var hash: UInt64 = 1469598103934665603
+            for byte in seed.utf8 {
+                hash ^= UInt64(byte)
+                hash &*= 1099511628211
+            }
+            state = hash == 0 ? 1 : hash
+        }
+
+        mutating func next() -> UInt64 {
+            state = state &* 6364136223846793005 &+ 1
+            return state
+        }
     }
 }
 

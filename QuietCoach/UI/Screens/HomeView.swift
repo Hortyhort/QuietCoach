@@ -84,9 +84,9 @@ struct HomeView: View {
                     onTryAgain: {
                         // Pop back and push rehearse again with same scenario
                         if let scenario = session.scenario {
-                            navigationPath.removeLast()
+                            navigationPath = NavigationPath()
                             // Small delay to allow navigation to settle
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                                 navigationPath.append(scenario)
                             }
                         }

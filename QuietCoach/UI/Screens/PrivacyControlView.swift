@@ -63,6 +63,7 @@ struct PrivacyControlView: View {
                 }
             }
             .onAppear {
+                repository.fetchAllSessions()
                 refreshStorageMetrics()
             }
             .sheet(isPresented: $showingExportSheet) {
@@ -84,7 +85,7 @@ struct PrivacyControlView: View {
                     deleteAllData()
                 }
             } message: {
-                Text("Type 'DELETE' to confirm you want to erase all data permanently.")
+                Text("This action cannot be undone.")
             }
         }
     }
@@ -337,24 +338,21 @@ struct PrivacyControlView: View {
         isExporting = true
         exportError = nil
 
-        Task {
+        Task { @MainActor in
             do {
+                repository.fetchAllSessions()
                 let url = try await DataExporter.exportAllData(
                     sessions: repository.sessions,
                     fileStore: FileStore.shared
                 )
-                await MainActor.run {
-                    exportURL = url
-                    showingExportSheet = true
-                    isExporting = false
-                    Haptics.share()
-                }
+                exportURL = url
+                showingExportSheet = true
+                isExporting = false
+                Haptics.share()
             } catch {
-                await MainActor.run {
-                    exportError = "Export failed: \(error.localizedDescription)"
-                    isExporting = false
-                    Haptics.error()
-                }
+                exportError = "Export failed: \(error.localizedDescription)"
+                isExporting = false
+                Haptics.error()
                 logger.error("Export failed: \(error.localizedDescription)")
             }
         }
