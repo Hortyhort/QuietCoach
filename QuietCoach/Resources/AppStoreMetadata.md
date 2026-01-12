@@ -34,7 +34,7 @@ Everyone has conversations they dread—asking for a raise, setting a boundary, 
 - **Confidence** — Does your delivery project assurance?
 
 **Privacy First:**
-All audio processing happens on your device. Nothing is uploaded. Nothing is stored unless you choose. Your rehearsals are completely private.
+All audio processing happens on your device. Optional iCloud sync and anonymous analytics are off by default. Your recordings stay private on this device.
 
 **6 Free Scenarios:**
 - Setting a boundary
@@ -90,6 +90,8 @@ None
 
 ### Data Not Linked to You
 - **Audio Data** — Used only for app functionality (speech analysis). Processed on-device. Never uploaded.
+- **Usage Data (Optional)** — Anonymous usage analytics, only if you opt in.
+- **Diagnostics (Optional)** — Crash and performance data, only if you opt in.
 
 ### Data Used to Track You
 None

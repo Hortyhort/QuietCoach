@@ -233,20 +233,18 @@ final class Analytics {
 
     private var providers: [any AnalyticsProvider] = []
     private let logger = Logger(subsystem: "com.quietcoach", category: "Analytics")
-    private var isEnabled = true
+    private var isEnabled: Bool
 
     private init() {
+        let storedPreference = UserDefaults.standard.object(forKey: Constants.SettingsKeys.analyticsEnabled) as? Bool
+        isEnabled = storedPreference ?? false
+
         // Add default local provider for debugging
         #if DEBUG
         providers.append(LocalAnalyticsProvider())
         #else
-        // Production: Add TelemetryDeck provider
-        // Replace with your actual TelemetryDeck App ID
-        if let appId = Bundle.main.infoDictionary?["TELEMETRYDECK_APP_ID"] as? String {
-            providers.append(TelemetryDeckProvider(appID: appId))
-        } else {
-            // Fallback to placeholder - will log but not send
-            providers.append(TelemetryDeckProvider())
+        if isEnabled {
+            addTelemetryDeckProviderIfNeeded()
         }
         #endif
     }
@@ -261,7 +259,27 @@ final class Analytics {
     /// Enable or disable analytics
     func setEnabled(_ enabled: Bool) {
         isEnabled = enabled
+        if enabled {
+            addTelemetryDeckProviderIfNeeded()
+        }
         logger.info("Analytics \(enabled ? "enabled" : "disabled")")
+    }
+
+    private func addTelemetryDeckProviderIfNeeded() {
+        #if DEBUG
+        return
+        #else
+        guard providers.contains(where: { $0 is TelemetryDeckProvider }) == false else { return }
+
+        // Production: Add TelemetryDeck provider
+        // Replace with your actual TelemetryDeck App ID
+        if let appId = Bundle.main.infoDictionary?["TELEMETRYDECK_APP_ID"] as? String {
+            providers.append(TelemetryDeckProvider(appID: appId))
+        } else {
+            // Fallback to placeholder - will log but not send
+            providers.append(TelemetryDeckProvider())
+        }
+        #endif
     }
 
     // MARK: - Tracking

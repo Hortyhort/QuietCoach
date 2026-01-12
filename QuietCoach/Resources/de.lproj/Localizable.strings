@@ -48,7 +48,7 @@
 "onboarding.practice_words_title" = "Ueben Sie die Worte,\nbevor es zaehlt.";
 "onboarding.practice_words_subtitle" = "Quiet Coach hilft Ihnen, schwierige Gespraeche zu proben - privat und mit sofortigem Feedback.";
 "onboarding.voice_stays_yours" = "Ihre Stimme bleibt Ihre.";
-"onboarding.voice_stays_yours_description" = "Alle Audiodaten werden auf Ihrem Geraet verarbeitet. Nichts wird hochgeladen. Nichts wird gespeichert, es sei denn, Sie entscheiden sich dafuer.";
+"onboarding.voice_stays_yours_description" = "Audio wird auf Ihrem Geraet verarbeitet. iCloud-Synchronisierung und anonyme Analysen sind standardmaessig deaktiviert.";
 "onboarding.one_permission" = "Eine Berechtigung.\nDas ist alles.";
 "onboarding.one_permission_description" = "Quiet Coach benoetigt Mikrofonzugriff, um Ihre Probe zu hoeren. Sie haben immer die Kontrolle.";
 
@@ -149,7 +149,7 @@
 "settings.delete_all" = "Alles loeschen";
 "settings.delete_confirmation" = "Dies loescht alle Ihre Uebungssitzungen und Audiodateien. Dies kann nicht rueckgaengig gemacht werden.";
 "settings.support" = "Support";
-"settings.privacy_footer" = "Alle Audiodaten werden auf Ihrem Geraet verarbeitet. Nichts wird hochgeladen. Ihre Proben sind privat.";
+"settings.privacy_footer" = "Audio wird auf Ihrem Geraet verarbeitet. iCloud-Synchronisierung und anonyme Analysen sind standardmaessig deaktiviert.";
 
 // Pro
 "settings.quiet_coach_pro" = "Quiet Coach Pro";

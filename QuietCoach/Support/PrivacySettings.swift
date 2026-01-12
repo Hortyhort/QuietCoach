@@ -22,7 +22,7 @@ final class PrivacySettings {
     /// Whether analytics collection is enabled
     var analyticsEnabled: Bool {
         didSet {
-            UserDefaults.standard.set(analyticsEnabled, forKey: Keys.analyticsEnabled)
+            UserDefaults.standard.set(analyticsEnabled, forKey: Constants.SettingsKeys.analyticsEnabled)
             updateAnalyticsState()
             logger.info("Analytics \(self.analyticsEnabled ? "enabled" : "disabled")")
         }
@@ -31,7 +31,7 @@ final class PrivacySettings {
     /// Whether crash reporting is enabled
     var crashReportingEnabled: Bool {
         didSet {
-            UserDefaults.standard.set(crashReportingEnabled, forKey: Keys.crashReportingEnabled)
+            UserDefaults.standard.set(crashReportingEnabled, forKey: Constants.SettingsKeys.crashReportingEnabled)
             updateCrashReportingState()
             logger.info("Crash reporting \(self.crashReportingEnabled ? "enabled" : "disabled")")
         }
@@ -40,7 +40,8 @@ final class PrivacySettings {
     /// Whether performance monitoring is enabled
     var performanceMonitoringEnabled: Bool {
         didSet {
-            UserDefaults.standard.set(performanceMonitoringEnabled, forKey: Keys.performanceEnabled)
+            UserDefaults.standard.set(performanceMonitoringEnabled, forKey: Constants.SettingsKeys.performanceEnabled)
+            updatePerformanceMonitoringState()
             logger.info("Performance monitoring \(self.performanceMonitoringEnabled ? "enabled" : "disabled")")
         }
     }
@@ -48,32 +49,33 @@ final class PrivacySettings {
     /// Whether on-device transcription is enabled (opt-in)
     var transcriptionEnabled: Bool {
         didSet {
-            UserDefaults.standard.set(transcriptionEnabled, forKey: Keys.transcriptionEnabled)
+            UserDefaults.standard.set(transcriptionEnabled, forKey: Constants.SettingsKeys.transcriptionEnabled)
             logger.info("Transcription \(self.transcriptionEnabled ? "enabled" : "disabled")")
         }
     }
 
     /// Whether the user has made an explicit choice about privacy
     var hasUserConsent: Bool {
-        UserDefaults.standard.bool(forKey: Keys.hasUserConsent)
+        UserDefaults.standard.bool(forKey: Constants.SettingsKeys.hasUserConsent)
     }
 
     // MARK: - Initialization
 
     private init() {
         // Load saved preferences or use defaults
-        self.analyticsEnabled = UserDefaults.standard.object(forKey: Keys.analyticsEnabled) as? Bool ?? true
-        self.crashReportingEnabled = UserDefaults.standard.object(forKey: Keys.crashReportingEnabled) as? Bool ?? true
-        self.performanceMonitoringEnabled = UserDefaults.standard.object(forKey: Keys.performanceEnabled) as? Bool ?? true
-        self.transcriptionEnabled = UserDefaults.standard.object(forKey: Keys.transcriptionEnabled) as? Bool ?? false
+        self.analyticsEnabled = UserDefaults.standard.object(forKey: Constants.SettingsKeys.analyticsEnabled) as? Bool ?? false
+        self.crashReportingEnabled = UserDefaults.standard.object(forKey: Constants.SettingsKeys.crashReportingEnabled) as? Bool ?? false
+        self.performanceMonitoringEnabled = UserDefaults.standard.object(forKey: Constants.SettingsKeys.performanceEnabled) as? Bool ?? false
+        self.transcriptionEnabled = UserDefaults.standard.object(forKey: Constants.SettingsKeys.transcriptionEnabled) as? Bool ?? false
+        applyCurrentSettings()
     }
 
     // MARK: - Consent Management
 
     /// Record that user has explicitly consented to current settings
     func recordConsent() {
-        UserDefaults.standard.set(true, forKey: Keys.hasUserConsent)
-        UserDefaults.standard.set(Date(), forKey: Keys.consentDate)
+        UserDefaults.standard.set(true, forKey: Constants.SettingsKeys.hasUserConsent)
+        UserDefaults.standard.set(Date(), forKey: Constants.SettingsKeys.consentDate)
         logger.info("User consent recorded")
     }
 
@@ -103,15 +105,14 @@ final class PrivacySettings {
         CrashReporting.shared.setEnabled(crashReportingEnabled)
     }
 
-    // MARK: - Keys
+    private func updatePerformanceMonitoringState() {
+        PerformanceMonitor.shared.setEnabled(performanceMonitoringEnabled)
+    }
 
-    private enum Keys {
-        static let analyticsEnabled = "privacy.analytics.enabled"
-        static let crashReportingEnabled = "privacy.crashReporting.enabled"
-        static let performanceEnabled = "privacy.performance.enabled"
-        static let transcriptionEnabled = "privacy.transcription.enabled"
-        static let hasUserConsent = "privacy.hasUserConsent"
-        static let consentDate = "privacy.consentDate"
+    private func applyCurrentSettings() {
+        updateAnalyticsState()
+        updateCrashReportingState()
+        updatePerformanceMonitoringState()
     }
 }
 

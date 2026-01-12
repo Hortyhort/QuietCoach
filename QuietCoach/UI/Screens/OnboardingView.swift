@@ -96,7 +96,7 @@ struct OnboardingView: View {
                     .foregroundColor(.qcTextPrimary)
                     .multilineTextAlignment(.center)
 
-                Text("All audio is processed on your device. Nothing is uploaded. Nothing is stored unless you choose.")
+                Text("Audio is processed on your device. iCloud sync and anonymous analytics are optional and off by default.")
                     .font(.qcBody)
                     .foregroundColor(.qcTextSecondary)
                     .multilineTextAlignment(.center)

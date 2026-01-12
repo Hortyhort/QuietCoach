@@ -22,6 +22,7 @@ struct SettingsView: View {
     @AppStorage(Constants.SettingsKeys.voiceIsolationEnabled) private var voiceIsolationEnabled = false
     @AppStorage(Constants.SettingsKeys.breathingRitualEnabled) private var breathingRitualEnabled = true
     @AppStorage(Constants.SettingsKeys.coachTone) private var coachToneRaw = CoachTone.default.rawValue
+    @AppStorage(Constants.SettingsKeys.iCloudSyncEnabled) private var iCloudSyncEnabled = false
     @State private var showingDeleteAllConfirm = false
     @State private var showingProUpgrade = false
     @State private var showingExportSheet = false
@@ -522,7 +523,35 @@ private extension SettingsView {
 
     private var syncSection: some View {
         Section("Sync") {
-            SyncSettingsRow()
+            Toggle(isOn: $iCloudSyncEnabled) {
+                HStack {
+                    Image(systemName: "icloud")
+                        .foregroundColor(.qcAccent)
+                        .accessibilityHidden(true)
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("iCloud Sync")
+                            .font(.qcBody)
+                            .foregroundColor(.qcTextPrimary)
+
+                        Text("Sync session data across your devices")
+                            .font(.qcCaption)
+                            .foregroundColor(.qcTextTertiary)
+                    }
+                }
+            }
+            .tint(.qcAccent)
+            .onChange(of: iCloudSyncEnabled) { _, _ in
+                CloudSyncManager.shared.checkiCloudStatus()
+            }
+
+            if iCloudSyncEnabled {
+                SyncSettingsRow()
+            }
+        } footer: {
+            Text("iCloud sync is optional and off by default. Changes take effect after restarting Quiet Coach.")
+                .font(.qcCaption)
+                .foregroundColor(.qcTextTertiary)
         }
     }
 
@@ -600,7 +629,7 @@ private extension SettingsView {
 
     private var privacySection: some View {
         Section {
-            Text("All audio is processed on your device. Nothing is uploaded. Your rehearsals are private.")
+            Text("Audio is processed on your device. iCloud sync and anonymous analytics are optional and off by default.")
                 .font(.qcFootnote)
                 .foregroundColor(.qcTextTertiary)
         }

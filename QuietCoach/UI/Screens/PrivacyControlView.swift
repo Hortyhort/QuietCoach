@@ -23,10 +23,12 @@ struct PrivacyControlView: View {
     @State private var exportURL: URL?
     @State private var isExporting = false
     @State private var exportError: String?
+    @Bindable private var privacySettings = PrivacySettings.shared
 
     // Settings toggles
     @AppStorage("privacy.spotlightIndexing") private var spotlightIndexingEnabled = true
     @AppStorage("privacy.healthKitLogging") private var healthKitLoggingEnabled = false
+    @AppStorage(Constants.SettingsKeys.iCloudSyncEnabled) private var iCloudSyncEnabled = false
 
     private let logger = Logger(subsystem: "com.quietcoach", category: "PrivacyControl")
 
@@ -40,6 +42,9 @@ struct PrivacyControlView: View {
 
                 // Export section
                 exportSection
+
+                // Data sharing section
+                dataSharingSection
 
                 // Privacy controls section
                 privacyControlsSection
@@ -142,7 +147,11 @@ struct PrivacyControlView: View {
         } header: {
             Text("Your Data")
         } footer: {
-            Text("All data is stored locally on your device. Nothing is uploaded to any server.")
+            if iCloudSyncEnabled {
+                Text("Sessions can sync via iCloud when enabled. Audio recordings stay on this device.")
+            } else {
+                Text("Sessions and recordings are stored on this device. iCloud sync is optional and off by default.")
+            }
         }
         .listRowBackground(Color.qcSurface)
     }
@@ -191,6 +200,60 @@ struct PrivacyControlView: View {
 
     // MARK: - Privacy Controls Section
 
+    private var dataSharingSection: some View {
+        Section {
+            Toggle(isOn: $privacySettings.analyticsEnabled) {
+                Label {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(L10n.Privacy.analytics)
+                        Text(L10n.Privacy.analyticsDescription)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                } icon: {
+                    Image(systemName: "chart.bar")
+                        .foregroundStyle(Color.qcAccent)
+                }
+            }
+            .tint(.qcAccent)
+
+            Toggle(isOn: $privacySettings.crashReportingEnabled) {
+                Label {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(L10n.Privacy.crashReporting)
+                        Text(L10n.Privacy.crashReportingDescription)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                } icon: {
+                    Image(systemName: "exclamationmark.triangle")
+                        .foregroundStyle(Color.qcAccent)
+                }
+            }
+            .tint(.qcAccent)
+
+            Toggle(isOn: $privacySettings.performanceMonitoringEnabled) {
+                Label {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(L10n.Privacy.performance)
+                        Text(L10n.Privacy.performanceDescription)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                } icon: {
+                    Image(systemName: "speedometer")
+                        .foregroundStyle(Color.qcAccent)
+                }
+            }
+            .tint(.qcAccent)
+        } header: {
+            Text("Diagnostics (Optional)")
+        } footer: {
+            Text("Off by default. Diagnostics are anonymous and never include your audio or transcripts.")
+        }
+        .listRowBackground(Color.qcSurface)
+    }
+
     private var privacyControlsSection: some View {
         Section {
             // Spotlight indexing toggle
@@ -233,7 +296,7 @@ struct PrivacyControlView: View {
         } header: {
             Text("System Integration")
         } footer: {
-            Text("These features are optional. Disable them to keep Quiet Coach completely isolated.")
+            Text("These features are optional. Disable them to keep Quiet Coach isolated from system services.")
         }
         .listRowBackground(Color.qcSurface)
     }

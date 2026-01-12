@@ -175,8 +175,9 @@ struct QuietCoachApp: App {
 
     /// Attempts to create a persistent ModelContainer, returns nil on failure
     private static func createPersistentContainer(schema: Schema) -> ModelContainer? {
-        // Try CloudKit-enabled configuration first
-        if let cloudContainer = createCloudKitContainer(schema: schema) {
+        // Use CloudKit only when the user explicitly opts in
+        if UserDefaults.standard.bool(forKey: Constants.SettingsKeys.iCloudSyncEnabled),
+           let cloudContainer = createCloudKitContainer(schema: schema) {
             Logger(subsystem: "com.quietcoach", category: "App")
                 .info("Using CloudKit-enabled container")
             return cloudContainer

@@ -48,7 +48,7 @@
 "onboarding.practice_words_title" = "Practice the words\nbefore they count.";
 "onboarding.practice_words_subtitle" = "Quiet Coach helps you rehearse hard conversations—privately, with instant feedback.";
 "onboarding.voice_stays_yours" = "Your voice stays yours.";
-"onboarding.voice_stays_yours_description" = "All audio is processed on your device. Nothing is uploaded. Nothing is stored unless you choose.";
+"onboarding.voice_stays_yours_description" = "Audio is processed on your device. Optional iCloud sync and analytics are off by default.";
 "onboarding.one_permission" = "One permission.\nThat's it.";
 "onboarding.one_permission_description" = "Quiet Coach needs microphone access to hear your rehearsal. You're always in control.";
 
@@ -164,7 +164,7 @@
 "settings.delete_all" = "Delete All";
 "settings.delete_confirmation" = "This will delete all your rehearsal sessions and audio files. This cannot be undone.";
 "settings.support" = "Support";
-"settings.privacy_footer" = "All audio is processed on your device. Nothing is uploaded. Your rehearsals are private.";
+"settings.privacy_footer" = "Audio is processed on your device. Optional iCloud sync and analytics are off by default.";
 "settings.transcription_opt_in_description" = "On-device, opt-in (off by default) for richer coaching";
 "settings.transcription_off_footer" = "When transcription is off, coaching uses audio-only metrics and no transcript is saved.";
 

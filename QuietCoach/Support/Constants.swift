@@ -95,6 +95,13 @@ enum Constants {
         static let voiceIsolationEnabled = "settings.voiceIsolationEnabled"
         static let breathingRitualEnabled = "settings.breathingRitualEnabled"
         static let coachTone = "settings.coachTone"
+        static let iCloudSyncEnabled = "privacy.icloudSync.enabled"
+        static let analyticsEnabled = "privacy.analytics.enabled"
+        static let crashReportingEnabled = "privacy.crashReporting.enabled"
+        static let performanceEnabled = "privacy.performance.enabled"
+        static let transcriptionEnabled = "privacy.transcription.enabled"
+        static let hasUserConsent = "privacy.hasUserConsent"
+        static let consentDate = "privacy.consentDate"
     }
 
     // MARK: - Voice Isolation

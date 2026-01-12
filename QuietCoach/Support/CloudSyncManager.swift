@@ -73,8 +73,11 @@ final class CloudSyncManager {
     private(set) var iCloudAvailable: Bool = false
     private(set) var lastSyncDate: Date?
 
-    private let container = CKContainer(identifier: "iCloud.com.quietcoach")
+    private let container = CKContainer(identifier: Constants.App.cloudKitContainerID)
     private let logger = Logger(subsystem: "com.quietcoach", category: "CloudSync")
+    private var isSyncEnabled: Bool {
+        UserDefaults.standard.bool(forKey: Constants.SettingsKeys.iCloudSyncEnabled)
+    }
 
     // MARK: - Initialization
 
@@ -86,6 +89,12 @@ final class CloudSyncManager {
     // MARK: - iCloud Status
 
     func checkiCloudStatus() {
+        guard isSyncEnabled else {
+            syncStatus = .disabled
+            iCloudAvailable = false
+            return
+        }
+
         container.accountStatus { [weak self] status, error in
             Task { @MainActor in
                 guard let self = self else { return }
@@ -129,6 +138,11 @@ final class CloudSyncManager {
     // MARK: - Sync Operations
 
     func triggerSync() {
+        guard isSyncEnabled else {
+            syncStatus = .disabled
+            return
+        }
+
         guard iCloudAvailable else {
             syncStatus = .disabled
             return
@@ -158,7 +172,13 @@ final class CloudSyncManager {
             object: nil,
             queue: .main
         ) { [weak self] _ in
-            self?.checkiCloudStatus()
+            guard let self else { return }
+            guard self.isSyncEnabled else {
+                self.syncStatus = .disabled
+                self.iCloudAvailable = false
+                return
+            }
+            self.checkiCloudStatus()
         }
     }
 
@@ -190,7 +210,7 @@ extension ModelConfiguration {
         ModelConfiguration(
             schema: schema,
             isStoredInMemoryOnly: false,
-            cloudKitDatabase: .private("iCloud.com.quietcoach")
+            cloudKitDatabase: .private(Constants.App.cloudKitContainerID)
         )
     }
 }

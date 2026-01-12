@@ -486,10 +486,10 @@ struct QuickRecordControl: ControlWidget {
 
 #### 10.2 Privacy Nutrition Label
 ```
-Data Not Collected
-- Quiet Coach does not collect any data
+Data Not Collected by default
+- Quiet Coach does not collect data without opt-in
 - All audio processing happens on-device
-- No analytics, no tracking, no accounts
+- Optional analytics/diagnostics (opt-in), no tracking, no accounts
 ```
 
 #### 10.3 Sensitive Content Analysis

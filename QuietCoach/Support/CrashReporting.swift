@@ -33,13 +33,15 @@ final class CrashReporting {
 
     private var reporters: [any CrashReporter] = []
     private let logger = Logger(subsystem: "com.quietcoach", category: "CrashReporting")
-    private var isEnabled = true
+    private var isEnabled: Bool
 
     // Breadcrumb history for debugging
     private var recentBreadcrumbs: [Breadcrumb] = []
     private let maxBreadcrumbs = 100
 
     private init() {
+        let storedPreference = UserDefaults.standard.object(forKey: Constants.SettingsKeys.crashReportingEnabled) as? Bool
+        isEnabled = storedPreference ?? false
         #if DEBUG
         reporters.append(LocalCrashReporter())
         #endif

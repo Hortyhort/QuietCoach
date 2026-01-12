@@ -61,7 +61,7 @@ enum L10n {
         static let practiceWordsTitle = NSLocalizedString("onboarding.practice_words_title", value: "Practice the words\nbefore they count.", comment: "Simple onboarding title")
         static let practiceWordsSubtitle = NSLocalizedString("onboarding.practice_words_subtitle", value: "Quiet Coach helps you rehearse hard conversations—privately, with instant feedback.", comment: "Simple onboarding subtitle")
         static let voiceStaysYours = NSLocalizedString("onboarding.voice_stays_yours", value: "Your voice stays yours.", comment: "Privacy screen title")
-        static let voiceStaysYoursDescription = NSLocalizedString("onboarding.voice_stays_yours_description", value: "All audio is processed on your device. Nothing is uploaded. Nothing is stored unless you choose.", comment: "Privacy screen description")
+        static let voiceStaysYoursDescription = NSLocalizedString("onboarding.voice_stays_yours_description", value: "Audio is processed on your device. Optional iCloud sync and analytics are off by default.", comment: "Privacy screen description")
         static let onePermission = NSLocalizedString("onboarding.one_permission", value: "One permission.\nThat's it.", comment: "Permission screen title")
         static let onePermissionDescription = NSLocalizedString("onboarding.one_permission_description", value: "Quiet Coach needs microphone access to hear your rehearsal. You're always in control.", comment: "Permission screen description")
     }
@@ -206,7 +206,7 @@ enum L10n {
         static let deleteAll = NSLocalizedString("settings.delete_all", value: "Delete All", comment: "Delete all confirmation button")
         static let deleteConfirmation = NSLocalizedString("settings.delete_confirmation", value: "This will delete all your rehearsal sessions and audio files. This cannot be undone.", comment: "Delete confirmation message")
         static let support = NSLocalizedString("settings.support", value: "Support", comment: "Support section")
-        static let privacyFooter = NSLocalizedString("settings.privacy_footer", value: "All audio is processed on your device. Nothing is uploaded. Your rehearsals are private.", comment: "Privacy footer message")
+        static let privacyFooter = NSLocalizedString("settings.privacy_footer", value: "Audio is processed on your device. Optional iCloud sync and analytics are off by default.", comment: "Privacy footer message")
         static let transcriptionOptInDescription = NSLocalizedString("settings.transcription_opt_in_description", value: "On-device, opt-in (off by default) for richer coaching", comment: "Transcription description")
         static let transcriptionOffFooter = NSLocalizedString("settings.transcription_off_footer", value: "When transcription is off, coaching uses audio-only metrics and no transcript is saved.", comment: "Transcription off footer")
 

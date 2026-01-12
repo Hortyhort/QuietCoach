@@ -67,13 +67,15 @@ final class PerformanceMonitor {
     private var completedSpans: [PerformanceSpan] = []
     private let maxCompletedSpans = 100
 
-    private(set) var isEnabled = true
+    private(set) var isEnabled: Bool
 
     // Memory pressure handling
     private var memoryWarningCancellable: AnyCancellable?
     private var memoryPressureHandlers: [() -> Void] = []
 
     private init() {
+        let storedPreference = UserDefaults.standard.object(forKey: Constants.SettingsKeys.performanceEnabled) as? Bool
+        isEnabled = storedPreference ?? false
         setupMemoryWarningObserver()
     }
 

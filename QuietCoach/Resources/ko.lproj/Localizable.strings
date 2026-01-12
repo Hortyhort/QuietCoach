@@ -48,7 +48,7 @@
 "onboarding.practice_words_title" = "중요해지기 전에\n말을 연습하세요.";
 "onboarding.practice_words_subtitle" = "Quiet Coach는 어려운 대화를 비공개로 리허설하고 즉각적인 피드백을 받을 수 있게 도와줍니다.";
 "onboarding.voice_stays_yours" = "당신의 목소리는 당신의 것입니다.";
-"onboarding.voice_stays_yours_description" = "모든 오디오는 기기에서 처리됩니다. 업로드되지 않습니다. 선택하지 않으면 저장되지 않습니다.";
+"onboarding.voice_stays_yours_description" = "오디오는 기기에서 처리됩니다. iCloud 동기화와 익명 분석은 기본적으로 꺼져 있습니다.";
 "onboarding.one_permission" = "권한 하나.\n그게 전부입니다.";
 "onboarding.one_permission_description" = "Quiet Coach는 리허설을 듣기 위해 마이크 접근이 필요합니다. 항상 당신이 제어합니다.";
 
@@ -149,7 +149,7 @@
 "settings.delete_all" = "모두 삭제";
 "settings.delete_confirmation" = "모든 리허설 세션과 오디오 파일이 삭제됩니다. 이 작업은 취소할 수 없습니다.";
 "settings.support" = "지원";
-"settings.privacy_footer" = "모든 오디오는 기기에서 처리됩니다. 업로드되지 않습니다. 리허설은 비공개입니다.";
+"settings.privacy_footer" = "오디오는 기기에서 처리됩니다. iCloud 동기화와 익명 분석은 기본적으로 꺼져 있습니다.";
 
 // Pro
 "settings.quiet_coach_pro" = "Quiet Coach Pro";

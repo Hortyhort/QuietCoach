@@ -1,6 +1,6 @@
 # Quiet Coach Privacy Policy
 
-**Last Updated:** January 2025
+**Last Updated:** January 2026
 
 ## Overview
 
@@ -30,6 +30,7 @@ If you opt in to analytics in Settings:
 
 - **What we collect:** Anonymous usage patterns (e.g., which scenarios are popular, session completion rates)
 - **What we don't collect:** Audio content, transcriptions, personal identifiers
+- **Provider:** TelemetryDeck (privacy-focused analytics)
 - **Purpose:** Improve app features and user experience
 - **You can opt out:** Settings > Privacy > Analytics
 
@@ -41,6 +42,15 @@ If you opt in to crash reporting:
 - **What we don't collect:** Audio, personal data, or session content
 - **Purpose:** Fix bugs and improve stability
 - **You can opt out:** Settings > Privacy > Crash Reporting
+
+### Performance Monitoring (Optional)
+
+If you opt in to performance monitoring:
+
+- **What we collect:** Anonymous performance metrics (e.g., load times)
+- **What we don't collect:** Audio, personal data, or session content
+- **Purpose:** Improve speed and reliability
+- **You can opt out:** Settings > Privacy > Performance Monitoring
 
 ## Data We Never Collect
 
@@ -57,15 +67,17 @@ If you opt in to crash reporting:
 - **App Store:** Purchase data handled by Apple per their privacy policy
 - **StoreKit:** For subscription management only
 
-### No Third-Party Analytics or Advertising
-We do not use any third-party analytics, advertising, or tracking services.
+### TelemetryDeck (Optional)
+- **Used only if you opt in:** Anonymous usage analytics
+- **What we don't send:** Audio, transcripts, or personal identifiers
 
 ## Data Security
 
 - All audio files are stored in the app's sandboxed container
 - Files are protected by iOS data protection
 - No network transmission of audio data
-- No cloud backup of recordings (excluded from iCloud)
+- iCloud sync is optional and off by default; when enabled, session data syncs via CloudKit
+- Audio recordings stay on device and are not synced via iCloud
 
 ## Your Rights
 
@@ -101,6 +113,7 @@ For privacy questions or concerns:
 | Transcriptions | Optional (on-device) | Device only | Never |
 | Usage analytics | Optional | Anonymous | Never sold |
 | Crash reports | Optional | Technical only | Never sold |
+| Performance metrics | Optional | Anonymous | Never sold |
 | Personal info | Never | N/A | N/A |
 | Advertising data | Never | N/A | N/A |
 

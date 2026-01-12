@@ -48,7 +48,7 @@
 "onboarding.practice_words_title" = "Répétez vos mots\navant qu'ils comptent.";
 "onboarding.practice_words_subtitle" = "Quiet Coach vous aide à répéter les conversations difficiles—en privé, avec un retour instantané.";
 "onboarding.voice_stays_yours" = "Votre voix reste la vôtre.";
-"onboarding.voice_stays_yours_description" = "Tout l'audio est traité sur votre appareil. Rien n'est téléchargé. Rien n'est stocké sauf si vous le décidez.";
+"onboarding.voice_stays_yours_description" = "L'audio est traité sur votre appareil. La synchronisation iCloud et les analyses anonymes sont désactivées par défaut.";
 "onboarding.one_permission" = "Une seule permission.\nC'est tout.";
 "onboarding.one_permission_description" = "Quiet Coach a besoin de l'accès au microphone pour écouter votre répétition. Vous gardez le contrôle.";
 
@@ -143,7 +143,7 @@
 "settings.delete_all" = "Tout Supprimer";
 "settings.delete_confirmation" = "Cela supprimera toutes vos sessions et fichiers audio. Cette action est irréversible.";
 "settings.support" = "Support";
-"settings.privacy_footer" = "Tout l'audio est traité sur votre appareil. Rien n'est téléchargé. Vos répétitions sont privées.";
+"settings.privacy_footer" = "L'audio est traité sur votre appareil. La synchronisation iCloud et les analyses anonymes sont désactivées par défaut.";
 
 // Pro
 "settings.quiet_coach_pro" = "Quiet Coach Pro";

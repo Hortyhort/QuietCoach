@@ -721,7 +721,7 @@ These words/phrases break the Quiet Coach brand:
 
 **Offline:**
 > You're offline.
-> Your sessions are safe. We'll sync when you're back.
+> Your sessions are safe. If iCloud sync is on, we'll sync when you're back.
 
 ---
 
@@ -737,7 +737,7 @@ These words/phrases break the Quiet Coach brand:
 
 **Screen 3:**
 > Your voice stays yours.
-> Everything is processed on your device. Nothing uploaded. Nothing stored unless you choose.
+> Everything is processed on your device. Optional iCloud sync and anonymous analytics are off by default.
 
 **Screen 4:**
 > One permission. That's it.

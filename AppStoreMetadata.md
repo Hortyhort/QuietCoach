@@ -91,7 +91,7 @@ rehearse,practice,speaking,confidence,conversation,coach,anxiety,speech,presenta
 ## Promotional Text (170 characters max)
 
 ```
-Rehearse difficult conversations privately. Get instant feedback on your delivery. Build confidence before it matters. No accounts. No uploads. Just practice.
+Rehearse difficult conversations privately. Get instant feedback on your delivery. Build confidence before it matters. No accounts. Audio stays on your device. Just practice.
 ```
 
 **Character count: 159**
@@ -118,7 +118,7 @@ HOW IT WORKS
 YOUR PRIVACY, PROTECTED
 
 • All audio processed on-device
-• Nothing uploaded, ever
+• Optional iCloud sync and anonymous analytics are off by default
 • No account required
 • Delete your data anytime
 

@@ -124,7 +124,7 @@ HomeView
 
 ### Privacy
 - All audio processed on-device
-- No analytics, no tracking
+- Optional analytics/diagnostics (opt-in), no tracking
 - No account required
 - Delete all data option in Settings
 

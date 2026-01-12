@@ -48,7 +48,7 @@
 "onboarding.practice_words_title" = "在關鍵時刻前\n先練習你的話語。";
 "onboarding.practice_words_subtitle" = "Quiet Coach 幫助你私下排練困難的對話，並獲得即時回饋。";
 "onboarding.voice_stays_yours" = "你的聲音屬於你。";
-"onboarding.voice_stays_yours_description" = "所有音訊都在你的裝置上處理。不會上傳任何內容。除非你選擇，否則不會儲存任何內容。";
+"onboarding.voice_stays_yours_description" = "音訊會在你的裝置上處理。iCloud 同步與匿名分析預設關閉。";
 "onboarding.one_permission" = "只需一個權限。\n就這樣。";
 "onboarding.one_permission_description" = "Quiet Coach 需要麥克風存取權限來聆聽你的排練。你始終掌控一切。";
 
@@ -149,7 +149,7 @@
 "settings.delete_all" = "全部刪除";
 "settings.delete_confirmation" = "這將刪除你所有的排練記錄和音訊檔案。此操作無法復原。";
 "settings.support" = "支援";
-"settings.privacy_footer" = "所有音訊都在你的裝置上處理。不會上傳任何內容。你的排練是私密的。";
+"settings.privacy_footer" = "音訊會在你的裝置上處理。iCloud 同步與匿名分析預設關閉。";
 
 // Pro
 "settings.quiet_coach_pro" = "Quiet Coach 專業版";

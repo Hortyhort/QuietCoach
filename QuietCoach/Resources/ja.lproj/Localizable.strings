@@ -48,7 +48,7 @@
 "onboarding.practice_words_title" = "本番前に\n言葉を練習しよう。";
 "onboarding.practice_words_subtitle" = "Quiet Coachは難しい会話をプライベートに練習し、即座にフィードバックを得るのに役立ちます。";
 "onboarding.voice_stays_yours" = "あなたの声はあなたのもの。";
-"onboarding.voice_stays_yours_description" = "すべての音声はデバイス上で処理されます。アップロードされることはありません。あなたが選ばない限り保存されません。";
+"onboarding.voice_stays_yours_description" = "音声はデバイス上で処理されます。iCloud同期と匿名分析はデフォルトでオフです。";
 "onboarding.one_permission" = "必要な許可は\nひとつだけ。";
 "onboarding.one_permission_description" = "Quiet Coachはリハーサルを聞くためにマイクへのアクセスが必要です。いつでもあなたがコントロールできます。";
 
@@ -149,7 +149,7 @@
 "settings.delete_all" = "すべて削除";
 "settings.delete_confirmation" = "すべてのリハーサルセッションと音声ファイルが削除されます。この操作は取り消せません。";
 "settings.support" = "サポート";
-"settings.privacy_footer" = "すべての音声はデバイス上で処理されます。アップロードされることはありません。リハーサルはプライベートです。";
+"settings.privacy_footer" = "音声はデバイス上で処理されます。iCloud同期と匿名分析はデフォルトでオフです。";
 
 // Pro
 "settings.quiet_coach_pro" = "Quiet Coach Pro";
