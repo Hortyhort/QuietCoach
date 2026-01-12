@@ -156,16 +156,35 @@ final class SessionRepository {
 
     /// Delete all sessions and audio files
     func deleteAllSessions() {
-        fileStore.deleteAllAudioFiles()
-
-        for session in sessions {
-            modelContext?.delete(session)
+        guard let modelContext else {
+            sessions.removeAll()
+            hasMoreSessions = false
+            isLoadingMore = false
+            logger.warning("ModelContext not available for deleteAllSessions")
+            return
         }
 
-        saveContext()
-        fetchSessions()
+        do {
+            let descriptor = FetchDescriptor<RehearsalSession>()
+            let allSessions = try modelContext.fetch(descriptor)
 
-        logger.info("Deleted all sessions")
+            fileStore.deleteAllAudioFiles()
+
+            for session in allSessions {
+                modelContext.delete(session)
+            }
+
+            try modelContext.save()
+
+            sessions.removeAll()
+            hasMoreSessions = false
+            isLoadingMore = false
+            isLoaded = true
+
+            logger.info("Deleted all sessions (\(allSessions.count) records)")
+        } catch {
+            logger.error("Failed to delete all sessions: \(error.localizedDescription)")
+        }
     }
 
     // MARK: - Query Operations
@@ -210,7 +229,25 @@ final class SessionRepository {
 
     /// Baseline metrics for personalization (rolling average)
     func baselineMetrics(for scenarioId: String, limit: Int = 5) -> BaselineMetrics? {
-        let recentSessions = sessions(for: scenarioId).prefix(limit)
+        let recentSessions: [RehearsalSession]
+
+        if let modelContext {
+            var descriptor = FetchDescriptor<RehearsalSession>(
+                predicate: #Predicate { $0.scenarioId == scenarioId },
+                sortBy: [SortDescriptor(\.createdAt, order: .reverse)]
+            )
+            descriptor.fetchLimit = limit
+
+            do {
+                recentSessions = try modelContext.fetch(descriptor)
+            } catch {
+                logger.error("Failed to fetch baseline sessions: \(error.localizedDescription)")
+                recentSessions = Array(sessions(for: scenarioId).prefix(limit))
+            }
+        } else {
+            recentSessions = Array(sessions(for: scenarioId).prefix(limit))
+        }
+
         let recentMetrics = recentSessions.compactMap { $0.metrics }
 
         guard !recentMetrics.isEmpty else { return nil }
@@ -244,7 +281,24 @@ final class SessionRepository {
 
     /// Export all session data as JSON
     func exportAllData() -> Data? {
-        let exportData = sessions.map { session -> [String: Any] in
+        let exportSessions: [RehearsalSession]
+
+        if let modelContext {
+            var descriptor = FetchDescriptor<RehearsalSession>(
+                sortBy: [SortDescriptor(\.createdAt, order: .reverse)]
+            )
+
+            do {
+                exportSessions = try modelContext.fetch(descriptor)
+            } catch {
+                logger.error("Failed to fetch sessions for export: \(error.localizedDescription)")
+                exportSessions = sessions
+            }
+        } else {
+            exportSessions = sessions
+        }
+
+        let exportData = exportSessions.map { session -> [String: Any] in
             var data: [String: Any] = [
                 "id": session.id.uuidString,
                 "scenario": session.scenarioId,

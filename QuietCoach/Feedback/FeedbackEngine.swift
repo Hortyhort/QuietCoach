@@ -315,7 +315,10 @@ struct FeedbackEngine {
         }
 
         // Bonus for filling the space
-        if metrics.effectiveDuration / metrics.duration > Double(profile.tuning.confidenceEffectiveDurationRatio) {
+        let effectiveDurationRatio = metrics.duration > 0
+            ? metrics.effectiveDuration / metrics.duration
+            : 0
+        if effectiveDurationRatio > Double(profile.tuning.confidenceEffectiveDurationRatio) {
             score += profile.tuning.confidenceEffectiveDurationBonus
         }
 

@@ -52,6 +52,13 @@ final class AudioPlayerViewModel {
 
     /// Load audio from a URL
     func load(url: URL) {
+        stopProgressTimer()
+        audioPlayer?.stop()
+        audioPlayer = nil
+        currentTime = 0
+        duration = 0
+        progress = 0
+
         state = .loading
         loadedURL = url
 
@@ -168,12 +175,22 @@ final class AudioPlayerViewModel {
 
     /// Seek forward by seconds
     func seekForward(seconds: TimeInterval = 10) {
+        guard duration > 0 else {
+            currentTime = 0
+            progress = 0
+            return
+        }
         let newTime = min(duration, currentTime + seconds)
         seekToProgress(newTime / duration)
     }
 
     /// Seek backward by seconds
     func seekBackward(seconds: TimeInterval = 10) {
+        guard duration > 0 else {
+            currentTime = 0
+            progress = 0
+            return
+        }
         let newTime = max(0, currentTime - seconds)
         seekToProgress(newTime / duration)
     }

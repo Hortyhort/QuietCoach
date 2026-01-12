@@ -5,6 +5,7 @@
 // Tests the full user journey through the app.
 
 import XCTest
+import SwiftData
 @testable import QuietCoach
 
 // MARK: - Full Recording Flow Integration Tests
@@ -502,5 +503,144 @@ final class ConcurrentAccessTests: XCTestCase {
                 XCTAssertLessThanOrEqual(scores.overall, 100)
             }
         }
+    }
+}
+
+// MARK: - Session Repository Paging Tests
+
+final class SessionRepositoryPagingIntegrationTests: XCTestCase {
+
+    @MainActor
+    private func makeRepository() throws -> (SessionRepository, ModelContainer) {
+        let schema = Schema([RehearsalSession.self])
+        let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: schema, configurations: [config])
+        let repository = SessionRepository(modelContext: container.mainContext)
+        return (repository, container)
+    }
+
+    @MainActor
+    func testDeleteAllSessionsDeletesAllRecords() throws {
+        let (repository, container) = try makeRepository()
+        let fileStore = FileStore.shared
+
+        var fileNames: [String] = []
+
+        for index in 0..<25 {
+            let fileName = "delete_all_\(index).m4a"
+            fileNames.append(fileName)
+            let fileURL = fileStore.audioFileURL(for: fileName)
+            try Data("test".utf8).write(to: fileURL)
+
+            _ = repository.createSession(
+                scenarioId: "scenario-\(index)",
+                duration: 60,
+                audioFileName: fileName,
+                scores: FeedbackScores(clarity: 70, pacing: 70, tone: 70, confidence: 70),
+                coachNotes: [],
+                tryAgainFocus: TryAgainFocus.default,
+                metrics: AudioMetrics.mock()
+            )
+        }
+
+        let allBefore = try container.mainContext.fetch(FetchDescriptor<RehearsalSession>())
+        XCTAssertEqual(allBefore.count, 25)
+
+        repository.deleteAllSessions()
+
+        let allAfter = try container.mainContext.fetch(FetchDescriptor<RehearsalSession>())
+        XCTAssertEqual(allAfter.count, 0)
+
+        for fileName in fileNames {
+            XCTAssertFalse(fileStore.audioFileExists(named: fileName))
+        }
+    }
+
+    @MainActor
+    func testExportAllDataIncludesAllSessions() throws {
+        let (repository, _) = try makeRepository()
+
+        for index in 0..<25 {
+            _ = repository.createSession(
+                scenarioId: "scenario-\(index)",
+                duration: 60,
+                audioFileName: "export_\(index).m4a",
+                scores: FeedbackScores(clarity: 70, pacing: 70, tone: 70, confidence: 70),
+                coachNotes: [],
+                tryAgainFocus: TryAgainFocus.default,
+                metrics: AudioMetrics.mock()
+            )
+        }
+
+        guard let data = repository.exportAllData() else {
+            XCTFail("Export should return data")
+            return
+        }
+
+        let json = try JSONSerialization.jsonObject(with: data) as? [Any]
+        XCTAssertEqual(json?.count, 25)
+    }
+
+    @MainActor
+    func testBaselineMetricsUsesStoreNotPage() throws {
+        let (repository, _) = try makeRepository()
+        let scenarios = Array(Scenario.allScenarios.prefix(2))
+
+        guard scenarios.count == 2 else {
+            XCTFail("Need at least two scenarios")
+            return
+        }
+
+        let olderScenario = scenarios[0]
+        let newerScenario = scenarios[1]
+
+        for index in 0..<2 {
+            _ = repository.createSession(
+                scenarioId: olderScenario.id,
+                duration: 60,
+                audioFileName: "baseline_old_\(index).m4a",
+                scores: FeedbackScores(clarity: 70, pacing: 70, tone: 70, confidence: 70),
+                coachNotes: [],
+                tryAgainFocus: TryAgainFocus.default,
+                metrics: AudioMetrics.mock()
+            )
+        }
+
+        for index in 0..<25 {
+            _ = repository.createSession(
+                scenarioId: newerScenario.id,
+                duration: 60,
+                audioFileName: "baseline_new_\(index).m4a",
+                scores: FeedbackScores(clarity: 70, pacing: 70, tone: 70, confidence: 70),
+                coachNotes: [],
+                tryAgainFocus: TryAgainFocus.default,
+                metrics: AudioMetrics.mock()
+            )
+        }
+
+        let baseline = repository.baselineMetrics(for: olderScenario.id)
+        XCTAssertNotNil(baseline)
+    }
+}
+
+// MARK: - Audio Player ViewModel Tests
+
+final class AudioPlayerViewModelTests: XCTestCase {
+
+    @MainActor
+    func testSeekDoesNotProduceNaNWithoutDuration() {
+        let viewModel = AudioPlayerViewModel()
+
+        viewModel.seekForward()
+        XCTAssertFalse(viewModel.currentTime.isNaN)
+        XCTAssertFalse(viewModel.progress.isNaN)
+        XCTAssertEqual(viewModel.currentTime, 0)
+        XCTAssertEqual(viewModel.progress, 0)
+
+        viewModel.seekBackward()
+        XCTAssertFalse(viewModel.currentTime.isNaN)
+        XCTAssertFalse(viewModel.progress.isNaN)
+        XCTAssertEqual(viewModel.currentTime, 0)
+        XCTAssertEqual(viewModel.progress, 0)
     }
 }
